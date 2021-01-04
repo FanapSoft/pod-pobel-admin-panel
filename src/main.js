@@ -4,9 +4,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "@/core/services/store";
 import ApiService from "@/core/services/api.service";
-import ApiServiceAuth from "@/core/services/api.service.auth";
 import MockService from "@/core/mock/mock.service";
-import { VERIFY_AUTH, SET_AUTH } from "@/core/services/store/auth.module";
+import { SET_AUTH } from "@/core/services/store/auth.module";
 import { RESET_LAYOUT_CONFIG } from "@/core/services/store/config.module";
 
 Vue.config.productionTip = false;
@@ -34,7 +33,6 @@ import "@mdi/font/css/materialdesignicons.css";
 // API service init
 ApiService.init();
 ApiService.setHeader();
-ApiServiceAuth.init();
 
 // Remove this to disable mock API
 //MockService.init();
@@ -42,18 +40,17 @@ ApiServiceAuth.init();
 router.beforeEach((to, from, next) => {
   // Ensure we checked auth before each page load.
   if(to.name == 'loggedIn') {
-    console.log(to, to.query.token);
-    store.commit(SET_AUTH, {token: to.query.token});
-    setTimeout(()=>{
+    if(to.query && to.query.token) {
+      store.commit(SET_AUTH, {token: atob(to.query.token)});
       next('dashboard')
-    }, 700)
+    } else {
+      window.location = ApiService.loginUrl;
+    }
   } else {
     next();
   }
-
   // reset config to initial state
   store.dispatch(RESET_LAYOUT_CONFIG);
-
   // Scroll page to top on every route change
   setTimeout(() => {
     window.scrollTo(0, 0);

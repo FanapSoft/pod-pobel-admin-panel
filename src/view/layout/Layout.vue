@@ -76,7 +76,7 @@ import {
 } from "@/core/services/store/htmlclass.module.js";
 import JwtService from "@/core/services/jwt.service";
 import { SET_AUTH } from "@/core/services/store/auth.module";
-import ApiServiceAuth from "@/core/services/api.service.auth";
+import ApiService from "@/core/services/api.service";
 
 export default {
   name: "Layout",
@@ -103,7 +103,7 @@ export default {
       if(JwtService.getToken()) {
         this.$store.commit(SET_AUTH, JwtService.getToken());
       } else {
-        window.location = ApiServiceAuth.loginUrl
+        window.location = ApiService.loginUrl
       }
       //this.$store.dispatch(VERIFY_AUTH);
       //this.$router.push({ name: "login" });

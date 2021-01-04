@@ -16,13 +16,8 @@ const ApiService = {
       return true;
     };
 
-    Vue.axios.interceptors.request.use(request => {
-      // request.headers.Authorization =  `Bearer ${JwtService.getToken()}`;
-      return request;
-    });
-
     Vue.axios.interceptors.response.use(response => {
-      return response;
+     // return response;
       if(response.status >= 400) {
         if (response.status === 401) {
           console.log("User has been logged out! Redirecting back to login page ...");
@@ -52,7 +47,6 @@ const ApiService = {
    */
   setHeader() {
     Vue.axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
-    Vue.axios.defaults.headers.common["Content-Type"] = "application/x-www-form-urlencoded";
   },
 
   query(resource, params) {

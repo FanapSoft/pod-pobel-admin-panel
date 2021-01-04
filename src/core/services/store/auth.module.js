@@ -1,6 +1,5 @@
-import ApiServiceAuth from "@/core/services/api.service.auth";
-import JwtService from "@/core/services/jwt.service";
 import ApiService from "@/core/services/api.service";
+import JwtService from "@/core/services/jwt.service";
 
 // action types
 export const VERIFY_AUTH = "verifyAuth";
@@ -31,9 +30,9 @@ const getters = {
 };
 
 const actions = {
-  [LOGIN](context, credentials) {
+  /*[LOGIN](context, credentials) {
     return new Promise(resolve => {
-      ApiServiceAuth.post("login", credentials)
+      ApiService.post("login", credentials)
         .then(({ data }) => {
           // console.log("Here what post returns", data);
           context.commit(SET_AUTH, data);
@@ -58,7 +57,7 @@ const actions = {
           context.commit(SET_ERROR, response.data.errors);
         });
     });
-  },
+  },*/
   //[VERIFY_AUTH](context) {
     /*if(JwtService.getToken()) {
       /!*let data = {
@@ -85,14 +84,14 @@ const actions = {
       // window.location = `https://accounts.pod.ir/oauth2/authorize/?client_id=18035391i35f649cbac6ab4d4c9bf45fb&response_type=code&redirect_uri=${encodeURIComponent('http://localhost:8080/loggedIn')}`
     }*/
   //},
-  [UPDATE_PASSWORD](context, payload) {
+  /*[UPDATE_PASSWORD](context, payload) {
     const password = payload;
 
     return ApiServiceAuth.put("password", password).then(({ data }) => {
       context.commit(SET_PASSWORD, data);
       return data;
     });
-  }
+  }*/
 };
 
 const mutations = {
