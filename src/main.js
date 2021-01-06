@@ -4,7 +4,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "@/core/services/store";
 import ApiService from "@/core/services/api.service";
-import MockService from "@/core/mock/mock.service";
+//import MockService from "@/core/mock/mock.service";
 import { SET_AUTH } from "@/core/services/store/auth.module";
 import { RESET_LAYOUT_CONFIG } from "@/core/services/store/config.module";
 
@@ -30,6 +30,8 @@ import "@/core/plugins/apexcharts";
 import "@/core/plugins/metronic";
 import "@mdi/font/css/materialdesignicons.css";
 
+import "@/plugins/filters"
+
 // API service init
 ApiService.init();
 ApiService.setHeader();
@@ -41,8 +43,11 @@ router.beforeEach((to, from, next) => {
   // Ensure we checked auth before each page load.
   if(to.name == 'loggedIn') {
     if(to.query && to.query.token) {
-      store.commit(SET_AUTH, {token: atob(to.query.token)});
-      next('dashboard')
+      store
+          .dispatch(SET_AUTH, {token: atob(to.query.token), uid: to.params.userId})
+          .then(() => {
+            next('dashboard');
+          });
     } else {
       window.location = ApiService.loginUrl;
     }

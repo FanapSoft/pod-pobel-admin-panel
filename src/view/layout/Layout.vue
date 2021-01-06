@@ -77,6 +77,7 @@ import {
 import JwtService from "@/core/services/jwt.service";
 import { SET_AUTH } from "@/core/services/store/auth.module";
 import ApiService from "@/core/services/api.service";
+import UserService from "@/core/services/user.service";
 
 export default {
   name: "Layout",
@@ -100,13 +101,14 @@ export default {
   mounted() {
     // check if current user is authenticated
     if (!this.isAuthenticated) {
-      if(JwtService.getToken()) {
-        this.$store.commit(SET_AUTH, JwtService.getToken());
+      if(JwtService.getToken() && UserService.getUser()) {
+        this.$store
+            .dispatch(SET_AUTH, {token: JwtService.getToken(), uid: UserService.getUser().uid})
+            // .then(res => {})
+            .catch(error => console.log(error));
       } else {
-        window.location = ApiService.loginUrl
+        window.location = ApiService.loginUrl;
       }
-      //this.$store.dispatch(VERIFY_AUTH);
-      //this.$router.push({ name: "login" });
     }
 
     // Simulate the delay page loading

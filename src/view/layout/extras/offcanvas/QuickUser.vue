@@ -12,13 +12,13 @@
       <span
         class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"
       >
-        Sean
+        {{$store.state.auth.user.userName}}
       </span>
       <span class="symbol symbol-35">
         <span
           class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"
         >
-          S
+          {{$store.state.auth.user.userName | firstChar}}
         </span>
       </span>
     </div>
@@ -34,7 +34,7 @@
       >
         <h3 class="font-weight-bold m-0">
           User Profile
-          <small class="text-muted font-size-sm ml-2">12 messages</small>
+<!--          <small class="text-muted font-size-sm ml-2">12 messages</small>-->
         </h3>
         <a
           href="#"
@@ -62,9 +62,9 @@
               href="#"
               class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
             >
-              James Jones
+              {{$store.state.auth.user.userName}}
             </a>
-            <div class="text-muted mt-1">Application Developer</div>
+<!--            <div class="text-muted mt-1">Application Developer</div>-->
             <div class="navi mt-2">
               <a href="#" class="navi-item">
                 <span class="navi-link p-0 pb-2">
@@ -78,7 +78,7 @@
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    jm@softplus.com
+                    {{ $store.state.auth.user.emailAddress }}
                   </span>
                 </span>
               </a>
@@ -203,12 +203,12 @@
         <!--end::Nav-->
         <div class="separator separator-dashed my-7"></div>
         <!--begin::Notifications-->
-        <div>
-          <!--begin:Heading-->
+<!--        <div>
+          &lt;!&ndash;begin:Heading&ndash;&gt;
           <h5 class="mb-5">Recent Notifications</h5>
-          <!--end:Heading-->
+          &lt;!&ndash;end:Heading&ndash;&gt;
           <template v-for="(item, i) in list">
-            <!--begin::Item -->
+            &lt;!&ndash;begin::Item &ndash;&gt;
             <div
               class="d-flex align-items-center rounded p-5 gutter-b"
               v-bind:class="`bg-light-${item.type}`"
@@ -219,9 +219,9 @@
                 v-bind:class="`svg-icon-${item.type}`"
               >
                 <span class="svg-icon svg-icon-lg">
-                  <!--begin::Svg Icon-->
+                  &lt;!&ndash;begin::Svg Icon&ndash;&gt;
                   <inline-svg :src="item.svg" />
-                  <!--end::Svg Icon-->
+                  &lt;!&ndash;end::Svg Icon&ndash;&gt;
                 </span>
               </span>
               <div class="d-flex flex-column flex-grow-1 mr-2">
@@ -242,9 +242,9 @@
                 {{ item.alt }}
               </span>
             </div>
-            <!--end::Item -->
+            &lt;!&ndash;end::Item &ndash;&gt;
           </template>
-        </div>
+        </div>-->
         <!--end::Notifications-->
       </perfect-scrollbar>
       <!--end::Content-->
@@ -267,6 +267,7 @@ export default {
   name: "KTQuickUser",
   data() {
     return {
+      user: (this.$store.state.auth.user ? this.$store.state.auth.user : 'Guest'),
       list: [
         {
           title: "Another purpose persuade",
@@ -307,7 +308,7 @@ export default {
     onLogout() {
       this.$store
         .dispatch(LOGOUT)
-        .then(() => this.$router.push({ name: "login" }));
+        .then(() => this.$router.go('/'));
     },
     closeOffcanvas() {
       new KTOffcanvas(KTLayoutQuickUser.getElement()).hide();

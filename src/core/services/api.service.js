@@ -16,15 +16,20 @@ const ApiService = {
       return true;
     };
 
+    Vue.axios.interceptors.request.use(req => {
+      req.headers.Authorization = `Bearer ${JwtService.getToken()}`;
+      return req;
+    });
+
     Vue.axios.interceptors.response.use(response => {
-     // return response;
+      //return response;
       if(response.status >= 400) {
         if (response.status === 401) {
           console.log("User has been logged out! Redirecting back to login page ...");
           window.location.href = this.loginUrl;
         }
 
-        if(response.data.unAuthorizedRequest) {
+        if(response.data && response.data.unAuthorizedRequest) {
           window.location.href = this.loginUrl;
         }
 
@@ -33,7 +38,8 @@ const ApiService = {
         return response;
       }
     }, (error) => {
-      if (error.response.status === 401) {
+      console.log(error)
+      if (error.response && error.response.status === 401) {
         console.log("User has been logged out! Redirecting back to login page ...");
         window.location.href = this.loginUrl;
       }

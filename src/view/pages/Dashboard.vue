@@ -69,14 +69,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
-    //Test
-    ApiService
-        .get('/api/services/app/Transactions/GetAll?OwnerId=18')
-        .then(res => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err, Vue.axios.defaults.baseURL)
-        });
   },
   methods: {
     setActiveTab1(event) {
