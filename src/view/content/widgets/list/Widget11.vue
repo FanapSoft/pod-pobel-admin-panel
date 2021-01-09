@@ -11,7 +11,7 @@
           <div class="symbol symbol-50">
             <span class="symbol-label bg-light-light">
               <inline-svg
-                src="media/svg/misc/006-plurk.svg"
+                src="/media/svg/misc/006-plurk.svg"
                 class="h-50 align-self-center"
                 alt=""
               />

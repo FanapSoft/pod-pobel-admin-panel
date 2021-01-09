@@ -9,7 +9,7 @@
           <span class="symbol-label">
             <span class="svg-icon svg-icon-xl svg-icon-primary">
               <inline-svg
-                src="media/svg/icons/Communication/Group.svg"
+                src="/media/svg/icons/Communication/Group.svg"
                 class="svg-icon-xl svg-icon-primary"
               ></inline-svg>
             </span>

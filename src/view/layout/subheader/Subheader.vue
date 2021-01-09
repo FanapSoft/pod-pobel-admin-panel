@@ -46,101 +46,106 @@
       </div>
       <div class="d-flex align-items-center">
         <!--begin::Button-->
-        <a
+<!--        <a
           href="#"
           class="btn btn-transparent-white font-weight-bold py-3 px-6 mr-2"
         >
           Reports
-        </a>
+        </a>-->
         <!--end::Button-->
         <!--begin::Dropdown-->
-        <b-dropdown
-          size="sm"
-          variant="link"
-          toggle-class="custom-v-dropdown btn btn-white font-weight-bold py-3 px-6"
-          no-caret
-          right
-          no-flip
-          text="Actions"
-          v-b-tooltip.hover="'Quick actions'"
-        >
-          <!--begin::Navigation-->
-          <div class="navi navi-hover min-w-md-250px">
-            <b-dropdown-text tag="div" class="navi-item">
-              <a href="#" class="navi-link">
+        <template v-if="actionLinks && actionLinks.length">
+          <b-dropdown
+              size="sm"
+              variant="link"
+              toggle-class="custom-v-dropdown btn btn-white font-weight-bold py-3 px-6"
+              no-caret
+              right
+              no-flip
+              text="Actions"
+              v-b-tooltip.hover="'Quick actions'"
+          >
+            <!--begin::Navigation-->
+            <div v-for="(item, index) in actionLinks" class="navi navi-hover min-w-md-250px">
+              <b-dropdown-text tag="div" class="navi-item">
+                <router-link :to="item.link" class="navi-link">
+                <span
+                    v-if="item.icon"
+
+                    class="navi-icon">
+                  <i :class="item.iconClasses"></i>
+                </span>
+                  <span class="navi-text">{{ item.title }}</span>
+<!--              <span class="navi-link-badge">
+                    <span
+                        class="label label-light-danger label-rounded font-weight-bold"
+                    >5</span>
+                  </span>-->
+                </router-link>
+              </b-dropdown-text>
+<!--              <b-dropdown-text tag="div" class="navi-item">
+                <a href="#" class="navi-link">
                 <span class="navi-icon">
                   <i class="flaticon2-drop"></i>
                 </span>
-                <span class="navi-text">New Group</span>
-              </a>
-            </b-dropdown-text>
-            <b-dropdown-text tag="div" class="navi-item">
-              <a href="#" class="navi-link">
+                  <span class="navi-text">New Group</span>
+                </a>
+              </b-dropdown-text>
+              <b-dropdown-text tag="div" class="navi-item">
+                <a href="#" class="navi-link">
                 <span class="navi-icon">
                   <i class="flaticon2-list-3"></i>
                 </span>
-                <span class="navi-text">Contacts</span>
-              </a>
-            </b-dropdown-text>
-            <b-dropdown-text tag="div" class="navi-item">
-              <a href="#" class="navi-link">
+                  <span class="navi-text">Contacts</span>
+                </a>
+              </b-dropdown-text>
+              <b-dropdown-text tag="div" class="navi-item">
+                <a href="#" class="navi-link">
                 <span class="navi-icon">
                   <i class="flaticon2-rocket-1"></i>
                 </span>
-                <span class="navi-text">Groups</span>
-                <span class="navi-link-badge">
+                  <span class="navi-text">Groups</span>
+                  <span class="navi-link-badge">
                   <span
-                    class="label label-light-primary label-inline font-weight-bold"
-                    >new</span
+                      class="label label-light-primary label-inline font-weight-bold"
+                  >new</span
                   >
                 </span>
-              </a>
-            </b-dropdown-text>
-            <b-dropdown-text tag="div" class="navi-item">
-              <a href="#" class="navi-link">
+                </a>
+              </b-dropdown-text>
+              <b-dropdown-text tag="div" class="navi-item">
+                <a href="#" class="navi-link">
                 <span class="navi-icon">
                   <i class="flaticon2-bell-2"></i>
                 </span>
-                <span class="navi-text">Calls</span>
-              </a>
-            </b-dropdown-text>
-            <b-dropdown-text tag="div" class="navi-item">
-              <a href="#" class="navi-link">
+                  <span class="navi-text">Calls</span>
+                </a>
+              </b-dropdown-text>
+              <b-dropdown-text tag="div" class="navi-item">
+                <a href="#" class="navi-link">
                 <span class="navi-icon">
                   <i class="flaticon2-gear"></i>
                 </span>
-                <span class="navi-text">Settings</span>
-              </a>
-            </b-dropdown-text>
-            <b-dropdown-text
-              tag="div"
-              class="navi-separator my-3"
-            ></b-dropdown-text>
-            <b-dropdown-text tag="div" class="navi-item">
-              <a href="#" class="navi-link">
+                  <span class="navi-text">Settings</span>
+                </a>
+              </b-dropdown-text>
+              <b-dropdown-text
+                  tag="div"
+                  class="navi-separator my-3"
+              ></b-dropdown-text>
+              <b-dropdown-text tag="div" class="navi-item">
+                <a href="#" class="navi-link">
                 <span class="navi-icon">
                   <i class="flaticon2-magnifier-tool"></i>
                 </span>
-                <span class="navi-text">Help</span>
-              </a>
-            </b-dropdown-text>
-            <b-dropdown-text tag="div" class="navi-item">
-              <a href="#" class="navi-link">
-                <span class="navi-icon">
-                  <i class="flaticon2-bell-2"></i>
-                </span>
-                <span class="navi-text">Privacy</span>
-                <span class="navi-link-badge">
-                  <span
-                    class="label label-light-danger label-rounded font-weight-bold"
-                    >5</span
-                  >
-                </span>
-              </a>
-            </b-dropdown-text>
-          </div>
-          <!--end::Navigation-->
-        </b-dropdown>
+                  <span class="navi-text">Help</span>
+                </a>
+              </b-dropdown-text>-->
+            </div>
+            <!--end::Navigation-->
+          </b-dropdown>
+        </template>
+
         <!--end::Dropdown-->
       </div>
     </div>
@@ -178,7 +183,8 @@ export default {
   name: "KTSubheader",
   props: {
     breadcrumbs: Array,
-    title: String
+    title: String,
+    actionLinks: Array
   },
   computed: {
     ...mapGetters(["layoutConfig"]),

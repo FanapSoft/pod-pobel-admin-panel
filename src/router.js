@@ -27,7 +27,46 @@ export default new Router({
           name: "statistics",
           component: () =>
               import("@/view/pages/Statistics.vue")
-        }
+        },
+        {
+          path: "/dataset",
+          name: "datasets",
+          redirect: 'list',
+          component: () =>
+              import("@/view/pages/Datasets.vue"),
+          children: [
+            {
+              path: "list",
+              name: "datasetsList",
+              component: () => import("@/view/pages/dataset/Datasets.vue")
+            },
+            {
+              path: "create",
+              name: "createDataset",
+              component: () => import("@/view/pages/dataset/CreateDataset.vue")
+            },
+            {
+              path: ":DatasetId/edit",
+              name: "editDataset",
+              component: () => import("@/view/pages/dataset/EditDataset.vue")
+            },
+            {
+              path: ":DatasetId/targets",
+              name: "datasetTargets",
+              component: () => import("@/view/pages/dataset/Targets.vue")
+            },
+            {
+              path: ":DatasetId/target/:TargetId/edit",
+              name: "editDatasetTarget",
+              component: () => import("@/view/pages/dataset/EditTarget.vue")
+            },
+            {
+              path: ":DatasetId/target/create",
+              name: "createDatasetTarget",
+              component: () => import("@/view/pages/dataset/CreateTarget.vue")
+            },
+          ]
+        },
       ]
     },
     {

@@ -24,6 +24,7 @@
           <KTSubheader
             v-if="subheaderDisplay"
             v-bind:breadcrumbs="breadcrumbs"
+            v-bind:actionLinks="actionLinks"
             v-bind:title="pageTitle"
           />
           <!-- end:: Content Head -->
@@ -92,11 +93,10 @@ export default {
     Loader
   },
   beforeMount() {
-    // show page loading
-    this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
-
     // initialize html element classes
     HtmlClass.init(this.layoutConfig());
+    // show page loading
+    this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
   },
   mounted() {
     // check if current user is authenticated
@@ -110,7 +110,6 @@ export default {
         window.location = ApiService.loginUrl;
       }
     }
-
     // Simulate the delay page loading
     setTimeout(() => {
       // Remove page loader after some time
@@ -122,7 +121,8 @@ export default {
       "isAuthenticated",
       "breadcrumbs",
       "pageTitle",
-      "layoutConfig"
+      "layoutConfig",
+      "actionLinks"
     ]),
 
     /**
@@ -176,3 +176,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.v-text-field--filled.v-input--dense .v-label--active, .v-text-field--full-width.v-input--dense .v-label--active {
+  -webkit-transform: translateY(-10px) scale(0.75);
+  transform: translateY(-10px);
+  font-size: 1rem;
+}
+</style>
