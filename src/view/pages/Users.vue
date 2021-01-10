@@ -1,29 +1,5 @@
 <template>
   <div>
-<!--    <b-alert
-      show
-      variant="light"
-      class="alert alert-custom alert-white alert-shadow fade show gutter-b"
-    >
-      <div class="alert-icon">
-        <span class="svg-icon svg-icon-lg">
-          <inline-svg src="media/svg/icons/Tools/Compass.svg" />
-        </span>
-      </div>
-      <div class="alert-text">
-        <b>Data tables</b> The <code>v-data-table</code> component is used for
-        displaying tabular data. Features include sorting, searching,
-        pagination, inline-editing, header tooltips, and row selection.
-        <a
-          class="font-weight-bold"
-          href="https://vuetifyjs.com/en/components/data-tables"
-          target="_blank"
-        >
-          See documentation.
-        </a>
-      </div>
-    </b-alert>-->
-
     <div class="row">
       <div class="col-md-12">
         <v-card>
@@ -31,7 +7,7 @@
             Users
             <v-spacer></v-spacer>
             <v-text-field
-                v-model="code4.search"
+                v-model="search"
                 append-icon="search"
                 label="Search"
                 single-line
@@ -39,799 +15,180 @@
             ></v-text-field>
           </v-card-title>
           <v-data-table
-              :headers="code4.headers"
-              :items="code4.desserts"
-              :search="code4.search"
-          ></v-data-table>
+              disable-sort hide-default-footer show-expand disable-pagination
+
+              :headers="listHeaders"
+              :items="users"
+              :page.sync="pagination.currentPage"
+              :loading="loading"
+              :items-per-page="20"
+              :expanded.sync="expanded"
+              :footer-props="{
+                            showFirstLastPage: true,
+                            firstIcon: 'mdi-arrow-collapse-left',
+                            lastIcon: 'mdi-arrow-collapse-right',
+                            prevIcon: 'mdi-minus',
+                            nextIcon: 'mdi-plus'
+                        }"
+              @item-expanded="getUserOfAnItem"
+
+              item-key="objectId"
+              class="elevation-1">
+            <template v-slot:item.ind="{ item }">
+              {{ (pagination.skip ? pagination.skip + messages.indexOf(item) + 1 : messages.indexOf(item) + 1) }}
+            </template>
+            <template v-slot:item.message="{ item }">
+              <p class="mb-0 mt-1">{{ `${item.message}` }}</p>
+              <p
+                  v-if="item.description && item.description.length"
+                  class="mb-0 mb-1" style="color: #203452">
+                <v-divider class="my-2"></v-divider>
+                <strong style="color: #3F51B5">نتیجه پیگیری:</strong>
+                {{ `${item.description}` }}
+              </p>
+            </template>
+            <template v-slot:item.contact_phone="{ item }">
+              <v-chip
+                  :href="'tel:' + item.contact_phone"
+                  @click="$utils.copyText(item.contact_phone)">
+                {{ item.contact_phone }}
+              </v-chip>
+            </template>
+            <template v-slot:item.vehicle="{ item }">
+              {{ `${item.vehicle} - ${item.barbar}` }}
+            </template>
+            <template v-slot:item.date="{ item }">
+              {{$utils.getJDate(item.createdAt, false)}}
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                  block
+
+                  :depressed="item.answered"
+                  :color="(item.answered ? '' : 'error')"
+                  @click.prevent="switchItemStatus(item)">
+                {{(item.answered ? 'بررسی شده' : 'بررسی نشده')}}
+              </v-btn>
+            </template>
+            <template v-slot:expanded-item="{ headers, item }">
+              <td :colspan="headers.length">
+                <v-row class="d-flex align-center pa-5">
+
+                  <v-text-field
+                      outlined hide-details
+
+                      v-model="item.description"
+                      label="نتیجه پیگیری"></v-text-field>
+                  <v-btn
+                      :loading="item.isSavingChanges"
+                      @click="updateDescription(item)"
+
+                      class="mr-4"
+                      color="primary">ذخیره
+                  </v-btn>
+                </v-row>
+                <v-simple-table
+                    v-if="item.userData"
+
+                    class="my-5">
+                  <template v-slot:default>
+                    <thead>
+                    <tr>
+                      <th>ستون</th>
+                      <th>مقدار</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr
+                        v-for="item in userInfoList(item.userData)">
+                      <td>{{item.name}}</td>
+                      <td>{{ item.value }}</td>
+                    </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </td>
+            </template>
+          </v-data-table>
+          <v-row class="ma-0">
+            <v-col>
+              <v-pagination
+                  v-model="pagination.currentPage"
+                  :length="pagination.count"></v-pagination>
+            </v-col>
+          </v-row>
         </v-card>
       </div>
     </div>
   </div>
 </template>
 <script>
-// import KTCodePreview from "@/view/content/CodePreview.vue";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import ApiService from "@/core/services/api.service";
 
 export default {
   data() {
     return {
-      code1: {
-        html: `<v-data-table
-  v-model="selected"
-  :headers="headers"
-  :items="desserts"
-  :single-select="singleSelect"
-  item-key="name"
-  show-select
-  class="elevation-1"
->
-  <template v-slot:top>
-    <v-switch v-model="singleSelect" label="Single select" class="pa-3"></v-switch>
-  </template>
-</v-data-table>`,
-        js: `export default {
-  data () {
-    return {
-      singleSelect: false,
-      selected: [],
-      headers: [
+      users: null,
+      search: null,
+      listHeaders: [
+        { text: "Username", value: "calories" },
         {
-          text: 'Dessert (100g serving)',
-          align: 'left',
+          text: "Name",
+          align: "left",
           sortable: false,
-          value: 'name',
+          value: "name"
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
+        { text: "Answers", value: "answerCount" },
       ],
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8%',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16%',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45%',
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22%',
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
-        },
-      ],
-    }
-  },
-}`,
-        singleSelect: false,
-        selected: [],
-        headers: [
-          {
-            text: "Dessert (100g serving)",
-            align: "left",
-            sortable: false,
-            value: "name"
-          },
-          { text: "Calories", value: "calories" },
-          { text: "Fat (g)", value: "fat" },
-          { text: "Carbs (g)", value: "carbs" },
-          { text: "Protein (g)", value: "protein" },
-          { text: "Iron (%)", value: "iron" }
-        ],
-        desserts: [
-          {
-            name: "Frozen Yogurt",
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: "1%"
-          },
-          {
-            name: "Ice cream sandwich",
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: "1%"
-          },
-          {
-            name: "Eclair",
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: "7%"
-          },
-          {
-            name: "Cupcake",
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: "8%"
-          },
-          {
-            name: "Gingerbread",
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: "16%"
-          },
-          {
-            name: "Jelly bean",
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: "0%"
-          },
-          {
-            name: "Lollipop",
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: "2%"
-          },
-          {
-            name: "Honeycomb",
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: "45%"
-          },
-          {
-            name: "Donut",
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: "22%"
-          },
-          {
-            name: "KitKat",
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: "6%"
-          }
-        ]
+      loading: false,
+      pagination: {
+        limit: 20,
+        count: 0,
+        realCount: 0,
+        skip: 0,
+        currentPage: 1,
+        perPage: 20
       },
-
-      code2: {
-        html: `<v-data-table
-  :headers="headers"
-  :items="desserts"
-  item-key="name"
-  group-by="category"
-  class="elevation-1"
-  show-group-by
-></v-data-table>`,
-        js: `export default {
-    data () {
-      return {
-        headers: [
-          {
-            text: 'Dessert (100g serving)',
-            align: 'left',
-            value: 'name',
-          },
-          { text: 'Category', value: 'category' },
-        ],
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            category: 'Ice cream',
-          },
-          {
-            name: 'Ice cream sandwich',
-            category: 'Ice cream',
-          },
-          {
-            name: 'Eclair',
-            category: 'Cookie',
-          },
-          {
-            name: 'Cupcake',
-            category: 'Pastry',
-          },
-          {
-            name: 'Gingerbread',
-            category: 'Cookie',
-          },
-          {
-            name: 'Jelly bean',
-            category: 'Candy',
-          },
-          {
-            name: 'Lollipop',
-            category: 'Candy',
-          },
-          {
-            name: 'Honeycomb',
-            category: 'Toffee',
-          },
-          {
-            name: 'Donut',
-            category: 'Pastry',
-          },
-          {
-            name: 'KitKat',
-            category: 'Candy',
-          },
-        ],
-      }
-    },
-  }`,
-        headers: [
-          {
-            text: "Dessert (100g serving)",
-            align: "left",
-            value: "name"
-          },
-          { text: "Category", value: "category" }
-        ],
-        desserts: [
-          {
-            name: "Frozen Yogurt",
-            category: "Ice cream"
-          },
-          {
-            name: "Ice cream sandwich",
-            category: "Ice cream"
-          },
-          {
-            name: "Eclair",
-            category: "Cookie"
-          },
-          {
-            name: "Cupcake",
-            category: "Pastry"
-          },
-          {
-            name: "Gingerbread",
-            category: "Cookie"
-          },
-          {
-            name: "Jelly bean",
-            category: "Candy"
-          },
-          {
-            name: "Lollipop",
-            category: "Candy"
-          },
-          {
-            name: "Honeycomb",
-            category: "Toffee"
-          },
-          {
-            name: "Donut",
-            category: "Pastry"
-          },
-          {
-            name: "KitKat",
-            category: "Candy"
-          }
-        ]
-      },
-
-      code3: {
-        html: `<v-data-table
-  :headers="headers"
-  :items="desserts"
-  :sort-by="['calories', 'fat']"
-  :sort-desc="[false, true]"
-  multi-sort
-  class="elevation-1"
-></v-data-table>`,
-        js: ` export default {
-  data () {
-    return {
-      headers: [
-        {
-          text: 'Dessert (100g serving)',
-          align: 'left',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
-      ],
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 200,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 200,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
-        },
-        {
-          name: 'Eclair',
-          calories: 300,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-        },
-        {
-          name: 'Cupcake',
-          calories: 300,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8%',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 400,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16%',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 400,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-        },
-        {
-          name: 'Lollipop',
-          calories: 400,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 400,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45%',
-        },
-        {
-          name: 'Donut',
-          calories: 500,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22%',
-        },
-        {
-          name: 'KitKat',
-          calories: 500,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
-        },
-      ],
-    }
-  },
-}`,
-        headers: [
-          {
-            text: "Dessert (100g serving)",
-            align: "left",
-            sortable: false,
-            value: "name"
-          },
-          { text: "Calories", value: "calories" },
-          { text: "Fat (g)", value: "fat" },
-          { text: "Carbs (g)", value: "carbs" },
-          { text: "Protein (g)", value: "protein" },
-          { text: "Iron (%)", value: "iron" }
-        ],
-        desserts: [
-          {
-            name: "Frozen Yogurt",
-            calories: 200,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: "1%"
-          },
-          {
-            name: "Ice cream sandwich",
-            calories: 200,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: "1%"
-          },
-          {
-            name: "Eclair",
-            calories: 300,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: "7%"
-          },
-          {
-            name: "Cupcake",
-            calories: 300,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: "8%"
-          },
-          {
-            name: "Gingerbread",
-            calories: 400,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: "16%"
-          },
-          {
-            name: "Jelly bean",
-            calories: 400,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: "0%"
-          },
-          {
-            name: "Lollipop",
-            calories: 400,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: "2%"
-          },
-          {
-            name: "Honeycomb",
-            calories: 400,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: "45%"
-          },
-          {
-            name: "Donut",
-            calories: 500,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: "22%"
-          },
-          {
-            name: "KitKat",
-            calories: 500,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: "6%"
-          }
-        ]
-      },
-
-      code4: {
-        html: `<v-card>
-  <v-card-title>
-    Nutrition
-    <v-spacer></v-spacer>
-    <v-text-field
-      v-model="search"
-      append-icon="search"
-      label="Search"
-      single-line
-      hide-details
-    ></v-text-field>
-  </v-card-title>
-  <v-data-table
-    :headers="headers"
-    :items="desserts"
-    :search="search"
-  ></v-data-table>
-</v-card>`,
-        js: ` export default {
-  data () {
-    return {
-      search: '',
-      headers: [
-        {
-          text: 'Dessert (100g serving)',
-          align: 'left',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
-      ],
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8%',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16%',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45%',
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22%',
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
-        },
-      ],
-    }
-  },
-}`,
-        search: "",
-        headers: [
-          {
-            text: "Dessert (100g serving)",
-            align: "left",
-            sortable: false,
-            value: "name"
-          },
-          { text: "Calories", value: "calories" },
-          { text: "Fat (g)", value: "fat" },
-          { text: "Carbs (g)", value: "carbs" },
-          { text: "Protein (g)", value: "protein" },
-          { text: "Iron (%)", value: "iron" }
-        ],
-        desserts: [
-          {
-            name: "Frozen Yogurt",
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: "1%"
-          },
-          {
-            name: "Ice cream sandwich",
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: "1%"
-          },
-          {
-            name: "Eclair",
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: "7%"
-          },
-          {
-            name: "Cupcake",
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: "8%"
-          },
-          {
-            name: "Gingerbread",
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: "16%"
-          },
-          {
-            name: "Jelly bean",
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: "0%"
-          },
-          {
-            name: "Lollipop",
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: "2%"
-          },
-          {
-            name: "Honeycomb",
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: "45%"
-          },
-          {
-            name: "Donut",
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: "22%"
-          },
-          {
-            name: "KitKat",
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: "6%"
-          }
-        ]
-      }
+      expanded: [],
     };
   },
   components: {
-    // KTCodePreview
   },
   methods:{
     async getUsers() {
+      this.loading = true;
       try {
-        const users = await ApiService.get('/api/services/app/User/GetAll');
-        console.log(users)
+        const users = await this.$http.get(`/api/services/app/User/GetAll`);
+        if(users.data && users.data.result) {
+          this.users = {
+            ...this.users,
+            ...users.data.result
+          };
+        }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
+      this.loading = false;
 
-    }
+    },
+    resetFields() {
+      this.users = [];
+      this.refreshList()
+    },
+    async refreshList() {
+      await this.getUsers(this.pagination.currentPage);
+    },
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Users", route: "users" }]);
+
+    this.refreshList()
+  },
+  watch: {
+    'pagination.currentPage'(val) {
+      this.refreshList();
+    }
   }
 };
 </script>
