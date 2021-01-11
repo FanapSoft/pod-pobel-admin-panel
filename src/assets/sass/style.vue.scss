@@ -120,3 +120,14 @@
 ////////////////////////////////////////////////////////////////
 ///////////// DO NOT MODIFY ABOVE INCLUDE ORDER ////////////////
 ////////////////////////////////////////////////////////////////
+
+@font-face {
+    font-family: irsans;
+    src: url('/assets/webfonts/irsans.eot?#') format("eot"),
+    url('/assets/webfonts/irsans.woff') format("woff"),
+    url('/assets/webfonts/irsans.ttf') format("truetype")
+}
+
+body, * {
+    font-family: irsans, "Roboto", sans-serif ;
+}

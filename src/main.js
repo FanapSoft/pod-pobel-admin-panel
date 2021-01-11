@@ -17,6 +17,8 @@ Vue.use(Utils);
 
 Vue.config.productionTip = false;
 
+import "@/filters/index"
+
 // Global 3rd party plugins
 import "popper.js";
 import "tooltip.js";
@@ -37,13 +39,9 @@ import "@/core/plugins/apexcharts";
 import "@/core/plugins/metronic";
 import "@mdi/font/css/materialdesignicons.css";
 
-import "@/filters/index"
-
 // API service init
 ApiService.init();
 ApiService.setHeader();
-
-
 
 // Remove this to disable mock API
 //MockService.init();
