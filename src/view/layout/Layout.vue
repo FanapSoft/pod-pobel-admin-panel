@@ -183,4 +183,7 @@ export default {
   transform: translateY(-10px);
   font-size: 1rem;
 }
+.theme--light.v-pagination .v-pagination__item--active {
+  color: #007BFF !important;
+}
 </style>
