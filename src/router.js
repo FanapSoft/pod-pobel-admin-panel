@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+import RouterView from "@/view/layout/RouterView"
+
 Vue.use(Router);
 
 export default new Router({
@@ -32,8 +34,7 @@ export default new Router({
           path: "/dataset",
           name: "datasets",
           redirect: 'list',
-          component: () =>
-              import("@/view/pages/Datasets.vue"),
+          component: RouterView,
           children: [
             {
               path: "list",
@@ -64,6 +65,19 @@ export default new Router({
               path: ":DatasetId/target/create",
               name: "createDatasetTarget",
               component: () => import("@/view/pages/dataset/CreateTarget.vue")
+            },
+          ]
+        },
+        {
+          path: "/transaction",
+          name: "transactions",
+          redirect: 'list',
+          component: RouterView,
+          children: [
+            {
+              path: "list",
+              name: "transactionsList",
+              component: () => import("@/view/pages/transactions/Transactions.vue")
             },
           ]
         },

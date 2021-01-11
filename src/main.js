@@ -11,6 +11,10 @@ import ApiService from "@/core/services/api.service";
 import { SET_AUTH } from "@/core/services/store/auth.module";
 import { RESET_LAYOUT_CONFIG } from "@/core/services/store/config.module";
 
+
+import Utils from "@/plugins/Utils"
+Vue.use(Utils);
+
 Vue.config.productionTip = false;
 
 // Global 3rd party plugins
@@ -38,6 +42,8 @@ import "@/filters/index"
 // API service init
 ApiService.init();
 ApiService.setHeader();
+
+
 
 // Remove this to disable mock API
 //MockService.init();
