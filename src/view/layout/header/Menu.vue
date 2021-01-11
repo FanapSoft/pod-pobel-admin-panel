@@ -20,7 +20,7 @@
     </router-link>
 
     <router-link
-        to="/statistics"
+        to="/reports/list"
         v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li
@@ -33,7 +33,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Statistics </span>
+          <span class="menu-text"> Reports </span>
         </a>
       </li>
     </router-link>

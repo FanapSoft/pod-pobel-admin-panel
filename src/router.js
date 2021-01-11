@@ -25,10 +25,23 @@ export default new Router({
               import("@/view/pages/users/Users.vue")
         },
         {
-          path: "/statistics",
-          name: "statistics",
-          component: () =>
-              import("@/view/pages/Statistics.vue")
+          path: "/reports",
+          name: "reports",
+          redirect: 'list',
+          component: RouterView,
+          children: [
+            {
+              path: "list",
+              name: "reportTypesList",
+              component: () => import("@/view/pages/reports/Reports.vue")
+            },
+            {
+              path: "AnswerCountTrend",
+              name: "answerCountTrend",
+              component: () => import("@/view/pages/reports/AnswersCountTrend.vue")
+            },
+
+          ]
         },
         {
           path: "/dataset",

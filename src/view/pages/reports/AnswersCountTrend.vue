@@ -15,32 +15,6 @@
           </v-card-text>
         </v-card>
       </div>
-      <div class="col-md-8 ">
-        <v-card style="background-color: #f8bbd0">
-          <v-card-title>Daily clicks</v-card-title>
-          <v-card-text class="px-0 py-0">
-            <apexchart
-                class="card-rounded-bottom"
-                :options="chartOptions"
-                :series="series"
-                type="area"
-            ></apexchart>
-          </v-card-text>
-        </v-card>
-      </div>
-      <div class="col-md-6 mt-6">
-        <v-card style="background-color: #fff8e1">
-          <v-card-title>Daily Processed Dataset Items</v-card-title>
-          <v-card-text class="px-0 py-0">
-            <apexchart
-                class="card-rounded-bottom"
-                :options="chartOptions"
-                :series="series"
-                type="area"
-            ></apexchart>
-          </v-card-text>
-        </v-card>
-      </div>
     </div>
     <!--end::Dashboard-->
   </div>
@@ -48,8 +22,6 @@
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
-// import AdvancedTableWidget2 from "@/view/content/widgets/advance-table/Widget2.vue";
-// import MixedWidget1 from "@/view/content/widgets/mixed/Widget1.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "statistics",
@@ -72,7 +44,7 @@ export default {
     ...mapGetters(["layoutConfig"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Statistics" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "AnswerCountTrend" }]);
 
     this.chartOptions = {
       chart: {
@@ -212,33 +184,35 @@ export default {
         }
       }
     };
+
+    this.getData();
   },
   methods: {
-    setActiveTab1(event) {
-      this.tabIndex = this.setActiveTab(event);
-    },
-    setActiveTab2(event) {
-      this.tabIndex2 = this.setActiveTab(event);
-    },
-    /**
-     * Set current active on click
-     * @param event
-     */
-    setActiveTab(event) {
-      // get all tab links
-      const tab = event.target.closest('[role="tablist"]');
-      const links = tab.querySelectorAll(".nav-link");
-      // remove active tab links
-      for (let i = 0; i < links.length; i++) {
-        links[i].classList.remove("active");
+    async getData() {
+      this.loading = true;
+      const today = new Date();
+      const priorDay = new Date(new Date().setDate(today.getMonth()-12))
+
+      const data = {
+        UserId: 18,
+        From: priorDay.toLocaleDateString("en-US"),
+        To: today.toLocaleDateString("en-US"),
+        DataSetId: null,
+      };
+
+      try {
+        const transactions = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/AnswersCountsTrend`, data));
+        console.log(transactions)
+        /*if(transactions.data && transactions.data.result) {
+
+          this.transactions = transactions.data.result.items;
+        }*/
+      } catch (error) {
+        console.log(error);
       }
+      this.loading = false;
 
-      // set current active tab
-      event.target.classList.add("active");
-
-      // set clicked tab index to bootstrap tab
-      return parseInt(event.target.getAttribute("data-tab"));
-    }
-  }
+    },
+  },
 };
 </script>
