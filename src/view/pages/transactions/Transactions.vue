@@ -6,13 +6,6 @@
           <v-card-title>
             Transactions
             <v-spacer></v-spacer>
-            <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field>
           </v-card-title>
           <v-row>
             <v-col cols="12" class="px-6">
@@ -72,7 +65,6 @@ export default {
   data() {
     return {
       transactions: null,
-      search: null,
       listHeaders: [
         { text: "Row", value: "ind" },
         { text: "creditAmount", value: "creditAmount" },
