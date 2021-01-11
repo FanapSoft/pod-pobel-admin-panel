@@ -22,7 +22,7 @@ export default new Router({
           path: "/users",
           name: "users",
           component: () =>
-              import("@/view/pages/Users.vue")
+              import("@/view/pages/users/Users.vue")
         },
         {
           path: "/statistics",

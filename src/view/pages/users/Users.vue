@@ -4,33 +4,25 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Transactions
+            Users
             <v-spacer></v-spacer>
             <v-text-field
+                single-line hide-details
+
+                @click:append="refreshList"
+                @keydown.enter="refreshList"
+
                 v-model="search"
                 append-icon="search"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field>
+                label="Search"></v-text-field>
           </v-card-title>
-          <v-row>
-            <v-col cols="12" class="px-6">
-              <v-chip
-                  v-if="ownerId" close
-                  @click:close="removeQueryItem('ownerId')">User: {{ownerId}}</v-chip>
-              <v-chip
-                  v-if="datasetId" close
-                  @click:close="removeQueryItem('datasetId')">Dataset: {{datasetId}}</v-chip>
-            </v-col>
-          </v-row>
           <v-data-table
-              v-if="transactions"
+              v-if="users"
 
               disable-sort hide-default-footer disable-pagination
 
               :headers="listHeaders"
-              :items="transactions"
+              :items="users"
               :page.sync="pagination.currentPage"
               :loading="loading"
               :items-per-page="20"
@@ -45,10 +37,14 @@
               item-key="objectId"
               class="elevation-1">
             <template v-slot:item.ind="{ item }">
-              {{ (pagination.skip ? pagination.skip + transactions.indexOf(item) + 1 : transactions.indexOf(item) + 1) }}
+              {{ (pagination.skip ? pagination.skip + users.indexOf(item) + 1 : users.indexOf(item) + 1) }}
             </template>
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                  small
 
-
+                  :to="`/transaction/list?OwnerId=${item.id}`">Transactions</v-btn>
+            </template>
 
           </v-data-table>
           <v-row class="ma-0">
@@ -64,24 +60,25 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import { SET_OWNER_ID, SET_DATASET_ID } from "@/core/services/store/transactionsList.module";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 
 export default {
   data() {
     return {
-      transactions: null,
+      users: null,
+      isActive: null,
       search: null,
       listHeaders: [
         { text: "Row", value: "ind" },
-        { text: "creditAmount", value: "creditAmount" },
+        { text: "Username", value: "userName" },
         {
-          text: "debitAmount",
+          text: "Full Name",
           /*align: "left",*/
           sortable: false,
-          value: "debitAmount"
+          value: "fullName"
         },
+        { text: "Email", value: "emailAddress" },
+        { text: "Actions", value: "actions" },
       ],
       loading: false,
       pagination: {
@@ -97,30 +94,24 @@ export default {
   },
   components: {
   },
-  computed:{
-    ...mapGetters([
-        "ownerId",
-        "datasetId"
-    ])
-  },
   methods:{
     async getItems(page) {
       this.calcCurrentPage(page)
       this.loading = true;
       const data = {
-        OwnerId: this.ownerId,
-        DatasetId: this.datasetId,
+        Keyword: this.search,
+        IsActive: this.isActive,
         SkipCount: this.pagination.skip,
         MaxResultCount: this.pagination.perPage
       };
 
       try {
-        const transactions = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Transactions/GetAll`, data));
-        if(transactions.data && transactions.data.result) {
+        const users = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/User/GetAll`, data));
+        if(users.data && users.data.result) {
 
-          this.transactions = transactions.data.result.items;
-          this.pagination.count = transactions.data.result.totalCount ? Math.ceil(transactions.data.result.totalCount / this.pagination.limit) : 1;
-          this.pagination.realCount = transactions.data.result.totalCount;
+          this.users = users.data.result.items;
+          this.pagination.count = users.data.result.totalCount ? Math.ceil(users.data.result.totalCount / this.pagination.limit) : 1;
+          this.pagination.realCount = users.data.result.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -138,31 +129,15 @@ export default {
       }
     },
     resetFields() {
-      this.transactions = [];
+      this.users = [];
       this.refreshList()
     },
     async refreshList() {
       await this.getItems(this.pagination.currentPage);
     },
-    removeQueryItem(item){
-      if (item == 'ownerId')
-        this.$store.commit(SET_OWNER_ID, null);
-      if (item == 'datasetId')
-        this.$store.commit(SET_DATASET_ID, null);
-
-      this.refreshList()
-    }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Transactions", route: "transaction" }]);
-
-    if(this.$route.query.OwnerId) {
-      this.$store.commit(SET_OWNER_ID, this.$route.query.OwnerId);
-      //this.ownerId = this.$route.query.OwnerId;
-    }
-    if(this.$route.query.DatasetId) {
-      this.$store.commit(SET_DATASET_ID, this.$route.query.DatasetId);
-    }
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Users", route: "transaction" }]);
 
     this.refreshList()
   },

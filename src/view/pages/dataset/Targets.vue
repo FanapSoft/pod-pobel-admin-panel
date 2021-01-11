@@ -70,6 +70,10 @@ export default {
         link: `/dataset/${this.$route.params.DatasetId}/edit`
       },
       {
+        title: 'View Transactions',
+        link: `/transaction/list?DatasetId=${this.$route.params.DatasetId}`
+      },
+      {
         title: 'Create Target',
         link: `/dataset/${this.$route.params.DatasetId}/target/create`
       },

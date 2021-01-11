@@ -7,6 +7,7 @@ import config from "./config.module";
 import breadcrumbs from "./breadcrumbs.module";
 import profile from "./profile.module";
 import subheaderActions from "./subheaderActions.module";
+import transactionsList from "./transactionsList.module"
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     config,
     breadcrumbs,
     profile,
-    subheaderActions
+    subheaderActions,
+    transactionsList
   }
 });
