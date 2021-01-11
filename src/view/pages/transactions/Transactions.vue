@@ -6,13 +6,13 @@
           <v-card-title>
             Transactions
             <v-spacer></v-spacer>
-            <v-text-field
+<!--            <v-text-field
                 v-model="search"
                 append-icon="search"
                 label="Search"
                 single-line
                 hide-details
-            ></v-text-field>
+            ></v-text-field>-->
           </v-card-title>
           <v-data-table
               v-if="transactions"
@@ -62,7 +62,7 @@ export default {
       transactions: null,
       ownerId: null,
       datasetId: null,
-      search: null,
+      //search: null,
       listHeaders: [
         { text: "Row", value: "ind" },
         { text: "creditAmount", value: "creditAmount" },
