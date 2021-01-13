@@ -44,8 +44,13 @@
                   small
 
                   :to="`/transaction/list?OwnerId=${item.id}`">Transactions</v-btn>
-            </template>
+              <v-btn
+                  v-if="$route.query.showAnswerCountTrend"
 
+                  small
+
+                  :to="`/reports/AnswerCountTrend?UserId=${item.id}`">AnswerCountTrend</v-btn>
+            </template>
           </v-data-table>
           <v-row class="ma-0">
             <v-col>
@@ -137,7 +142,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Users", route: "transaction" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Users"}]);
 
     this.refreshList()
   },

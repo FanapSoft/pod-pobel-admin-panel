@@ -7,7 +7,7 @@ export const SET_USER_ID = "setUserId";
 export const SET_DATASET_ID = "setDatasetId";
 
 const state = {
-  ownerId: null,
+  userId: null,
   datasetId: null
 };
 
@@ -16,8 +16,8 @@ const getters = {
     return state.datasetId;
   },
 
-  ownerId(state) {
-    return state.ownerId;
+  userId(state) {
+    return state.userId;
   }
 };
 
@@ -26,8 +26,8 @@ const actions = {
 };
 
 const mutations = {
-  [SET_OWNER_ID](state, ownerId) {
-    state.ownerId = ownerId;
+  [SET_USER_ID](state, userId) {
+    state.userId = userId;
   },
   [SET_DATASET_ID](state, datasetId) {
     state.datasetId = datasetId;
@@ -36,6 +36,7 @@ const mutations = {
 };
 
 export default {
+  namespaced: true,
   state,
   actions,
   mutations,

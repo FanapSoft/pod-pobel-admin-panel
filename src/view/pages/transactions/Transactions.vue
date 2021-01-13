@@ -146,7 +146,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Transactions", route: "transaction" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Transactions"}]);
 
     if(this.$route.query.OwnerId) {
       this.$store.commit(SET_OWNER_ID, this.$route.query.OwnerId);

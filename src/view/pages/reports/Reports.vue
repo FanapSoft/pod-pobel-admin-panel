@@ -43,6 +43,9 @@ export default {
 
   },
   mounted() {
+    this.$store.dispatch(SET_BREADCRUMB, [
+      { title: "Reports" },
+    ]);
     /*this.$store.dispatch(SET_SUBHEADER_ACTION, [
       {
         title: 'Create Dataset',
