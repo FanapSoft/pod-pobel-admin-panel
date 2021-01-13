@@ -40,7 +40,20 @@
             <template v-slot:item.ind="{ item }">
               {{ (pagination.skip ? pagination.skip + transactions.indexOf(item) + 1 : transactions.indexOf(item) + 1) }}
             </template>
-
+            <template v-slot:item.creditAmount="{ item }">
+              <div style="direction: ltr">
+                <span class="d-inline-block mr-3">تومان</span>
+                <span class="d-inline-block">{{ (item.creditAmount).toFixed(3) }}</span>
+              </div>
+            </template>
+            <template v-slot:item.dateTime="{ item }">
+              {{ new Date(item.creationTime).toLocaleDateString("fa-IR") }}
+              <br>
+              {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
+            </template>
+            <template v-slot:item.referenceDataSetId="{ item }">
+              <router-link :to="`/dataset/${item.referenceDataSetId}/targets`">{{ item.referenceDataSetId }}</router-link>
+            </template>
 
 
           </v-data-table>
@@ -68,12 +81,9 @@ export default {
       listHeaders: [
         { text: "Row", value: "ind" },
         { text: "creditAmount", value: "creditAmount" },
-        {
-          text: "debitAmount",
-          /*align: "left",*/
-          sortable: false,
-          value: "debitAmount"
-        },
+        { text: "Date & Time", value: "dateTime"},
+        { text: "Dataset", value: "referenceDataSetId"},
+
       ],
       loading: false,
       pagination: {
