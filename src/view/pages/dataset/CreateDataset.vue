@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <div class="row">
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
@@ -46,7 +46,20 @@
                         style="direction: rtl"
                         label="description" />
                   </v-col>
+                  <v-col cols="12" md="6">
+                    <v-switch
+                        filled dense rounded
 
+                        v-model="datasetObject.isActive"
+                        label="Dataset Status" />
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-switch
+                        filled dense rounded
+
+                        v-model="datasetObject.labelingStatus"
+                        label="Labeling Status" />
+                  </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
                         filled dense rounded
@@ -97,7 +110,7 @@
         </v-row>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>

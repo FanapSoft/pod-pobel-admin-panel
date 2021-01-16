@@ -26,9 +26,13 @@
 
                 cols="4"
                 class="pb-0">
-              <v-card :to="`${item.id}/targets`">
+              <v-card :to="`${item.id}/targets`" :class="{'bg-warning lighten-2': !item.isActive, 'bg-success lighten-2': item.isActive}">
                 <v-card-title>{{item.name}}</v-card-title>
                 <v-card-subtitle>{{item.description}}</v-card-subtitle>
+                <v-card-text>
+                  <v-chip :class="{'bg-warning': !item.isActive, 'bg-success': item.isActive}">Dataset Status: {{ (item.isActive ? "Active" : "InActive") }}</v-chip>
+                  <v-chip :class="{'bg-warning': !item.labelingStatus, 'bg-success': item.labelingStatus}">Labeling Status: {{ (item.labelingStatus ? "Active" : "InActive") }}</v-chip>
+                </v-card-text>
               </v-card>
             </v-col>
         </v-row>

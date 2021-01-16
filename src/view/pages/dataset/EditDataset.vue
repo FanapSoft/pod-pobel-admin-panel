@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <div class="row">
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
@@ -55,6 +55,20 @@
                         label="description" />
                   </v-col>
 
+                  <v-col cols="12" md="6">
+                    <v-switch
+                        filled dense rounded
+
+                        v-model="datasetObject.isActive"
+                        label="Dataset Status" />
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-switch
+                        filled dense rounded
+
+                        v-model="datasetObject.labelingStatus"
+                        label="Labeling Status" />
+                  </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
                         filled dense rounded
@@ -147,7 +161,7 @@
       </v-dialog>
     </div>
 
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -159,7 +173,9 @@ export default {
     return {
       datasetObject: {
         questionType: 0,
-        answerBudgetCountPerUser: 100
+        answerBudgetCountPerUser: 100,
+        isActive: false,
+        labelingStatus: false
       },
       deleteDialog: false,
       loading: false,
@@ -176,6 +192,10 @@ export default {
             ...this.datasetObject,
             ...dataset.data.result
           };
+
+          //this.datasetObject.isActive = (dataset.data.result.isActive === "true");
+          //this.datasetObject.labelingStatus = (dataset.data.result.labelingStatus === "1");//dataset.data.result.labelingStatus;
+
         }
       } catch (error) {
         console.log(error);
