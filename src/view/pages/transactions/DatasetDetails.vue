@@ -31,11 +31,6 @@
         <br>
         <span>{{dataset.description}}</span>
       </div>
-
-<!--      <v-card>
-        <v-card-title>Dataset: {{dataset ? dataset.name : 'undefined'}}</v-card-title>
-        <v-card-text></v-card-text>
-      </v-card>-->
     </v-tooltip>
 </template>
 
@@ -59,7 +54,6 @@ export default {
       try {
         const dataset = await this.$http.get(`/api/services/app/Datasets/Get?id=${this.item.referenceDataSetId}`);
         if(dataset.data && dataset.data.result) {
-          console.log(dataset.data.result)
           this.dataset = dataset.data.result;
           this.$emit('dataset-details', dataset.data.result.name)
         }

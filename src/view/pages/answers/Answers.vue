@@ -1,10 +1,10 @@
 <template>
-  <v-app style="background-color: transparent">
+  <v-app  style="background-color: transparent">
     <div class="row" >
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Transactions
+            Answers
             <v-spacer></v-spacer>
             <span>{{pagination.realCount}}</span>
           </v-card-title>
@@ -13,22 +13,28 @@
               <v-chip
                   close
 
-                  @click="$router.push('/users')"
-                  @click:close="removeQueryItem('ownerId')">User: {{ownerId}}</v-chip>
+                  @click="$router.push('/users?showAnswersBtn=true')"
+                  @click:close="removeQueryItem('userId')">User: {{userId}}</v-chip>
               <v-chip
                   close
 
                   @click="$router.push('/dataset/list')"
                   @click:close="removeQueryItem('datasetId')">Dataset: {{datasetId}}</v-chip>
+<!--              <v-chip
+                  close
+
+                  @click="$router.push('/dataset/list')"
+                  @click:close="removeQueryItem('datasetId')">Dataset Item: {{datasetItemId}}</v-chip>-->
+
             </v-col>
           </v-row>
           <v-data-table
-              v-if="transactions"
+              v-if="answers"
 
               disable-sort hide-default-footer disable-pagination
 
               :headers="listHeaders"
-              :items="transactions"
+              :items="answers"
               :page.sync="pagination.currentPage"
               :loading="loading"
               :items-per-page="20"
@@ -43,36 +49,13 @@
               item-key="id"
               class="elevation-1">
             <template v-slot:item.ind="{ item }">
-              {{ (pagination.skip ? pagination.skip + transactions.indexOf(item) + 1 : transactions.indexOf(item) + 1) }}
-            </template>
-            <template v-slot:item.creditAmount="{ item }">
-              <div style="direction: ltr">
-                <span class="d-inline-block mr-3">تومان</span>
-                <span class="d-inline-block">{{ (item.creditAmount).toFixed(3) }}</span>
-              </div>
+              {{ (pagination.skip ? pagination.skip + answers.indexOf(item) + 1 : answers.indexOf(item) + 1) }}
             </template>
             <template v-slot:item.dateTime="{ item }">
               {{ new Date(item.creationTime).toLocaleDateString("fa-IR") }}
               <br>
               {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
             </template>
-            <template v-slot:item.referenceDataSetId="{ item }">
-              <div class="d-inline-block">
-                <DatasetDetails
-                    :key="item.referenceDataSetId"
-                    :item="item"
-                    @dataset-details="name => {item.datasetName = name}">
-                  <template v-slot:act="{ on, attrs }">
-                    <router-link
-                        v-on="on"
-                        v-bind="attrs"
-                        :to="`/dataset/${item.referenceDataSetId}/targets`">{{ item.datasetName ? item.datasetName : item.referenceDataSetId }}</router-link>
-                  </template>
-                </DatasetDetails>
-              </div>
-            </template>
-
-
           </v-data-table>
           <v-row class="ma-0">
             <v-col>
@@ -88,20 +71,17 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { SET_OWNER_ID, SET_DATASET_ID } from "@/core/services/store/transactionsList.module";
+import { SET_USER_ID, SET_DATASET_ID, SET_DATASETITEM_ID } from "@/core/services/store/answersList.module";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
-
-import DatasetDetails from "./DatasetDetails";
 
 export default {
   data() {
     return {
-      transactions: null,
+      answers: null,
       listHeaders: [
         { text: "Row", value: "ind" },
-        { text: "creditAmount", value: "creditAmount" },
+        //{ text: "creditAmount", value: "creditAmount" },
         { text: "Date & Time", value: "dateTime"},
-        { text: "Dataset", value: "referenceDataSetId"},
 
       ],
       loading: false,
@@ -117,32 +97,33 @@ export default {
     };
   },
   components: {
-    DatasetDetails
   },
   computed:{
-    ...mapGetters([
-        "ownerId",
-        "datasetId"
-    ])
+    ...mapGetters({
+      userId: "answersList/userId",
+      datasetId: "answersList/datasetId",
+      //datasetItemId: "answersList/datasetItemId",
+    })
   },
   methods:{
     async getItems(page) {
       this.calcCurrentPage(page)
       this.loading = true;
       const data = {
-        OwnerId: this.ownerId,
+        UserId: this.userId,
         DatasetId: this.datasetId,
+        //DatasetItemId: this.datasetId,
         SkipCount: this.pagination.skip,
         MaxResultCount: this.pagination.perPage
       };
 
       try {
-        const transactions = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Transactions/GetAll`, data));
-        if(transactions.data && transactions.data.result) {
+        const answers = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Answers/GetAll`, data));
+        if(answers.data && answers.data.result) {
 
-          this.transactions = transactions.data.result.items;
-          this.pagination.count = transactions.data.result.totalCount ? Math.ceil(transactions.data.result.totalCount / this.pagination.limit) : 1;
-          this.pagination.realCount = transactions.data.result.totalCount;
+          this.answers = answers.data.result.items;
+          this.pagination.count = answers.data.result.totalCount ? Math.ceil(answers.data.result.totalCount / this.pagination.limit) : 1;
+          this.pagination.realCount = answers.data.result.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -160,30 +141,35 @@ export default {
       }
     },
     resetFields() {
-      this.transactions = [];
+      this.answers = [];
       this.refreshList()
     },
     async refreshList() {
       await this.getItems(this.pagination.currentPage);
     },
     removeQueryItem(item){
-      if (item == 'ownerId')
-        this.$store.commit(SET_OWNER_ID, null);
+      if (item == 'userId')
+        this.$store.commit(`answersList/${SET_USER_ID}`, null);
       if (item == 'datasetId')
-        this.$store.commit(SET_DATASET_ID, null);
+        this.$store.commit(`answersList/${SET_DATASET_ID}`, null);
+      if (item == 'datasetItemId')
+        this.$store.commit(`answersList/${SET_DATASETITEM_ID}`, null);
 
       this.refreshList()
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Transactions"}]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Answers"}]);
 
-    if(this.$route.query.OwnerId) {
-      this.$store.commit(SET_OWNER_ID, this.$route.query.OwnerId);
-      //this.ownerId = this.$route.query.OwnerId;
+    if(this.$route.query.UserId) {
+      this.$store.commit(`answersList/${SET_USER_ID}`, this.$route.query.UserId);
+      //this.userId = this.$route.query.OwnerId;
     }
     if(this.$route.query.DatasetId) {
-      this.$store.commit(SET_DATASET_ID, this.$route.query.DatasetId);
+      this.$store.commit(`answersList/${SET_DATASET_ID}`, this.$route.query.DatasetId);
+    }
+    if(this.$route.query.DatasetItemId) {
+      this.$store.commit(`answersList/${SET_DATASETITEM_ID}`, this.$route.query.DatasetItemId);
     }
 
     this.refreshList()

@@ -66,27 +66,16 @@ export default {
   mounted() {
     const actions = [
       {
-        title: 'Edit Dataset',
-        link: `/dataset/${this.$route.params.DatasetId}/edit`
-      },
-      {
         title: 'Create Target',
         link: `/dataset/${this.$route.params.DatasetId}/target/create`
       },
-      {
-        title: 'View Transactions',
-        link: `/transaction/list?DatasetId=${this.$route.params.DatasetId}`
-      },
-      {
-        title: 'AnswerCountTrend',
-        link: `/reports/AnswerCountTrend?DatasetId=${this.$route.params.DatasetId}`
-      }
     ];
 
     this.$store.dispatch(SET_SUBHEADER_ACTION, actions);
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/targets` },
+      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: `Targets` },
     ]);
     //this.$store.dispatch(SET_BREADCRUMB, [{ title: `Dataset ${this.$route.params.DatasetId}`, route: `/dataset/${this.$route.params.DatasetId}/targets` }]);
     this.getItems();

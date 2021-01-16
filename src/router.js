@@ -65,10 +65,22 @@ export default new Router({
               component: () => import("@/view/pages/dataset/EditDataset.vue")
             },
             {
+              path: ":DatasetId/singleDataset",
+              name: "SingleDataset",
+              component: () => import("@/view/pages/dataset/SingleDataset.vue")
+            },
+
+            {
+              path: ":DatasetId/items",
+              name: "datasetItems",
+              component: () => import("@/view/pages/dataset/DatasetItems.vue")
+            },
+            {
               path: ":DatasetId/targets",
               name: "datasetTargets",
               component: () => import("@/view/pages/dataset/Targets.vue")
             },
+
             {
               path: ":DatasetId/target/:TargetId/edit",
               name: "editDatasetTarget",
@@ -80,6 +92,11 @@ export default new Router({
               component: () => import("@/view/pages/dataset/CreateTarget.vue")
             },
           ]
+        },
+        {
+          path: "/answers",
+          name: "Answers",
+          component: () => import("@/view/pages/answers/Answers.vue")
         },
         {
           path: "/transaction",

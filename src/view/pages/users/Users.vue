@@ -1,11 +1,12 @@
 <template>
-  <div >
+  <v-app style="background-color: transparent" >
     <div class="row" >
       <div class="col-md-12">
         <v-card>
           <v-card-title>
             Users
             <v-spacer></v-spacer>
+            <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
             <v-text-field
                 single-line hide-details
 
@@ -50,6 +51,12 @@
                   small
 
                   :to="`/reports/AnswerCountTrend?UserId=${item.id}`">AnswerCountTrend</v-btn>
+              <v-btn
+                  v-if="$route.query.showAnswersBtn"
+
+                  small
+
+                  :to="`/answers?UserId=${item.id}`">View Answers</v-btn>
             </template>
           </v-data-table>
           <v-row class="ma-0">
@@ -62,7 +69,7 @@
         </v-card>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";

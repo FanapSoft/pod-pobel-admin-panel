@@ -1,0 +1,161 @@
+<template>
+  <v-app >
+    <div class="row" >
+      <div class="col-md-12">
+        <v-card>
+          <v-card-title>
+            Dataset Items
+            <v-spacer></v-spacer>
+            <v-text-field
+                single-line hide-details
+
+                @click:append="refreshList"
+                @keydown.enter="refreshList"
+
+                v-model="LabelName"
+                append-icon="search"
+                label="Label Name"></v-text-field>
+          </v-card-title>
+          <v-card-text>
+
+            <v-data-table
+                v-if="datasetItems"
+
+                disable-sort hide-default-footer disable-pagination
+
+                :headers="listHeaders"
+                :items="datasetItems"
+                :page.sync="pagination.currentPage"
+                :loading="loading"
+                :items-per-page="10"
+                :footer-props="{
+                            showFirstLastPage: true,
+                            firstIcon: 'mdi-arrow-collapse-left',
+                            lastIcon: 'mdi-arrow-collapse-right',
+                            prevIcon: 'mdi-minus',
+                            nextIcon: 'mdi-plus'
+                        }"
+
+                item-key="objectId"
+                class="elevation-1">
+              <template v-slot:item.ind="{ item }">
+                {{ (pagination.skip ? pagination.skip + datasetItems.indexOf(item) + 1 : datasetItems.indexOf(item) + 1) }}
+              </template>
+              <template v-slot:item.file="{ item }">
+                <v-avatar class="my-2" rounded>
+                  <img :src="`${axios.defaults.baseURL}/file/dataset/item/${item.id}`">
+                </v-avatar>
+              </template>
+              <template v-slot:item.labelName="{ item }">
+                {{ (item.label ? item.label.name : 'No label')}}
+              </template>
+              <template v-slot:item.actions="{ item }">
+
+              </template>
+            </v-data-table>
+            <v-row class="ma-0">
+              <v-col>
+                <v-pagination
+                    v-model="pagination.currentPage"
+                    :length="pagination.count"></v-pagination>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </div>
+    </div>
+  </v-app>
+</template>
+<script>
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+import { SET_DATASET_ID } from "@/core/services/store/transactionsList.module";
+
+export default {
+  data() {
+    return {
+      datasetItems: null,
+      LabelName: null,
+      DataSetId: null,
+      IsGoldenData: false,
+      OnlyNonDecidedGoldens: false,
+
+      listHeaders: [
+        { text: "Row", value: "ind" },
+        { text: "File", value: "file" },
+        { text: "Label", value: "labelName" },
+        { text: "Actions", value: "actions" },
+      ],
+      loading: false,
+      pagination: {
+        limit: 10,
+        count: 0,
+        realCount: 0,
+        skip: 0,
+        currentPage: 1,
+        perPage: 10
+      },
+      expanded: [],
+    };
+  },
+  computed: {
+  },
+  methods:{
+    async getItems(page) {
+      this.calcCurrentPage(page)
+      this.loading = true;
+      const data = {
+        LabelName: this.LabelName,
+        DataSetId: this.$route.params.DatasetId,
+        IsGoldenData: this.IsGoldenData,
+        OnlyNonDecidedGoldens: this.OnlyNonDecidedGoldens,
+
+        SkipCount: this.pagination.skip,
+        MaxResultCount: this.pagination.perPage
+      };
+
+      try {
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/DataSetItems/GetAll`, data));
+        if(items.data && items.data.result && items.data.result.items) {
+          this.datasetItems = items.data.result.items;
+          this.pagination.count = items.data.result.totalCount ? Math.ceil(items.data.result.totalCount / this.pagination.limit) : 1;
+          this.pagination.realCount = items.data.result.totalCount;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.loading = false;
+
+    },
+    calcCurrentPage(page) {
+      if (!page || page == 1) {
+        this.pagination.skip = 0;
+        this.pagination.currentPage = 1;
+      } else if (page > 1) {
+        this.pagination.skip = this.pagination.limit * (page - 1);
+        this.pagination.currentPage = page;
+      }
+    },
+    resetFields() {
+      this.datasetItems = [];
+      this.refreshList()
+    },
+    async refreshList() {
+      await this.getItems(this.pagination.currentPage);
+    }
+  },
+  mounted() {
+    this.$store.dispatch(SET_BREADCRUMB, [
+      { title: "Manage Datasets", route: "/dataset/list" },
+      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: `Items` },
+    ]);
+
+    this.refreshList()
+  },
+  watch: {
+    'pagination.currentPage'() {
+      this.refreshList();
+    }
+  }
+};
+</script>

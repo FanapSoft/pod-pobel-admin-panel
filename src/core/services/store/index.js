@@ -8,7 +8,8 @@ import breadcrumbs from "./breadcrumbs.module";
 import profile from "./profile.module";
 import subheaderActions from "./subheaderActions.module";
 import transactionsList from "./transactionsList.module";
-import answerCountTrend from "./answerCountTrend.module"
+import answerCountTrend from "./answerCountTrend.module";
+import answersList from  "./answersList.module"
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     profile,
     subheaderActions,
     transactionsList,
-    answerCountTrend
+    answerCountTrend,
+    answersList
   }
 });

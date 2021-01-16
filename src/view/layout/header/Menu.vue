@@ -18,26 +18,6 @@
         </a>
       </li>
     </router-link>
-
-    <router-link
-        to="/reports/list"
-        v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <li
-          aria-haspopup="true"
-          data-menu-toggle="hover"
-          class="menu-item"
-          :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Reports </span>
-        </a>
-      </li>
-    </router-link>
-
     <router-link
         to="/users"
         v-slot="{ href, navigate, isActive, isExactActive }"
@@ -76,6 +56,42 @@
       </li>
     </router-link>
     <router-link
+        to="/datasetItems"
+        v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+          aria-haspopup="true"
+          data-menu-toggle="hover"
+          class="menu-item"
+          :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <span class="menu-text"> DatasetItems </span>
+        </a>
+      </li>
+    </router-link>
+    <router-link
+        to="/answers"
+        v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+          aria-haspopup="true"
+          data-menu-toggle="hover"
+          class="menu-item"
+          :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <span class="menu-text"> Answers </span>
+        </a>
+      </li>
+    </router-link>
+    <router-link
         to="/transaction/list"
         v-slot="{ href, navigate, isActive, isExactActive }"
     >
@@ -90,6 +106,24 @@
       >
         <a :href="href" class="menu-link" @click="navigate">
           <span class="menu-text"> Transactions </span>
+        </a>
+      </li>
+    </router-link>
+    <router-link
+        to="/reports/list"
+        v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+          aria-haspopup="true"
+          data-menu-toggle="hover"
+          class="menu-item"
+          :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <span class="menu-text"> Reports </span>
         </a>
       </li>
     </router-link>

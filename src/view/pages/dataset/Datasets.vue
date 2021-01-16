@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app style="background-color: transparent">
     <div class="row">
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
@@ -26,19 +26,36 @@
 
                 cols="4"
                 class="pb-0">
-              <v-card :to="`${item.id}/targets`" :class="{'bg-warning lighten-2': !item.isActive, 'bg-success lighten-2': item.isActive}">
+              <v-card :to="`${item.id}/singleDataset`" :class="{'bg-warning lighten-2': !item.isActive, 'bg-success lighten-2': item.isActive}">
                 <v-card-title>{{item.name}}</v-card-title>
                 <v-card-subtitle>{{item.description}}</v-card-subtitle>
                 <v-card-text>
-                  <v-chip :class="{'bg-warning': !item.isActive, 'bg-success': item.isActive}">Dataset Status: {{ (item.isActive ? "Active" : "InActive") }}</v-chip>
-                  <v-chip :class="{'bg-warning': !item.labelingStatus, 'bg-success': item.labelingStatus}">Labeling Status: {{ (item.labelingStatus ? "Active" : "InActive") }}</v-chip>
+                  <div>
+                    Dataset Status:
+                    <v-badge
+                        dot
+
+                        :color="item.isActive ? 'success': 'error'"
+
+                        class="mr-3"></v-badge>
+                    {{ (item.isActive ? "Active" : "InActive") }}
+                  </div>
+                  <div>
+                    Labeling Status:
+                    <v-badge
+                        dot
+
+                        :color="item.labelingStatus ? 'success': 'error'"
+
+                        class="mr-3"></v-badge>
+                    {{ (item.labelingStatus ? "Active" : "InActive") }}</div>
                 </v-card-text>
               </v-card>
             </v-col>
         </v-row>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 <script>
 import ApiService from "@/core/services/api.service";
