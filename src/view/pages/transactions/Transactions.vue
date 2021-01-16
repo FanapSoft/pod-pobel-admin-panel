@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <v-app >
     <div class="row" >
       <div class="col-md-12">
         <v-card>
@@ -35,7 +35,7 @@
                             nextIcon: 'mdi-plus'
                         }"
 
-              item-key="objectId"
+              item-key="id"
               class="elevation-1">
             <template v-slot:item.ind="{ item }">
               {{ (pagination.skip ? pagination.skip + transactions.indexOf(item) + 1 : transactions.indexOf(item) + 1) }}
@@ -52,7 +52,19 @@
               {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
             </template>
             <template v-slot:item.referenceDataSetId="{ item }">
-              <router-link :to="`/dataset/${item.referenceDataSetId}/targets`">{{ item.referenceDataSetId }}</router-link>
+              <div class="d-inline-block">
+                <DatasetDetails
+                    :key="item.referenceDataSetId"
+                    :item="item"
+                    @dataset-details="name => {item.datasetName = name}">
+                  <template v-slot:act="{ on, attrs }">
+                    <router-link
+                        v-on="on"
+                        v-bind="attrs"
+                        :to="`/dataset/${item.referenceDataSetId}/targets`">{{ item.datasetName ? item.datasetName : item.referenceDataSetId }}</router-link>
+                  </template>
+                </DatasetDetails>
+              </div>
             </template>
 
 
@@ -67,12 +79,14 @@
         </v-card>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import { SET_OWNER_ID, SET_DATASET_ID } from "@/core/services/store/transactionsList.module";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+
+import DatasetDetails from "./DatasetDetails";
 
 export default {
   data() {
@@ -98,6 +112,7 @@ export default {
     };
   },
   components: {
+    DatasetDetails
   },
   computed:{
     ...mapGetters([
