@@ -69,12 +69,6 @@ export default new Router({
               name: "SingleDataset",
               component: () => import("@/view/pages/dataset/SingleDataset.vue")
             },
-
-            {
-              path: ":DatasetId/items",
-              name: "datasetItems",
-              component: () => import("@/view/pages/dataset/DatasetItems.vue")
-            },
             {
               path: ":DatasetId/targets",
               name: "datasetTargets",
@@ -92,6 +86,11 @@ export default new Router({
               component: () => import("@/view/pages/dataset/CreateTarget.vue")
             },
           ]
+        },
+        {
+          path: "/datasetitems",
+          name: "datasetItems",
+          component: () => import("@/view/pages/dataset/DatasetItems.vue")
         },
         {
           path: "/answers",

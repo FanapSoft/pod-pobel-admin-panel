@@ -16,3 +16,6 @@ $primary-inverse:  									#FFFFFF;
 }
 // Font family
 $font-family-base:            						Irsans, Roboto, "sans-serif" !default;
+.v-application {
+  font-family: $font-family-base !important;
+}

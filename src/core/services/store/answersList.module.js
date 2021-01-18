@@ -6,11 +6,15 @@
 export const SET_USER_ID = "setUserId";
 export const SET_DATASET_ID = "setDatasetId";
 export const SET_DATASETITEM_ID = "setDatasetItemId";
+export const SET_DATE_TO = "setDateTo";
+export const SET_DATE_FROM = "setDateFrom";
 
 const state = {
   userId: null,
   datasetId: null,
-  datasetItemId: null
+  datasetItemId: null ,
+  dateFrom: null,
+  dateTo: null
 };
 
 const getters = {
@@ -20,9 +24,14 @@ const getters = {
   datasetItemId(state) {
     return state.datasetItemId;
   },
-
   userId(state) {
     return state.userId;
+  },
+  dateFrom () {
+    return state.dateFrom
+  },
+  dateTo () {
+    return state.dateTo
   }
 };
 
@@ -39,6 +48,12 @@ const mutations = {
   },
   [SET_DATASETITEM_ID](state, datasetItemId) {
     state.datasetItemId = datasetItemId;
+  },
+  [SET_DATE_TO](state, dateTo) {
+    state.dateTo = dateTo;
+  },
+  [SET_DATE_FROM](state, dateFrom) {
+    state.dateFrom = dateFrom;
   },
 
 };

@@ -62,12 +62,7 @@
                     :key="item.referenceDataSetId"
                     :item="item"
                     @dataset-details="name => {item.datasetName = name}">
-                  <template v-slot:act="{ on, attrs }">
-                    <router-link
-                        v-on="on"
-                        v-bind="attrs"
-                        :to="`/dataset/${item.referenceDataSetId}/targets`">{{ item.datasetName ? item.datasetName : item.referenceDataSetId }}</router-link>
-                  </template>
+
                 </DatasetDetails>
               </div>
             </template>

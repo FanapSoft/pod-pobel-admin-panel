@@ -9,7 +9,7 @@
             @mouseover="()=>{if(!dataset) getItem()}">
           <router-link
 
-              :to="`/dataset/${item.referenceDataSetId}/targets`"
+              :to="`/dataset/${item.referenceDataSetId}/singleDataset`"
               >
             {{ item.datasetName ? item.datasetName : item.referenceDataSetId }}
           </router-link>

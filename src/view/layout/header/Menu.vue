@@ -18,6 +18,83 @@
         </a>
       </li>
     </router-link>
+
+    <li
+        aria-haspopup="true"
+        data-menu-toggle="click"
+        class="menu-item menu-item-submenu menu-item-open-dropdown"
+        v-bind:class="{ 'menu-item-active': hasActiveChildren('/dataset') }"
+    >
+      <a href="#" class="menu-link menu-toggle">
+        <span class="menu-text">Dataset</span>
+      </a>
+      <div class="menu-submenu menu-submenu-fixed">
+        <div class="menu-subnav megamenu" style="max-width: 1000px;">
+          <h3></h3>
+          <ul class="menu-content">
+            <li class="menu-item">
+              <ul class="menu-inner">
+                <router-link
+                    to="/dataset/list"
+                    v-slot="{ href, navigate, isActive, isExactActive }"
+                >
+                  <li
+                      aria-haspopup="true"
+                      class="menu-item"
+                      :class="[
+                      isActive && 'menu-item-active',
+                      isExactActive && 'menu-item-active'
+                    ]"
+                  >
+                    <a :href="href" class="menu-link" @click="navigate">
+                      <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                      <span class="menu-text"> Datasets </span>
+                    </a>
+                  </li>
+                </router-link>
+                <router-link
+                    to="/datasetItems"
+                    v-slot="{ href, navigate, isActive, isExactActive }"
+                >
+                  <li
+                      aria-haspopup="true"
+                      class="menu-item"
+                      :class="[
+                      isActive && 'menu-item-active',
+                      isExactActive && 'menu-item-active'
+                    ]"
+                  >
+                    <a :href="href" class="menu-link" @click="navigate">
+                      <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                      <span class="menu-text"> Dataset Items </span>
+                    </a>
+                  </li>
+                </router-link>
+                <router-link
+                    to="/answers"
+                    v-slot="{ href, navigate, isActive, isExactActive }"
+                >
+                  <li
+                      aria-haspopup="true"
+                      class="menu-item"
+                      :class="[
+                      isActive && 'menu-item-active',
+                      isExactActive && 'menu-item-active'
+                    ]"
+                  >
+                    <a :href="href" class="menu-link" @click="navigate">
+                      <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                      <span class="menu-text"> Answers </span>
+                    </a>
+                  </li>
+                </router-link>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+
     <router-link
         to="/users"
         v-slot="{ href, navigate, isActive, isExactActive }"
@@ -33,61 +110,6 @@
       >
         <a :href="href" class="menu-link" @click="navigate">
           <span class="menu-text"> Users </span>
-        </a>
-      </li>
-    </router-link>
-
-    <router-link
-        to="/dataset/list"
-        v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <li
-          aria-haspopup="true"
-          data-menu-toggle="hover"
-          class="menu-item"
-          :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Datasets </span>
-        </a>
-      </li>
-    </router-link>
-    <router-link
-        to="/datasetItems"
-        v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <li
-          aria-haspopup="true"
-          data-menu-toggle="hover"
-          class="menu-item"
-          :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> DatasetItems </span>
-        </a>
-      </li>
-    </router-link>
-    <router-link
-        to="/answers"
-        v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <li
-          aria-haspopup="true"
-          data-menu-toggle="hover"
-          class="menu-item"
-          :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Answers </span>
         </a>
       </li>
     </router-link>
@@ -538,3 +560,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.header-menu .menu-nav > .menu-item .menu-submenu.menu-submenu-fixed {
+  margin: 0 auto;
+  width: auto;
+  left: auto;
+  right: auto;
+}
+</style>

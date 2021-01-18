@@ -6,6 +6,7 @@
           <v-card-title>
             Dataset Items
             <v-spacer></v-spacer>
+            <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
             <v-text-field
                 single-line hide-details
 
@@ -17,7 +18,29 @@
                 label="Label Name"></v-text-field>
           </v-card-title>
           <v-card-text>
+            <v-row>
+              <v-col cols="12" style="vertical-align: middle">
+                <v-chip
+                    close
 
+                    @click="$router.push('/dataset/list')"
+                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">Dataset: {{$route.query.DatasetId}}</v-chip>
+              </v-col>
+              <v-col cols="3">
+                <v-switch
+                    v-model="IsGoldenData"
+
+                    label="Only Goldens"
+                    class="mt-0"></v-switch>
+              </v-col>
+              <v-col cols="4">
+                <v-switch
+                    v-model="OnlyNonDecidedGoldens"
+
+                    label="Only Non Decided Goldens"
+                    class="mt-0"></v-switch>
+              </v-col>
+            </v-row>
             <v-data-table
                 v-if="datasetItems"
 
@@ -105,7 +128,7 @@ export default {
       this.loading = true;
       const data = {
         LabelName: this.LabelName,
-        DataSetId: this.$route.params.DatasetId,
+        DataSetId: this.$route.query.DatasetId ? this.$route.query.DatasetId : null,
         IsGoldenData: this.IsGoldenData,
         OnlyNonDecidedGoldens: this.OnlyNonDecidedGoldens,
 
@@ -145,9 +168,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: `Items` },
+      { title: "Datasets Items" },
+      //{ title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      //{ title: `Items` },
     ]);
 
     this.refreshList()
@@ -155,7 +178,13 @@ export default {
   watch: {
     'pagination.currentPage'() {
       this.refreshList();
-    }
+    },
+    IsGoldenData(){
+      this.refreshList()
+    },
+    OnlyNonDecidedGoldens(){
+      this.refreshList()
+    },
   }
 };
 </script>

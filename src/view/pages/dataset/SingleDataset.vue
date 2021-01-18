@@ -7,7 +7,7 @@
           <v-col
               cols="6"
               class="pb-0">
-            <v-card to="items">
+            <v-card :to="`/datasetitems?DatasetId=${this.$route.params.DatasetId}`">
               <v-card-title>
                 Items
                 <v-spacer></v-spacer>
@@ -23,9 +23,33 @@
               <v-card-title>
                 Targets
                 <v-spacer></v-spacer>
-                {{ targetsCount}}
+                {{ targetsCount }}
               </v-card-title>
               <v-card-subtitle>View Dataset Targets</v-card-subtitle>
+            </v-card>
+          </v-col>
+          <v-col
+              cols="6"
+              class="pb-0">
+            <v-card :to="`/answers?DatasetId=${$route.params.DatasetId}`">
+              <v-card-title>
+                Answers
+                <v-spacer></v-spacer>
+                {{ answersCount }}
+              </v-card-title>
+              <v-card-subtitle>View Dataset Answers</v-card-subtitle>
+            </v-card>
+          </v-col>
+          <v-col
+              cols="6"
+              class="pb-0">
+            <v-card :to="`/transaction/list?DatasetId=${this.$route.params.DatasetId}`">
+              <v-card-title>
+                Transactions
+                <v-spacer></v-spacer>
+                {{ transactionsCount }}
+              </v-card-title>
+              <v-card-subtitle>View Dataset Transactions</v-card-subtitle>
             </v-card>
           </v-col>
         </v-row>
@@ -44,6 +68,8 @@ export default {
     return {
       datasetItemsCount: null,
       targetsCount: null,
+      transactionsCount: null,
+      answersCount: null,
       loading: false
     };
   },
@@ -84,6 +110,42 @@ export default {
       }
       this.loading = false;
     },
+    async getTransactionsCount() {
+      this.loading = true;
+      const data = {
+        DatasetId: this.$route.params.DatasetId,
+        SkipCount: 0,
+        MaxResultCount: 1
+      };
+
+      try {
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Transactions/GetAll`, data));
+        if(items.data && items.data.result && items.data.result.items) {
+          this.transactionsCount = items.data.result.totalCount;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.loading = false;
+    },
+    async getAnswersCount() {
+      this.loading = true;
+      const data = {
+        DatasetId: this.$route.params.DatasetId,
+        SkipCount: 0,
+        MaxResultCount: 1
+      };
+
+      try {
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Answers/GetAll`, data));
+        if(items.data && items.data.result && items.data.result.items) {
+          this.answersCount = items.data.result.totalCount;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.loading = false;
+    },
   },
   mounted() {
     this.$store.dispatch(SET_SUBHEADER_ACTION, [
@@ -94,14 +156,6 @@ export default {
       {
         title: 'AnswerCountTrend',
         link: `/reports/AnswerCountTrend?DatasetId=${this.$route.params.DatasetId}`
-      },
-      {
-        title: 'View Transactions',
-        link: `/transaction/list?DatasetId=${this.$route.params.DatasetId}`
-      },
-      {
-        title: 'View Answers',
-        link: `/answers?DatasetId=${this.$route.params.DatasetId}`
       }
     ]);
     this.$store.dispatch(SET_BREADCRUMB, [
@@ -111,6 +165,8 @@ export default {
 
     this.getTargetsCount();
     this.getDatasetItemsCount();
+    this.getAnswersCount();
+    this.getTransactionsCount();
   }
 };
 </script>
