@@ -1,69 +1,49 @@
 // action types
-export const UPDATE_PERSONAL_INFO = "updateUserPersonalInfo";
-export const UPDATE_ACCOUNT_INFO = "updateUserAccountInfo";
+//export const UPDATE_PERSONAL_INFO = "updateUserPersonalInfo";
+import Vue from 'vue'
+import ApiService from "../api.service";
+
+export const LOAD_USER_OBJECT = "loadUserObject";
 
 // mutation types
-export const SET_PERSONAL_INFO = "setPersonalInfo";
-export const SET_ACCOUNT_INFO = "setAccountInfo";
+export const SET_USER_OBJECT = "setUserObject";
 
 const state = {
-  user_personal_info: {
-    photo: "media/users/300_21.jpg",
-    name: "James",
-    surname: "Jones",
-    company_name: "Fifestudios",
-    job: "Application Developer",
-    email: "matt@fifestudios.com",
-    phone: "44(76)34254578",
-    company_site: "fifestudios"
-  },
-  user_account_info: {
-    username: "nick84",
-    email: "nick.watson@loop.com",
-    language: "English",
-    time_zone: "(GMT-11:00) Midway Island",
-    communication: {
-      email: true,
-      sms: true,
-      phone: false
-    },
-    verification: true
-  }
+  user: null
 };
 
 const getters = {
-  currentUserPersonalInfo(state) {
-    return state.user_personal_info;
+  user(state) {
+    return state.user;
   },
-
-  currentUserAccountInfo(state) {
-    return state.user_account_info;
-  },
-
-  currentUserPhoto(state) {
-    return state.user_personal_info.photo;
-  }
 };
 
 const actions = {
-  [UPDATE_PERSONAL_INFO](context, payload) {
-    context.commit(SET_PERSONAL_INFO, payload);
+  async [LOAD_USER_OBJECT](context, userId) {
+    const data = {
+      id: userId
+    };
+    try {
+
+      const user = await ApiService.get(Vue.$utils.addParamsToUrl("/api/services/app/User/Get", data));
+      if(user.data && user.data.result) {
+        context.commit(SET_USER_OBJECT, user.data.result);
+        return user.data.result;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
   },
-  [UPDATE_ACCOUNT_INFO](context, payload) {
-    context.commit(SET_ACCOUNT_INFO, payload);
-  }
 };
 
 const mutations = {
-  [SET_PERSONAL_INFO](state, user_personal_info) {
-    state.user_personal_info = user_personal_info;
+  [SET_USER_OBJECT](state, user) {
+    state.user = user;
   },
-  [SET_ACCOUNT_INFO](state, user_account_info) {
-    state.user_account_info = user_account_info;
-  }
 };
 
 export default {
+  namespaced: true,
   state,
   actions,
   mutations,

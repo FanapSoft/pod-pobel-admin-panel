@@ -96,7 +96,7 @@
     </li>
 
     <router-link
-        to="/users"
+        to="/users/list"
         v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li

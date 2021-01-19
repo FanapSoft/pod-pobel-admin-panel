@@ -6,7 +6,7 @@
         <v-chip
             close
 
-            @click="$router.push('/users?showAnswerCountTrend=true')"
+            @click="$router.push('/users/list?showAnswerCountTrend=true')"
             @click:close="removeQueryItem('userId')">User: {{userId ? userId : 'All'}}</v-chip>
         <v-chip
             close

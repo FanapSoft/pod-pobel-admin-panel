@@ -13,7 +13,7 @@
               <v-chip
                   close
 
-                  @click="$router.push('/users')"
+                  @click="$router.push('/users/list?showTransactionsBtn=true')"
                   @click:close="removeQueryItem('ownerId')">User: {{ownerId}}</v-chip>
               <v-chip
                   close

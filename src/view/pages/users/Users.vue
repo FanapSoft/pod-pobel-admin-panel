@@ -41,7 +41,23 @@
               {{ (pagination.skip ? pagination.skip + users.indexOf(item) + 1 : users.indexOf(item) + 1) }}
             </template>
             <template v-slot:item.actions="{ item }">
+              <v-tooltip left>
+                <template v-slot:activator="{on, attrs}">
+                  <v-btn
+                      icon
+
+                      v-on="on"
+                      v-bind="attrs"
+                      :to="`${item.id}/profile`"
+                      class="mr-2">
+                    <v-icon>mdi-file-account</v-icon>
+                  </v-btn>
+                </template>
+                <span>View Profile</span>
+              </v-tooltip>
               <v-btn
+                  v-if="$route.query.showTransactionsBtn"
+
                   small
 
                   :to="`/transaction/list?OwnerId=${item.id}`">Transactions</v-btn>

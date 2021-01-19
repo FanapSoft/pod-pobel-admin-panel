@@ -21,8 +21,20 @@ export default new Router({
         {
           path: "/users",
           name: "users",
-          component: () =>
-              import("@/view/pages/users/Users.vue")
+          redirect: 'list',
+          component: RouterView,
+          children: [
+            {
+              path: "list",
+              name: "usersList",
+              component: () => import("@/view/pages/users/Users.vue")
+            },
+            {
+              path: ":userId/profile",
+              name: "userProfile",
+              component: () => import("@/view/pages/users/Profile.vue")
+            },
+          ]
         },
         {
           path: "/reports",
