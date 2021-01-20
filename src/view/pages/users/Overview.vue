@@ -1,29 +1,45 @@
 <template>
-      <v-card>
-        <v-card-title>
-          <v-card-text>User Overview</v-card-text>
-        </v-card-title>
-        <v-card-text>
-          <v-simple-table v-if="user">
-            <template v-slot:default>
-              <tr :key="index" v-for="(item, index) in userDetails">
-                <th class="pa-3">{{ item.title }}</th>
-                <td class="pa-3">{{ item.value }}</td>
-              </tr>
-            </template>
-          </v-simple-table>
-        </v-card-text>
-      </v-card>
+      <v-row>
+        <v-col cols="12">
+          <v-card>
+            <v-card-title>
+              <v-card-text>User Overview</v-card-text>
+            </v-card-title>
+            <v-card-text>
+              <v-simple-table v-if="user">
+                <template v-slot:default>
+                  <tr :key="index" v-for="(item, index) in userDetails">
+                    <th class="pa-3">{{ item.title }}</th>
+                    <td class="pa-3">{{ item.value }}</td>
+                  </tr>
+                </template>
+              </v-simple-table>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="6">
+          <transactions-widget></transactions-widget>
+        </v-col>
+        <v-col cols="6">
+          <answers-widget></answers-widget>
+        </v-col>
+
+      </v-row>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { LOAD_USER_OBJECT} from "@/core/services/store/profile.module";
+import AnswersWidget from "./AnswersWidget";
+import TransactionsWidget from "./TransactionsWidget";
 
 export default {
   name: "custom-page",
-  components: { },
+  components: {
+    TransactionsWidget,
+    AnswersWidget,
+  },
   computed: {
     ...mapGetters({user: "profile/user"})
   },

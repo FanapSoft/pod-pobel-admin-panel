@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Select a dataset
+            Choose a report type
             <v-spacer></v-spacer>
           </v-card-title>
         </v-card>

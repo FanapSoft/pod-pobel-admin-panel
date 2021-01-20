@@ -1,13 +1,12 @@
 <template>
   <v-app style="background-color: transparent">
     <v-row v-if="user">
-    <v-col cols="4">
+    <v-col cols="4" class="pl-0">
       <v-card
-          class="mx-auto"
-          width="256"
+          class="mx-0"
           tile
       >
-        <v-navigation-drawer permanent>
+        <v-navigation-drawer width="100%" permanent>
           <v-system-bar></v-system-bar>
           <v-list>
             <v-list-item>
@@ -119,9 +118,9 @@ export default {
     },
     setupAsideLinks() {
       this.asideItems = [
-        {text: 'Transactions', icon: 'mdi-folder', link: `/transaction/list?OwnerId=${this.user?.id}`},
-        {text: 'Datasets', icon: 'mdi-account-multiple'},
-        {text: 'Answers Trend', icon: 'mdi-star', link: `/reports/AnswerCountTrend?UserId=${this.user?.id}`},
+        {text: 'Transactions', icon: 'mdi-cash-multiple', link: `/transaction/list?OwnerId=${this.user?.id}`},
+        {text: 'Datasets', icon: 'mdi-database'},
+        {text: 'Answers Trend', icon: 'mdi-chart-timeline-variant', link: `/reports/AnswerCountTrend?UserId=${this.user?.id}`},
       ]
     }
   },
