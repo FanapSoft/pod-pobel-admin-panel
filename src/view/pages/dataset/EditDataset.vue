@@ -240,7 +240,9 @@ export default {
             title: `Done`,
             variant: 'success',
             solid: true
-          })
+          });
+          this.$router.back();
+          this.$router.back();
         }
       } catch (error) {
         console.log(error);

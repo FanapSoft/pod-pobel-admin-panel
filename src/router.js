@@ -32,7 +32,20 @@ export default new Router({
             {
               path: ":userId/profile",
               name: "userProfile",
-              component: () => import("@/view/pages/users/Profile.vue")
+              redirect: "overview",
+              component: () => import("@/view/pages/users/Profile.vue"),
+              children: [
+                {
+                  path: "overview",
+                  name: "userProfileOverView",
+                  component: () => import("@/view/pages/users/Overview.vue")
+                },
+                {
+                  path: "datasets",
+                  name: "userProfileDatasetsActivities",
+                  component: () => import("@/view/pages/users/Datasets.vue")
+                },
+              ]
             },
           ]
         },

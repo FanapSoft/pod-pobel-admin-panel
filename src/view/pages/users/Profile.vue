@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="background-color: transparent">
     <v-row v-if="user">
     <v-col cols="4">
       <v-card
@@ -39,7 +39,8 @@
                 color="primary"
             >
               <v-list-item
-                  v-for="(item, i) in items"
+                  v-for="(item, i) in asideItems"
+                  :to="item.link"
                   :key="i"
               >
                 <v-list-item-icon>
@@ -56,21 +57,7 @@
       </v-card>
     </v-col>
     <v-col cols="8">
-      <v-card>
-        <v-card-title>
-          <v-card-text>User Overview</v-card-text>
-        </v-card-title>
-        <v-card-text>
-          <v-simple-table v-if="user">
-            <template v-slot:default>
-              <tr :key="index" v-for="(item, index) in userDetails">
-                <th class="pa-3">{{ item.title }}</th>
-                <td class="pa-3">{{ item.value }}</td>
-              </tr>
-            </template>
-          </v-simple-table>
-        </v-card-text>
-      </v-card>
+      <router-view></router-view>
     </v-col>
   </v-row>
   </v-app>
@@ -90,11 +77,7 @@ export default {
   data() {
     return {
       selectedItem: 0,
-      items: [
-        {text: 'Transactions', icon: 'mdi-folder'},
-        {text: 'Datasets', icon: 'mdi-account-multiple'},
-        {text: 'Answers', icon: 'mdi-star'},
-      ],
+      asideItems: null,
       userDetails: []
     };
 
@@ -133,6 +116,13 @@ export default {
         },
 
       ]
+    },
+    setupAsideLinks() {
+      this.asideItems = [
+        {text: 'Transactions', icon: 'mdi-folder', link: `/transaction/list?OwnerId=${this.user?.id}`},
+        {text: 'Datasets', icon: 'mdi-account-multiple'},
+        {text: 'Answers Trend', icon: 'mdi-star', link: `/reports/AnswerCountTrend?UserId=${this.user?.id}`},
+      ]
     }
   },
   mounted() {
@@ -142,6 +132,12 @@ export default {
     ]);
 
     this.setupThisUser();
+    this.setupAsideLinks()
+  },
+  watch: {
+    user(){
+      this.setupAsideLinks()
+    }
   }
 };
 </script>

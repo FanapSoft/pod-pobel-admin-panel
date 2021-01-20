@@ -68,7 +68,27 @@
             <!--begin::Navigation-->
             <div v-for="(item, index) in actionLinks" class="navi navi-hover min-w-md-250px">
               <b-dropdown-text tag="div" class="navi-item">
-                <router-link :to="item.link" class="navi-link">
+                <a
+                    v-if="!item.link"
+
+                    @click="() => { if(item.onClick) item.onClick() }"
+                    style="cursor: pointer;"
+                    class="navi-link">
+                <span
+                    v-if="item.icon"
+
+                    class="navi-icon">
+                  <i :class="item.iconClasses"></i>
+                </span>
+                  <span class="navi-text">{{ item.title }}</span>
+                </a>
+                <router-link
+                    v-else
+
+                    :to="(item.link ? item.link: '')"
+
+                    @click="() => { if(item.onClick) item.onClick() }"
+                    class="navi-link">
                 <span
                     v-if="item.icon"
 

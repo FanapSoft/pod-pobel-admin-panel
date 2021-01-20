@@ -87,6 +87,7 @@
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+import { SET_SUBHEADER_ACTION } from "@/core/services/store/subheaderActions.module";
 
 export default {
   name: "DatasetTargets",
@@ -135,6 +136,29 @@ export default {
         });
       }
       this.loading = false;
+    },
+    async deleteItem() {
+      this.deleting = true;
+
+      try {
+        const result = await this.$http.delete(`/api/services/app/TargetDefinitions/Delete?id=${this.targetObject.id}`);
+        if(result.status == 200) {
+          this.$bvToast.toast('Dataset successfully deleted', {
+            title: `Done`,
+            variant: 'success',
+            solid: true
+          });
+          this.$router.back();
+        }
+      } catch (error) {
+        console.log(error);
+        this.$bvToast.toast('Dataset delete failed. Check your console for more', {
+          title: `Error`,
+          variant: 'danger',
+          solid: true
+        });
+      }
+      this.deleting = false;
     }
   },
   mounted() {
@@ -144,6 +168,18 @@ export default {
       { title: `Targets`, route: `/dataset/${this.$route.params.DatasetId}/targets` },
       { title: `Edit Target`, route: `` },
     ]);
+
+    const actions = [
+      {
+        title: 'Delete Target',
+        onClick: () => {
+          this.deleteItem()
+        }
+      },
+    ];
+
+    this.$store.dispatch(SET_SUBHEADER_ACTION, actions);
+
     this.getItem();
   }
 }

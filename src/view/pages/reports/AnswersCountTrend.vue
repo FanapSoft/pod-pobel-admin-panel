@@ -7,8 +7,9 @@
             close
 
             @click="$router.push('/users/list?showAnswerCountTrend=true')"
-            @click:close="removeQueryItem('userId')">User: {{userId ? userId : 'All'}}</v-chip>
+            @click:close="removeQueryItem('userId')">User: {{userId ? userId : ':) Choose a user'}}</v-chip>
         <v-chip
+            v-if="userId"
             close
 
             @click="$router.push('/dataset/list')"
@@ -19,13 +20,12 @@
       <div class="col-12 ">
         <v-card style="background-color: #cfd8dc">
           <v-card-title>30 Days answers counts trend for user: {{userId}}</v-card-title>
-          <v-card-text v-if="showChart && userId" class="px-0 py-0">
-            <apexchart
-                :options="chartOptions"
-                :series="series"
+          <v-card-text v-if="userId" class="px-0 py-0">
+            <chart
+                v-if="dataCounts && dataCounts.length && dates"
 
-                type="area"
-                class="card-rounded-bottom"></apexchart>
+                :data="dataCounts"
+                :categories="dates"></chart>
           </v-card-text>
         </v-card>
       </div>
@@ -38,22 +38,19 @@
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_DATASET_ID, SET_USER_ID } from "@/core/services/store/answerCountTrend.module";
 import { mapGetters } from "vuex";
+import Chart from "./Chart";
+
 export default {
-  name: "statistics",
+  name: "AnswersCountTrend",
   data(){
     return {
-      chartOptions: {},
-      dates: [],//labels
-      series: [
-        {
-          name: "Net Profit",
-          data: []//[20, 22, 30, 28, 25, 26, 30, 28, 22, 24, 25, 35]
-        }
-      ],
+      dates: [],
+      dataCounts: [],
       showChart: false
     }
   },
   components: {
+    Chart
     // AdvancedTableWidget2,
     // MixedWidget1
   },
@@ -78,13 +75,12 @@ export default {
       this.$store.commit(`answerCountTrend/${SET_DATASET_ID}`, this.$route.query.DatasetId);
     }
 
-    this.generateDates()
+    this.generateDates();
     this.getData();
   },
   methods: {
     async getData() {
       this.loading = true;
-
       if(!this.userId)
         return;
       const today = new Date();
@@ -103,9 +99,9 @@ export default {
         if(res.data.result && res.data.result.length) {
           this.$nextTick(() => {
             this.extractApiData(res.data.result);
-            this.$nextTick(()=>{
-              this.setupChartOptions();
-            })
+            // this.$nextTick(()=>{
+            //   this.setupChartOptions();
+            // })
           })
         }
 
@@ -115,8 +111,9 @@ export default {
         }*/
       } catch (error) {
         console.log(error);
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
     removeQueryItem(item) {
       if (item == 'userId')
@@ -127,169 +124,29 @@ export default {
       //this.refreshList()
     },
     generateDates() {
-      for(let i=1; i <= 30; i++) {
+      for(let i=30; i >= 1; i--) {
         const tmpDay = new Date(new Date().setDate(new Date().getDate() - i));
 
         this.dates.push(tmpDay.toLocaleDateString("en-US"))
       }
     },
     extractApiData(apiData) {
-      this.series.data = [];
-      this.dates.forEach(item => {
+      this.dataCounts = [];
+
+      this.dates.forEach((item, index) => {
         let hasAdi = false
         apiData.forEach(adi => {
           if(new Date(adi.date).toLocaleDateString('en-US') == item) {
-            this.series.data.push(adi.count);
+            this.dataCounts.push(adi.count);
             hasAdi = true;
           }
+          this.$set(this.dates, index, new Date(item).toLocaleDateString('fa-IR'));
         })
         if(!hasAdi) {
-          this.series.data.push(0);
+          this.dataCounts.push(0);
         }
       })
     },
-    setupChartOptions() {
-      this.chartOptions = {
-        chart: {
-          type: "area",
-          height: 125,
-          toolbar: {
-            show: false
-          },
-          zoom: {
-            enabled: false
-          },
-          sparkline: {
-            enabled: true
-          }
-        },
-        plotOptions: {},
-        legend: {
-          show: false
-        },
-        dataLabels: {
-          enabled: false
-        },
-        fill: {
-          type: "gradient",
-          opacity: 1,
-          gradient: {
-            type: "vertical",
-            shadeIntensity: 0.55,
-            gradientToColors: undefined,
-            inverseColors: true,
-            opacityFrom: 1,
-            opacityTo: 0.2,
-            stops: [25, 50, 100],
-            colorStops: []
-          }
-        },
-        stroke: {
-          curve: "smooth",
-          show: true,
-          width: 3,
-          colors: [this.strokeColor]
-        },
-        xaxis: {
-          categories: ["11", "22", "33"],//this.dates,//["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          labels: {
-            show: false,
-            style: {
-              colors: this.layoutConfig("colors.gray.gray-500"),
-              fontSize: "12px",
-              fontFamily: this.layoutConfig("font-family")
-            }
-          },
-          crosshairs: {
-            show: false,
-            position: "front",
-            stroke: {
-              color: this.layoutConfig("colors.gray.gray-300"),
-              width: 1,
-              dashArray: 3
-            }
-          },
-          tooltip: {
-            enabled: true,
-            formatter: undefined,
-            offsetY: 0,
-            style: {
-              fontSize: "12px",
-              fontFamily: this.layoutConfig("font-family")
-            }
-          }
-        },
-        yaxis: {
-          show: false,
-          min: 0,
-          max: 37,
-          labels: {
-            show: false,
-            style: {
-              colors: this.layoutConfig("colors.gray.gray-500"),
-              fontSize: "12px",
-              fontFamily: this.layoutConfig("font-family")
-            }
-          }
-        },
-        states: {
-          normal: {
-            filter: {
-              type: "none",
-              value: 0
-            }
-          },
-          hover: {
-            filter: {
-              type: "none",
-              value: 0
-            }
-          },
-          active: {
-            allowMultipleDataPointsSelection: false,
-            filter: {
-              type: "none",
-              value: 0
-            }
-          }
-        },
-        tooltip: {
-          style: {
-            fontSize: "12px",
-            fontFamily: this.layoutConfig("font-family")
-          },
-          y: {
-            formatter: function(val) {
-              return "$" + val + " thousands";
-            }
-          },
-          marker: {
-            show: false
-          }
-        },
-        colors: [this.layoutConfig("colors.theme.light.danger")],
-        markers: {
-          colors: [this.layoutConfig("colors.theme.light.danger")],
-          strokeColor: [this.strokeColor],
-          strokeWidth: 3
-        },
-        grid: {
-          show: false,
-          padding: {
-            left: 0,
-            right: 0
-          }
-        }
-      };
-      this.showChart = true;
-      console.log(this.dates, this.series.data);
-    }
   },
 };
 </script>

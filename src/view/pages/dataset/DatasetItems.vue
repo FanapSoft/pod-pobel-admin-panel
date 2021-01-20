@@ -72,6 +72,14 @@
               <template v-slot:item.labelName="{ item }">
                 {{ (item.label ? item.label.name : 'No label')}}
               </template>
+              <template v-slot:item.datasetItem="{ item }">
+                <DatasetDetails
+                    :key="item.datasetID"
+                    :item="item"
+                    @dataset-details="name => {item.datasetName = name}">
+                </DatasetDetails>
+              </template>
+
               <template v-slot:item.actions="{ item }">
 
               </template>
@@ -92,6 +100,7 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_DATASET_ID } from "@/core/services/store/transactionsList.module";
+import DatasetDetails from "../transactions/DatasetDetails";
 
 export default {
   data() {
@@ -106,6 +115,7 @@ export default {
         { text: "Row", value: "ind" },
         { text: "File", value: "file" },
         { text: "Label", value: "labelName" },
+        { text: "Dataset", value: "datasetItem"},
         { text: "Actions", value: "actions" },
       ],
       loading: false,
@@ -121,6 +131,9 @@ export default {
     };
   },
   computed: {
+  },
+  components: {
+    DatasetDetails
   },
   methods:{
     async getItems(page) {
@@ -140,6 +153,10 @@ export default {
         const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/DataSetItems/GetAll`, data));
         if(items.data && items.data.result && items.data.result.items) {
           this.datasetItems = items.data.result.items;
+          this.datasetItems.forEach(item => {
+            item.referenceDataSetId = item.datasetID;
+            item.datasetName = item.datasetName;
+          })
           this.pagination.count = items.data.result.totalCount ? Math.ceil(items.data.result.totalCount / this.pagination.limit) : 1;
           this.pagination.realCount = items.data.result.totalCount;
         }

@@ -48,7 +48,7 @@
 
                       v-on="on"
                       v-bind="attrs"
-                      :to="`${item.id}/profile`"
+                      :to="`${item.id}/profile/overview`"
                       class="mr-2">
                     <v-icon>mdi-file-account</v-icon>
                   </v-btn>

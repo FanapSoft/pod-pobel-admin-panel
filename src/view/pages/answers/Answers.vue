@@ -148,7 +148,7 @@
             <template v-slot:item.datasetItem="{ item }">
               <DatasetDetails
                   :key="item.dataSetId"
-                  :item="{referenceDataSetId: item.dataSetId, datasetName: item.datasetName}"
+                  :item="item"
                   @dataset-details="name => {item.datasetName = name}">
               </DatasetDetails>
             </template>
@@ -233,8 +233,11 @@ export default {
       try {
         const answers = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Answers/GetAll`, data));
         if (answers.data && answers.data.result) {
-
           this.answers = answers.data.result.items;
+          this.answers.forEach(item => {
+            item.referenceDataSetId = item.dataSetId;
+            item.datasetName = item.datasetName;
+          })
           this.pagination.count = answers.data.result.totalCount ? Math.ceil(answers.data.result.totalCount / this.pagination.limit) : 1;
           this.pagination.realCount = answers.data.result.totalCount;
         }
