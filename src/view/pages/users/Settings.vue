@@ -3,31 +3,24 @@
         <v-col cols="12">
           <v-card>
             <v-card-title>
-              <v-chip
-                  label
-
-                  color="gray">User Overview</v-chip>
+              User Settings
+              <v-spacer></v-spacer>
+              <v-btn class="primary" depressed>Save</v-btn>
             </v-card-title>
+            <v-divider class="my-0"></v-divider>
             <v-card-text>
               <v-simple-table v-if="user">
                 <template v-slot:default>
-                  <tr :key="index" v-for="(item, index) in userDetails">
-                    <th class="pa-3">{{ item.title }}</th>
-                    <td class="pa-3">{{ item.value }}</td>
+                  <tr>
+                    <th class="pa-3">User active</th>
+                    <td class="pa-3">
+                      <v-switch v-model="user.isActive"></v-switch>
+                    </td>
                   </tr>
                 </template>
               </v-simple-table>
             </v-card-text>
           </v-card>
-        </v-col>
-        <v-col cols="6">
-          <transactions-widget></transactions-widget>
-        </v-col>
-        <v-col cols="6">
-          <answers-widget></answers-widget>
-        </v-col>
-        <v-col cols="12">
-          <user-answers-trend :user="user"></user-answers-trend>
         </v-col>
       </v-row>
 </template>
@@ -58,7 +51,6 @@ export default {
         {text: 'Datasets', icon: 'mdi-account-multiple'},
         {text: 'Answers', icon: 'mdi-star'},
       ],
-      userDetails: [],
 
     };
 

@@ -1,6 +1,5 @@
 <template>
-  <v-app style="background-color: transparent">
-    <div class="row" >
+  <div class="row" >
       <div class="col-md-12">
         <v-card>
           <v-card-title>
@@ -79,7 +78,6 @@
         </v-card>
       </div>
     </div>
-  </v-app>
 </template>
 <script>
 import { mapGetters } from 'vuex'

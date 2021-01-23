@@ -151,7 +151,6 @@ export default {
     }
   },
   mounted() {
-    console.log('chart mount',this.categories, this.data)
   },
 
 }

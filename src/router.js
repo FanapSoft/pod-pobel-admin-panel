@@ -45,6 +45,11 @@ export default new Router({
                   name: "userProfileDatasetsActivities",
                   component: () => import("@/view/pages/users/Datasets.vue")
                 },
+                {
+                  path: "settings",
+                  name: "userProfileSettings",
+                  component: () => import("@/view/pages/users/Settings.vue")
+                },
               ]
             },
           ]

@@ -45,8 +45,7 @@ export default {
   data(){
     return {
       dates: [],
-      dataCounts: [],
-      showChart: false
+      dataCounts: []
     }
   },
   components: {
@@ -95,20 +94,11 @@ export default {
 
       try {
         const res = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/AnswersCountsTrend`, data));
-        console.log(res)
         if(res.data.result && res.data.result.length) {
           this.$nextTick(() => {
             this.extractApiData(res.data.result);
-            // this.$nextTick(()=>{
-            //   this.setupChartOptions();
-            // })
           })
         }
-
-        /*if(transactions.data && transactions.data.result) {
-
-          this.transactions = transactions.data.result.items;
-        }*/
       } catch (error) {
         console.log(error);
       } finally {
@@ -121,7 +111,6 @@ export default {
       if (item == 'datasetId')
         this.$store.commit(`answerCountTrend/${SET_DATASET_ID}`, null);
 
-      //this.refreshList()
     },
     generateDates() {
       for(let i=30; i >= 1; i--) {

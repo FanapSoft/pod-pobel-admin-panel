@@ -1,78 +1,160 @@
 <template>
-      <v-card>
-        <v-card-title>
-          <v-card-text>Datasets Activities</v-card-text>
-        </v-card-title>
-        <v-card-text>
-          <v-simple-table v-if="user">
-            <template v-slot:default>
-              <tr :key="index" v-for="(item, index) in userDetails">
-                <th class="pa-3">{{ item.title }}</th>
-                <td class="pa-3">{{ item.value }}</td>
-              </tr>
-            </template>
-          </v-simple-table>
-        </v-card-text>
-      </v-card>
+  <div>
+    <v-card class="mb-5">
+      <v-card-title>
+        Datasets Activities
+      </v-card-title>
+      <v-card-text>
+        <v-select
+            v-if="datasets"
+
+            filled solo return-object  hide-details
+
+            v-model="selectedItem"
+
+            :items="datasets"
+
+            label="Choose a dataset">
+          <template v-slot:selection="{ item }" >
+            {{ (item? item.name : 'Choose a dataset') }}
+          </template>
+          <template v-slot:item="{ active, item, attrs, on }">
+            <v-list-item
+                v-on="on"
+                v-bind="attrs"
+                #default="{ active }">
+              <v-list-item-content>
+                <v-list-item-title>
+                  <v-row no-gutters>
+                    <v-chip
+                        label
+
+                        :class="{'success': item.answersCount, 'error': !item.answersCount}"
+
+                        class="mb-2"
+                    >{{ item.name }}</v-chip>
+                    <v-spacer></v-spacer>
+                    Answers: {{ (item.answersCount ? item.answersCount : '0') }}
+                  </v-row>
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ item.description }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-select>
+      </v-card-text>
+    </v-card>
+
+    <v-row v-if="selectedItem">
+      <v-col
+          cols="12">
+        <v-card>
+          <v-card-title>
+            <v-chip
+                label
+
+                :class="{'success': selectedItem.answersCount, 'error': !selectedItem.answersCount}"
+
+                class="mb-2"
+            >{{ selectedItem.name }}</v-chip>
+            <v-spacer></v-spacer>
+            <v-chip
+                label small
+
+                class="mr-1">Transactions: {{(selectedItem.transactionsCount ? selectedItem.transactionsCount : '0')}}</v-chip>
+            <v-chip
+                label small
+            >Answers: {{ (selectedItem.answersCount ? selectedItem.answersCount : '0') }}</v-chip>
+
+          </v-card-title>
+          <v-card-subtitle>{{ selectedItem.description }}</v-card-subtitle>
+          <v-divider class="mt-0"></v-divider>
+          <user-answers-trend
+              v-if="selectedItem"
+
+              :key="selectedItem.id"
+              :user="user"
+              :dataset="selectedItem"
+          ></user-answers-trend>
+          <v-card-text>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
+
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { LOAD_USER_OBJECT} from "@/core/services/store/profile.module";
+import UserAnswersTrend from "./UserAnswersTrend";
 
 export default {
   name: "custom-page",
-  components: { },
+  components: {UserAnswersTrend },
   computed: {
     ...mapGetters({user: "profile/user"})
   },
   data() {
     return {
-      selectedItem: 0,
-      items: [
-        {text: 'Transactions', icon: 'mdi-folder'},
-        {text: 'Datasets', icon: 'mdi-account-multiple'},
-        {text: 'Answers', icon: 'mdi-star'},
-      ],
-      userDetails: []
-    };
-
+      datasets: null,
+      selectedItem: null
+    }
   },
   methods: {
-    async setupThisUser() {
-      await this.$store.dispatch(`profile/${LOAD_USER_OBJECT}`, this.$route.params.userId);
-      this.userDetails = [
-        {
-          title: 'Name',
-          value: this.user?.name
-        },
-        {
-          title: 'Surname',
-          value: this.user?.surname
-        },
-        {
-          title: 'Full Name',
-          value: this.user?.fullName
-        },
-        {
-          title: 'Joined At',
-          value: new Date(this.user?.creationTime).toLocaleDateString("fa-IR")
-        },
-        {
-          title: 'Email',
-          value: this.user?.emailAddress
-        },
-        {
-          title: 'POD Contact ID',
-          value: this.user?.podContactId
-        },
-        {
-          title: 'Roles',
-          value: this.user?.roleNames?.join(', ')
-        },
+    async getItems() {
+      this.loading = true;
+      try {
+        const datasets = await this.$http.get('/api/services/app/DataSets/GetAll');
+        if(datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
+          this.datasets = datasets.data.result.items;
+          await this.getanswersCountPerDataset();
+        }
+      } catch (error) {
+        console.log(error)
+      }
+      this.loading = false;
+    },
+    async getanswersCountPerDataset() {
+      for(let ds of this.datasets) {
+        this.loading = true;
+        const data = {
+          UserId: this.$route.params.userId,
+          DatasetId: ds.id,
+          MaxResultCount: 1
+        };
 
-      ]
+        try {
+          const answers = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Answers/GetAll`, data));
+          if (answers.data && answers.data.result) {
+            this.$set(ds, 'answersCount', answers.data.result.totalCount)
+            //ds.answersCount = answers.data.result.totalCount
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    async countTransactions() {
+      this.loading = true;
+      const data = {
+        OwnerId: this.$route.params.userId,
+        DatasetId: this.selectedItem.id,
+        MaxResultCount: 1
+      };
+      try {
+        const transactions = await this.$http.get(this.$utils.addParamsToUrl('/api/services/app/Transactions/GetAll', data));
+        if(transactions.data && transactions.data.result && transactions.data.result.items && transactions.data.result.items.length) {
+          this.$set(this.selectedItem, 'transactionsCount', transactions.data.result.totalCount)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+      this.loading = false;
     }
   },
   mounted() {
@@ -81,7 +163,12 @@ export default {
       { title: `User ${this.$route.params.userId} Profile`}
     ]);
 
-    this.setupThisUser();
+    this.getItems();
+  },
+  watch: {
+    selectedItem() {
+      this.countTransactions();
+    }
   }
 };
 </script>

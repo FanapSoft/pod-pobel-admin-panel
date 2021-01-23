@@ -1,6 +1,5 @@
 <template>
-  <v-app style="background-color: transparent">
-    <v-row v-if="user">
+  <v-row v-if="user">
     <v-col cols="4" class="pl-0">
       <v-card
           class="mx-0"
@@ -15,7 +14,7 @@
               </v-list-item-avatar>
             </v-list-item>
 
-            <v-list-item link>
+            <v-list-item link to="overview">
               <v-list-item-content>
                 <v-list-item-title class="title">
                   {{user.fullName}}
@@ -59,7 +58,6 @@
       <router-view></router-view>
     </v-col>
   </v-row>
-  </v-app>
 </template>
 
 <script>
@@ -119,8 +117,9 @@ export default {
     setupAsideLinks() {
       this.asideItems = [
         {text: 'Transactions', icon: 'mdi-cash-multiple', link: `/transaction/list?OwnerId=${this.user?.id}`},
-        {text: 'Datasets', icon: 'mdi-database'},
         {text: 'Answers Trend', icon: 'mdi-chart-timeline-variant', link: `/reports/AnswerCountTrend?UserId=${this.user?.id}`},
+        {text: 'Datasets', icon: 'mdi-database', link: `datasets`},
+        {text: 'Settings', icon: 'mdi-cogs', link: `settings`},
       ]
     }
   },

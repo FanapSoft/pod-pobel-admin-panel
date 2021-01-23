@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <div class="row">
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
@@ -110,7 +109,6 @@
         </v-row>
       </div>
     </div>
-  </v-app>
 </template>
 
 <script>

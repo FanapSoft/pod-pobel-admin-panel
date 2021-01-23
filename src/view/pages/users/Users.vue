@@ -1,5 +1,4 @@
 <template>
-  <v-app style="background-color: transparent" >
     <div class="row" >
       <div class="col-md-12">
         <v-card>
@@ -8,7 +7,7 @@
             <v-spacer></v-spacer>
             <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
             <v-text-field
-                single-line hide-details
+                single-line hide-details filled dense rounded
 
                 @click:append="refreshList"
                 @keydown.enter="refreshList"
@@ -85,7 +84,6 @@
         </v-card>
       </div>
     </div>
-  </v-app>
 </template>
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";

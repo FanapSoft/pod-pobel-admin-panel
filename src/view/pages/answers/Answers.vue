@@ -1,5 +1,4 @@
 <template>
-  <v-app style="background-color: transparent">
     <div class="row">
       <div class="col-md-12">
         <v-card>
@@ -152,7 +151,9 @@
                   @dataset-details="name => {item.datasetName = name}">
               </DatasetDetails>
             </template>
-
+            <template v-slot:item.ignored="{ item }">
+              <v-chip x-small :class="{'success': item.ignored, 'error': !item.ignored}">{{item.ignored}}</v-chip>
+            </template>
           </v-data-table>
           <v-row class="ma-0">
             <v-col>
@@ -164,7 +165,6 @@
         </v-card>
       </div>
     </div>
-  </v-app>
 </template>
 <script>
 import {mapState, mapGetters} from 'vuex'
