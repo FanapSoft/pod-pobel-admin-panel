@@ -115,11 +115,11 @@
                 <div class="font-weight-bold">My Profile</div>
                 <div class="text-muted">
                   View your profile
-                  <span
+<!--                  <span
                     class="label label-light-danger label-inline font-weight-bold"
                   >
                     update
-                  </span>
+                  </span>-->
                 </div>
               </div>
             </div>
