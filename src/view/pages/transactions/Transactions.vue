@@ -58,7 +58,7 @@
             <template v-slot:item.referenceDataSetId="{ item }">
               <div class="d-inline-block">
                 <DatasetDetails
-                    :key="item.referenceDataSetId"
+                    :key="Math.random()"
                     :item="item"
                     @dataset-details="name => {item.datasetName = name}">
 
@@ -68,7 +68,7 @@
 
 
           </v-data-table>
-          <v-row class="ma-0">
+          <v-row class="mx-9">
             <v-col>
               <v-pagination
                   v-model="pagination.currentPage"

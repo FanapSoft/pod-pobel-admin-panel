@@ -83,9 +83,11 @@
 
               </template>
             </v-data-table>
-            <v-row class="ma-0">
-              <v-col>
+            <v-row class="mx-9">
+              <v-col cols="12" class="position-relative">
                 <v-pagination
+
+                    :key="pagination.currentPage"
                     v-model="pagination.currentPage"
                     :length="pagination.count"></v-pagination>
               </v-col>

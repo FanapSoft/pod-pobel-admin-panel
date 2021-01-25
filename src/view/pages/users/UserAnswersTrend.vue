@@ -15,9 +15,12 @@
               label
               v-bind="attrs"
               v-on="on"
-              :close="(resultsFrom ? true : false)"
+
+              class="mr-2">From: {{ resultsFrom ? new Date(resultsFrom).toLocaleDateString('fa-IR') : '' }}</v-chip>
+<!--
+:close="(resultsFrom ? true : false)"
               @click:close="() => {resultsFrom = null; refreshResults()}"
-              class="mr-2">From: {{resultsFrom}}</v-chip>
+                  -->
         </template>
         <v-date-picker
             no-title scrollable
@@ -28,7 +31,7 @@
               text
               color="primary"
 
-              @click="()=>{dateFromMenu = false; resultsFrom = null; refreshResults()}">
+              @click="()=>{dateFromMenu = false; refreshResults()}">
             Cancel
           </v-btn>
           <v-btn
@@ -54,8 +57,11 @@
               v-bind="attrs"
               v-on="on"
 
-              :close="(resultsTo ? true : false)"
-              @click:close="() => {resultsTo = null; refreshResults()}">To: {{resultsTo}}</v-chip>
+          >To: {{ resultsTo ? new Date(resultsTo).toLocaleDateString('fa-IR') : '' }}</v-chip>
+<!--
+      :close="(resultsTo ? true : false)"
+              @click:close="() => {resultsTo = null; refreshResults()}"
+     -->
         </template>
         <v-date-picker
             no-title scrollable
@@ -65,7 +71,7 @@
           <v-btn
               text
               color="primary"
-              @click="()=>{dateToMenu = false; resultsTo = null; refreshResults()}">
+              @click="()=>{dateToMenu = false; refreshResults()}">
             Cancel
           </v-btn>
           <v-btn
@@ -84,16 +90,17 @@
           color="red"
           indeterminate></v-progress-circular>
     </v-row>
-    <apexchart
-        v-if="showChart && !loading"
+    <template
+        v-if="!loading && chartOptions ">
+      <apexchart
+          :key="chartKey"
+          :options="chartOptions"
+          :series="chartOptions.series"
 
-        :key="showChart"
-        :options="chartOptions"
-        :series="series"
+          type="area"
+          class="card-rounded-bottom"></apexchart>
+    </template>
 
-        ref="asnwersCountTrend"
-        type="area"
-        class="card-rounded-bottom"></apexchart>
   </v-card>
 </template>
 
@@ -106,21 +113,22 @@ export default {
   },
   data() {
     return {
+      chartKey: 0,
       loading: false,
-      showChart: false,
       userActivityDates: [],
       dataCounts: [],
       resultsFrom: null,
       dateFromMenu: false,
       resultsTo: null,
       dateToMenu: false,
-      series: [
-        {
-          name: "",
-          data: this.data ? this.data : []
-        }
-      ],
+
       chartOptions: {
+        series: [
+          {
+            name: "",
+            data: []
+          }
+        ],
         chart: {
           type: "area",
           height: 125,
@@ -254,30 +262,36 @@ export default {
     }
   },
   mounted() {
+    this.generateInitDates();
     this.refreshResults();
   },
   methods: {
-    async refreshResults(){
+    async refreshResults() {
       this.loading = true;
-      this.generateDates();
-      await this.getData();
+
+      try {
+        await this.getData();
+
+      } catch (error) {
+        console.log("error:", error)
+      }
       setTimeout(()=>{
-        this.loading = false
-      }, 1000);
+        this.loading = false;
+      }, 100);
     },
     async getData() {
       this.loading = true;
       if (!this.user)
         return;
 
-      let today = this.resultsTo ? new Date(this.resultsTo).toLocaleDateString("en-US") : new Date().toLocaleDateString("en-US");
-      let priorDay = this.resultsFrom ? new Date(this.resultsFrom).toLocaleDateString("en-US") : new Date(new Date().setDate(new Date().getDate() - 30)).toLocaleDateString("en-US");
+      let startDate = new Date(this.resultsFrom).toLocaleDateString('en-Us');
+      let endDate = new Date(this.resultsTo).toLocaleDateString('en-Us');
 
       const data = {
         UserId: this.user.id,
         DataSetId: (this.dataset ? this.dataset.id : null),
-        From: priorDay,
-        To: today,
+        From: startDate,
+        To: endDate,
       };
 
       try {
@@ -296,23 +310,34 @@ export default {
       let totalDays = 30;
       let lastDay = new Date();
 
-      if(this.resultsTo && this.resultsFrom) {
-        let tmpFrom = new Date(this.resultsFrom).getTime()
-            , tmpTo = new Date(this.resultsTo).getTime();
+      let tmpFrom = new Date(this.resultsFrom).getTime()
+          , tmpTo = new Date(this.resultsTo).getTime();
 
-        totalDays = (tmpTo - tmpFrom) / (1000 * 3600 * 24);
-        lastDay = new Date(this.resultsTo);
-      } else if(this.resultsTo) {
-        lastDay = new Date(this.resultsTo);
-      } else if(this.resultsFrom) {
-        lastDay = new Date(new Date(this.resultsFrom).getTime() + (30 * 1000 * 3600 * 24));
-      }
+      totalDays = (tmpTo - tmpFrom) / (1000 * 3600 * 24);
+      lastDay = new Date(this.resultsTo);
 
       for (let i = totalDays; i >= 1; i--) {
-        const tmpDay = new Date(new Date().setDate(lastDay.getDate() - i));
+        const tmpDay = new Date(lastDay.getTime() - (i * 1000 * 3600 * 24));
+        this.userActivityDates.push(tmpDay.toLocaleDateString("en-US"));
+      }
+
+      this.chartOptions.xaxis.categories = this.userActivityDates;
+      //this.chartKey++;
+    },
+    generateInitDates() {
+      this.userActivityDates = [];
+      let totalDays = 30;
+      let lastDay = new Date();
+
+      this.resultsTo = `${lastDay.getFullYear()}-${(lastDay.getMonth() + 1)}-${lastDay.getDate() + 1}`;
+      let tmpFrom = new Date(lastDay.getTime() - (totalDays * 1000 * 3600 * 24));
+      this.resultsFrom = `${tmpFrom.getFullYear()}-${tmpFrom.getMonth() + 1}-${tmpFrom.getDate() + 1}`;
+      this.chartOptions.xaxis.categories = this.userActivityDates;
+      //this.chartKey++;
+      for (let i = totalDays; i >= 1; i--) {
+        const tmpDay = new Date(lastDay.getTime() - (i * 1000 * 3600 * 24));
         this.userActivityDates.push(tmpDay.toLocaleDateString("en-US"))
       }
-      this.chartOptions.xaxis.categories = this.userActivityDates
     },
     extractApiData(apiData) {
       this.dataCounts = [];
@@ -325,58 +350,45 @@ export default {
             this.dataCounts.push(adi.count);
             hasAdi = true;
           }
-          this.$set(this.userActivityDates, index, new Date(item).toLocaleDateString('fa-IR'));
-        })
+        });
         if (!hasAdi) {
           this.dataCounts.push(0);
         }
+        this.$set(this.userActivityDates, index, new Date(item).toLocaleDateString('fa-IR'));
+
       });
-      this.series[0].data = this.dataCounts;
+      this.chartOptions.series[0].data = this.dataCounts;
+      this.chartKey++;
     },
   },
   watch: {
-    chartOptions: {
-      handler() {
-        this.showChart = false;
-        this.$nextTick(()=>{
-          this.showChart = true;
-        })
-      },
-      deep: true
-    },
-    series: {
-      handler() {
-        this.showChart = false;
-        this.$nextTick(()=>{
-          this.showChart = true;
-        })
-      },
-      deep: true
-    },
-    resultsFrom(val){
-      if(val && this.resultsTo && new Date(val).getTime() > new Date(this.resultsTo)) {
-        this.resultsFrom = null;
+    resultsFrom(val) {
+      if(this.resultsTo && new Date(val).getTime() > new Date(this.resultsTo)) {
+        let tmpFrom = new Date(new Date(this.resultsTo).getTime() - (30 * 1000 * 3600 * 24));
+        this.resultsFrom = `${tmpFrom.getFullYear()}-${tmpFrom.getMonth() + 1}-${tmpFrom.getDate()}`;
         this.$bvToast.toast("From can not be greater than To", {
           title: `Error`,
           variant: 'danger',
           solid: true
-        })
+        });
       }
+      this.generateDates();
     },
-    resultsTo(val){
-      if(val && this.resultsTo && new Date(val).getTime() < new Date(this.resultsTo)) {
-        this.resultsTo = null;
+    resultsTo(val) {
+      if(this.resultsFrom && new Date(val).getTime() < new Date(this.resultsFrom)) {
+        let tmpTo = new Date(new Date(this.resultsTo).getTime() + (30 * 1000 * 3600 * 24));
+        this.$nextTick(()=>{
+          this.$set(this, "resultsTo", `${tmpTo.getFullYear()}-${tmpTo.getMonth() + 1}-${tmpTo.getDate()}`)
+
+        })
         this.$bvToast.toast("To can not be less than From", {
           title: `Error`,
           variant: 'danger',
           solid: true
         })
       }
+      this.generateDates();
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
