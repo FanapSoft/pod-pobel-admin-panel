@@ -16,7 +16,7 @@
               v-bind="attrs"
               v-on="on"
 
-              class="mr-2">From: {{ resultsFrom ? new Date(resultsFrom).toLocaleDateString('fa-IR') : '' }}</v-chip>
+              class="mr-2">From: {{ resultsFrom ? new Date(resultsFrom).toLocaleDateString('en-US') : '' }}</v-chip>
 <!--
 :close="(resultsFrom ? true : false)"
               @click:close="() => {resultsFrom = null; refreshResults()}"
@@ -57,7 +57,7 @@
               v-bind="attrs"
               v-on="on"
 
-          >To: {{ resultsTo ? new Date(resultsTo).toLocaleDateString('fa-IR') : '' }}</v-chip>
+          >To: {{ resultsTo ? new Date(resultsTo).toLocaleDateString('en-US') : '' }}</v-chip>
 <!--
       :close="(resultsTo ? true : false)"
               @click:close="() => {resultsTo = null; refreshResults()}"
@@ -329,9 +329,9 @@ export default {
       let totalDays = 30;
       let lastDay = new Date();
 
-      this.resultsTo = `${lastDay.getFullYear()}-${(lastDay.getMonth() + 1)}-${lastDay.getDate() + 1}`;
+      this.resultsTo = `${lastDay.getFullYear()}-${(lastDay.getMonth() + 1)}-${lastDay.getDate()}`;
       let tmpFrom = new Date(lastDay.getTime() - (totalDays * 1000 * 3600 * 24));
-      this.resultsFrom = `${tmpFrom.getFullYear()}-${tmpFrom.getMonth() + 1}-${tmpFrom.getDate() + 1}`;
+      this.resultsFrom = `${tmpFrom.getFullYear()}-${tmpFrom.getMonth() + 1}-${tmpFrom.getDate()}`;
       this.chartOptions.xaxis.categories = this.userActivityDates;
       //this.chartKey++;
       for (let i = totalDays; i >= 1; i--) {
@@ -354,7 +354,7 @@ export default {
         if (!hasAdi) {
           this.dataCounts.push(0);
         }
-        this.$set(this.userActivityDates, index, new Date(item).toLocaleDateString('fa-IR'));
+        this.$set(this.userActivityDates, index, new Date(item).toLocaleDateString('en-US'));
 
       });
       this.chartOptions.series[0].data = this.dataCounts;

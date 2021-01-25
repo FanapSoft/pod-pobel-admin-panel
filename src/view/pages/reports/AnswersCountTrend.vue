@@ -129,7 +129,7 @@ export default {
             this.dataCounts.push(adi.count);
             hasAdi = true;
           }
-          this.$set(this.dates, index, new Date(item).toLocaleDateString('fa-IR'));
+          this.$set(this.dates, index, new Date(item).toLocaleDateString('en-US'));
         })
         if(!hasAdi) {
           this.dataCounts.push(0);
