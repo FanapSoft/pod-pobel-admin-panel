@@ -1,0 +1,21 @@
+//
+// Override global variables
+//
+
+// Theme colors
+$primary:       									#6993FF;
+$primary-hover:    									#4A7DFF;
+$primary-light:    									#E1E9FF;
+$primary-inverse:  									#FFFFFF;
+
+@font-face {
+  font-family: Irsans;
+  src: url('/assets/webfonts/irsans.eot?#') format("eot"),
+  url('/assets/webfonts/irsans.woff') format("woff"),
+  url('/assets/webfonts/irsans.ttf') format("truetype")
+}
+// Font family
+$font-family-base:            						Irsans, Roboto, "sans-serif" !default;
+.v-application {
+  font-family: $font-family-base !important;
+}
