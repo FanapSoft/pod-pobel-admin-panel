@@ -16,7 +16,7 @@
               </v-card>
             </v-col>
           <v-col cols="4" class="pb-0">
-            <v-card :to="`/targets`">
+            <v-card :to="`/reports/scoreboard`">
               <v-card-title>Scoreboard</v-card-title>
               <v-card-subtitle>Scoreboard</v-card-subtitle>
             </v-card>

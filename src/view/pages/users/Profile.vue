@@ -10,7 +10,7 @@
           <v-list>
             <v-list-item>
               <v-list-item-avatar>
-                <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+                <inline-svg class="symbol-label" src="/media/svg/icons/General/User.svg" />
               </v-list-item-avatar>
             </v-list-item>
 

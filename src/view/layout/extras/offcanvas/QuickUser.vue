@@ -54,7 +54,8 @@
         <!--begin::Header-->
         <div class="d-flex align-items-center mt-5">
           <div class="symbol symbol-100 mr-5">
-            <img class="symbol-label" :src="picture" alt="" />
+<!--            <img class="symbol-label" :src="picture" alt="" />-->
+            <inline-svg class="symbol-label" src="/media/svg/icons/General/User.svg" />
             <i class="symbol-badge bg-success"></i>
           </div>
           <div class="d-flex flex-column">

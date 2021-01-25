@@ -70,6 +70,11 @@ export default new Router({
               name: "answerCountTrend",
               component: () => import("@/view/pages/reports/AnswersCountTrend.vue")
             },
+            {
+              path: "Scoreboard",
+              name: "scoreboard",
+              component: () => import("@/view/pages/reports/Scoreboard.vue")
+            },
 
           ]
         },
