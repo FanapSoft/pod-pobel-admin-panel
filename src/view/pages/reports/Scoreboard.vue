@@ -5,7 +5,7 @@
         <v-card-title>
           Answers
           <v-spacer></v-spacer>
-          <span>{{ pagination.realCount }}</span>
+
         </v-card-title>
         <v-row>
           <v-col cols="12" class="px-6">
@@ -82,7 +82,7 @@
             item-key="id"
             class="elevation-1">
           <template v-slot:item.ind="{ item }">
-            {{ (pagination.skip ? pagination.skip + scoreboardItems.indexOf(item) + 1 : scoreboardItems.indexOf(item) + 1) }}
+            {{ (scoreboardItems.indexOf(item) + 1) }}
           </template>
           <template v-slot:item.dateTime="{ item }">
             {{ new Date(item.creationTime).toLocaleDateString("fa-IR") }}
@@ -92,14 +92,25 @@
           <template v-slot:item.name="{ item }">
             {{ item.name }} - {{ item.surname }}
           </template>
+          <template v-slot:item.count="{ item }">
+            {{ (item.count? item.count.toLocaleString("fa-IR") : ':/') }}
+          </template>
+
         </v-data-table>
-        <v-row class="mx-9">
+        <v-layout align="center">
+            <v-btn
+                v-if="pagination.count === 10"
+                :loading="loading"
+                @click="()=>{pagination.currentPage++; refreshList()}"
+            >Load More...</v-btn>
+        </v-layout>
+<!--        <v-row class="mx-9">
           <v-col>
             <v-pagination
                 v-model="pagination.currentPage"
                 :length="pagination.count"></v-pagination>
           </v-col>
-        </v-row>
+        </v-row>-->
       </v-card>
     </div>
   </div>
@@ -114,6 +125,7 @@ import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 import DatasetDetails from "../transactions/DatasetDetails";
 
 export default {
+  name: "Scoreboard",
   data() {
     return {
       scoreboardItems: null,
@@ -162,13 +174,15 @@ export default {
       try {
         const scoreboardItems = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/Scoreboard`, data));
         if (scoreboardItems.data && scoreboardItems.data.result) {
-          this.scoreboardItems = scoreboardItems.data.result;
-          this.scoreboardItems.forEach(item => {
-            item.referenceDataSetId = item.dataSetId;
-            item.datasetName = item.datasetName;
-          })
-          this.pagination.count = scoreboardItems.data.result.totalCount ? Math.ceil(scoreboardItems.data.result.totalCount / this.pagination.limit) : 1;
-          this.pagination.realCount = scoreboardItems.data.result.totalCount;
+          this.scoreboardItems = this.scoreboardItems ? [
+              ...this.scoreboardItems,
+            scoreboardItems.data.result
+          ] : scoreboardItems.data.result;
+
+
+
+          this.pagination.count = this.scoreboardItems.length;
+          this.pagination.realCount = this.pagination.realCount + this.pagination.count;
         }
       } catch (error) {
         console.log(error);

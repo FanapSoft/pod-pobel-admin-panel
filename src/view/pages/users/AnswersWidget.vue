@@ -3,7 +3,7 @@
     <h6 class="mb-0" style="font-size: 13px">ANSWERS</h6>
     <v-divider></v-divider>
     <v-icon size="35" class="text-light">mdi-help-box</v-icon>
-    {{ (answersCount ? answersCount : '000') }}
+    {{ (answersCount ? answersCount.toLocaleString() : '000') }}
   </v-card>
 </template>
 
