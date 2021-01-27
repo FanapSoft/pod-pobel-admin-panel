@@ -3,7 +3,7 @@
   "self": {
     "layout": "default",
     "body": {
-      "background-image": "/media/bg/bg-10.jpg"
+      "background-image": "/media/bg/bg-10.jpg !important"
     },
     "logo": {
       "default": "/media/logos/logo-letter-9.png",

@@ -39,7 +39,7 @@
             >
               <div class="d-lg-flex flex-row-fluid">
                 <!-- begin:: Aside Left -->
-                <KTAside v-if="asideEnabled"></KTAside>
+<!--                <KTAside v-if="asideEnabled"></KTAside>-->
                 <!-- end:: Aside Left -->
 
                 <div class="content-wrapper flex-row-fluid">
