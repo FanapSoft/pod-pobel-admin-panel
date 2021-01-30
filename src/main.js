@@ -4,7 +4,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "@/core/services/store";
 
-import {REMOVE_SUBHEAR_ACTIONS} from "@/core/services/store/subheaderActions.module"
+import {REMOVE_SUBHEADER_ACTIONS} from "@/core/services/store/subheaderActions.module"
 
 import ApiService from "@/core/services/api.service";
 //import MockService from "@/core/mock/mock.service";
@@ -47,7 +47,7 @@ ApiService.setHeader();
 //MockService.init();
 
 router.beforeEach((to, from, next) => {
-  store.commit(REMOVE_SUBHEAR_ACTIONS)
+  store.commit(REMOVE_SUBHEADER_ACTIONS)
   // Ensure we checked auth before each page load.
   if(to.name == 'loggedIn') {
     if(to.query && to.query.token) {
