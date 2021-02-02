@@ -50,7 +50,7 @@ export default {
     [SET_SUBHEADER_ACTION](state, payload) {
       state.actionLinks = payload;
     },
-    [REMOVE_SUBHEAR_ACTIONS](state) {
+    [REMOVE_SUBHEADER_ACTIONS](state) {
       state.actionLinks = [];
     }
   }

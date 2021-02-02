@@ -178,6 +178,9 @@ export default {
 </script>
 
 <style lang="scss">
+body{
+  background-image: url("/media/bg/bg-10.jpg") !important;
+}
 .v-text-field--filled.v-input--dense .v-label--active, .v-text-field--full-width.v-input--dense .v-label--active {
   -webkit-transform: translateY(-10px) scale(0.75);
   transform: translateY(-10px);
