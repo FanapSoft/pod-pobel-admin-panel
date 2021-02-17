@@ -8,7 +8,8 @@ import JwtService from "@/core/services/jwt.service";
  * Service to call HTTP request via Axios
  */
 const ApiService = {
-  loginUrl: `http://10.56.16.50:8888/pod/authentication${(process.env.NODE_ENV !== 'production'? "/true" : '')}`,
+  //loginUrl: `http://10.56.16.50:8888/pod/authentication${(process.env.NODE_ENV !== 'production'? "/true" : '')}`,
+  loginUrl: `http://10.56.16.50:8888/pod/authentication?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://10.56.16.50') : encodeURI('http://localhost:8080'))}`,
   init() {
     Vue.use(VueAxios, axios);
     Vue.axios.defaults.baseURL = "http://10.56.16.50:8888";
