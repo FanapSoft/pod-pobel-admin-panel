@@ -4,7 +4,7 @@ export const APPEND_SUBHEADER_ACTION = "appendSubHeaderAction";
 // mutation types
 export const SET_SUBHEADER_ACTION = "setSubHeaderAction";
 export const ADD_SUBHEADER_ACTION = "addSubHeaderAction";
-export const REMOVE_SUBHEAR_ACTIONS = "removeSubHeaderActions";
+export const REMOVE_SUBHEADER_ACTIONS = "removeSubHeaderActions";
 
 export default {
   state: {
@@ -50,7 +50,7 @@ export default {
     [SET_SUBHEADER_ACTION](state, payload) {
       state.actionLinks = payload;
     },
-    [REMOVE_SUBHEAR_ACTIONS](state) {
+    [REMOVE_SUBHEADER_ACTIONS](state) {
       state.actionLinks = [];
     }
   }

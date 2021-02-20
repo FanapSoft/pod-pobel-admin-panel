@@ -156,7 +156,12 @@ export default {
       {
         title: 'AnswerCountTrend',
         link: `/reports/AnswerCountTrend?DatasetId=${this.$route.params.DatasetId}`
-      }
+      },
+      {
+        title: 'Scoreboard',
+        link: `/reports/Scoreboard?DatasetId=${this.$route.params.DatasetId}`
+      },
+
     ]);
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: "Manage Datasets", route: "/dataset/list" },

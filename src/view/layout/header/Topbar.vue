@@ -1,37 +1,6 @@
 <template>
   <!-- begin:: Header Topbar -->
   <div class="topbar">
-    <!--begin: Notifications -->
-    <b-dropdown
-      size="sm"
-      variant="link"
-      toggle-class="topbar-item text-decoration-none"
-      no-caret
-      right
-      no-flip
-    >
-      <template v-slot:button-content>
-        <div
-          class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 pulse pulse-primary"
-        >
-          <span class="svg-icon svg-icon-xl">
-            <inline-svg src="/media/svg/icons/Code/Compiling.svg" />
-          </span>
-          <span class="pulse-ring"></span>
-        </div>
-      </template>
-      <b-dropdown-text tag="div" class="min-w-md-350px">
-        <form>
-          <KTDropdownNotification></KTDropdownNotification>
-        </form>
-      </b-dropdown-text>
-    </b-dropdown>
-    <!--end: Notifications -->
-
-    <!--begin: Quick panel toggle -->
-    <KTQuickPanel></KTQuickPanel>
-    <!--end: Quick panel toggle -->
-
     <!--begin: User Bar -->
     <KTQuickUser></KTQuickUser>
     <!--end: User Bar -->

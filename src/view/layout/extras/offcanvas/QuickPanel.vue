@@ -5,7 +5,7 @@
       id="kt_quick_panel_toggle"
     >
       <span class="svg-icon svg-icon-xl">
-        <inline-svg src="/media/svg/icons/Layout/Layout-4-blocks.svg" />
+        <inline-svg :src="$adminPrefix + '/media/svg/icons/Layout/Layout-4-blocks.svg'" />
       </span>
     </div>
 

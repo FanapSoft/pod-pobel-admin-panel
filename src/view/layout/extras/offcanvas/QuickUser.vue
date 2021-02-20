@@ -12,13 +12,13 @@
       <span
         class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"
       >
-        {{$store.state.auth.user.userName}}
+        {{currentUser.userName}}
       </span>
       <span class="symbol symbol-35">
         <span
           class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"
         >
-          {{$store.state.auth.user.userName | firstChar}}
+          {{currentUser.userName | firstChar}}
         </span>
       </span>
     </div>
@@ -54,7 +54,10 @@
         <!--begin::Header-->
         <div class="d-flex align-items-center mt-5">
           <div class="symbol symbol-100 mr-5">
-            <img class="symbol-label" :src="picture" alt="" />
+<!--            <img class="symbol-label" :src="picture" alt="" />-->
+            <inline-svg
+                class="symbol-label"
+                :src="$adminPrefix + '/media/svg/icons/General/User.svg'" />
             <i class="symbol-badge bg-success"></i>
           </div>
           <div class="d-flex flex-column">
@@ -62,7 +65,7 @@
               href="#"
               class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
             >
-              {{$store.state.auth.user.userName}}
+              {{currentUser.userName}}
             </a>
 <!--            <div class="text-muted mt-1">Application Developer</div>-->
             <div class="navi mt-2">
@@ -72,13 +75,13 @@
                     <span class="svg-icon svg-icon-lg svg-icon-primary">
                       <!--begin::Svg Icon-->
                       <inline-svg
-                        src="/media/svg/icons/Communication/Mail-notification.svg"
+                        :src="$adminPrefix + '/media/svg/icons/Communication/Mail-notification.svg'"
                       />
                       <!--end::Svg Icon-->
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    {{ $store.state.auth.user.emailAddress }}
+                    {{ currentUser.emailAddress }}
                   </span>
                 </span>
               </a>
@@ -94,7 +97,7 @@
         <div class="navi navi-spacer-x-0 p-0">
           <!--begin::Item-->
           <router-link
-            to="/builder"
+            :to="`/users/${currentUser.id}/profile/overview`"
             @click.native="closeOffcanvas"
             href="#"
             class="navi-item"
@@ -105,7 +108,7 @@
                   <span class="svg-icon svg-icon-md svg-icon-success">
                     <!--begin::Svg Icon-->
                     <inline-svg
-                      src="/media/svg/icons/General/Notification2.svg"
+                      :src="$adminPrefix + '/media/svg/icons/General/User.svg'"
                     />
                     <!--end::Svg Icon-->
                   </span>
@@ -114,87 +117,13 @@
               <div class="navi-text">
                 <div class="font-weight-bold">My Profile</div>
                 <div class="text-muted">
-                  Account settings and more
-                  <span
+                  View your profile
+<!--                  <span
                     class="label label-light-danger label-inline font-weight-bold"
                   >
                     update
-                  </span>
+                  </span>-->
                 </div>
-              </div>
-            </div>
-          </router-link>
-          <!--end:Item-->
-          <!--begin::Item-->
-          <router-link
-            to="/builder"
-            @click.native="closeOffcanvas"
-            href="#"
-            class="navi-item"
-          >
-            <div class="navi-link">
-              <div class="symbol symbol-40 bg-light mr-3">
-                <div class="symbol-label">
-                  <span class="svg-icon svg-icon-md svg-icon-warning">
-                    <!--begin::Svg Icon-->
-                    <inline-svg src="/media/svg/icons/Shopping/Chart-bar1.svg" />
-                    <!--end::Svg Icon-->
-                  </span>
-                </div>
-              </div>
-              <div class="navi-text">
-                <div class="font-weight-bold">My Messages</div>
-                <div class="text-muted">Inbox and tasks</div>
-              </div>
-            </div>
-          </router-link>
-          <!--end:Item-->
-          <!--begin::Item-->
-          <router-link
-            to="/builder"
-            @click.native="closeOffcanvas"
-            href="#"
-            class="navi-item"
-          >
-            <div class="navi-link">
-              <div class="symbol symbol-40 bg-light mr-3">
-                <div class="symbol-label">
-                  <span class="svg-icon svg-icon-md svg-icon-danger">
-                    <!--begin::Svg Icon-->
-                    <inline-svg src="/media/svg/icons/Files/Selected-file.svg" />
-                    <!--end::Svg Icon-->
-                  </span>
-                </div>
-              </div>
-              <div class="navi-text">
-                <div class="font-weight-bold">My Activities</div>
-                <div class="text-muted">Logs and notifications</div>
-              </div>
-            </div>
-          </router-link>
-          <!--end:Item-->
-          <!--begin::Item-->
-          <router-link
-            to="/builder"
-            @click.native="closeOffcanvas"
-            href="#"
-            class="navi-item"
-          >
-            <div class="navi-link">
-              <div class="symbol symbol-40 bg-light mr-3">
-                <div class="symbol-label">
-                  <span class="svg-icon svg-icon-md svg-icon-primary">
-                    <!--begin::Svg Icon-->
-                    <inline-svg
-                      src="/media/svg/icons/Communication/Mail-opened.svg"
-                    />
-                    <!--end::Svg Icon-->
-                  </span>
-                </div>
-              </div>
-              <div class="navi-text">
-                <div class="font-weight-bold">My Tasks</div>
-                <div class="text-muted">latest tasks and projects</div>
               </div>
             </div>
           </router-link>
@@ -202,50 +131,6 @@
         </div>
         <!--end::Nav-->
         <div class="separator separator-dashed my-7"></div>
-        <!--begin::Notifications-->
-<!--        <div>
-          &lt;!&ndash;begin:Heading&ndash;&gt;
-          <h5 class="mb-5">Recent Notifications</h5>
-          &lt;!&ndash;end:Heading&ndash;&gt;
-          <template v-for="(item, i) in list">
-            &lt;!&ndash;begin::Item &ndash;&gt;
-            <div
-              class="d-flex align-items-center rounded p-5 gutter-b"
-              v-bind:class="`bg-light-${item.type}`"
-              v-bind:key="i"
-            >
-              <span
-                class="svg-icon mr-5"
-                v-bind:class="`svg-icon-${item.type}`"
-              >
-                <span class="svg-icon svg-icon-lg">
-                  &lt;!&ndash;begin::Svg Icon&ndash;&gt;
-                  <inline-svg :src="item.svg" />
-                  &lt;!&ndash;end::Svg Icon&ndash;&gt;
-                </span>
-              </span>
-              <div class="d-flex flex-column flex-grow-1 mr-2">
-                <a
-                  href="#"
-                  class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
-                >
-                  {{ item.title }}
-                </a>
-                <span class="text-muted font-size-sm">
-                  {{ item.desc }}
-                </span>
-              </div>
-              <span
-                class="font-weight-bolder py-1 font-size-lg"
-                v-bind:class="`text-${item.type}`"
-              >
-                {{ item.alt }}
-              </span>
-            </div>
-            &lt;!&ndash;end::Item &ndash;&gt;
-          </template>
-        </div>-->
-        <!--end::Notifications-->
       </perfect-scrollbar>
       <!--end::Content-->
     </div>
@@ -259,6 +144,7 @@
 </style>
 
 <script>
+import {mapGetters} from "vuex"
 import { LOGOUT } from "@/core/services/store/auth.module";
 import KTLayoutQuickUser from "@/assets/js/layout/extended/quick-user.js";
 import KTOffcanvas from "@/assets/js/components/offcanvas.js";
@@ -315,6 +201,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["currentUser"]),
     picture() {
       return process.env.BASE_URL + "media/users/300_21.jpg";
     }

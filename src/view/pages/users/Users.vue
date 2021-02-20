@@ -74,7 +74,7 @@
                   :to="`/answers?UserId=${item.id}`">View Answers</v-btn>
             </template>
           </v-data-table>
-          <v-row class="ma-0">
+          <v-row class="mx-9">
             <v-col>
               <v-pagination
                   v-model="pagination.currentPage"
@@ -134,7 +134,6 @@ export default {
       try {
         const users = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/User/GetAll`, data));
         if(users.data && users.data.result) {
-
           this.users = users.data.result.items;
           this.pagination.count = users.data.result.totalCount ? Math.ceil(users.data.result.totalCount / this.pagination.limit) : 1;
           this.pagination.realCount = users.data.result.totalCount;

@@ -155,7 +155,7 @@
               <v-chip x-small :class="{'success': item.ignored, 'error': !item.ignored}">{{item.ignored}}</v-chip>
             </template>
           </v-data-table>
-          <v-row class="ma-0">
+          <v-row class="mx-9">
             <v-col>
               <v-pagination
                   v-model="pagination.currentPage"
