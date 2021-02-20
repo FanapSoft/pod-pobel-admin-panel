@@ -10,7 +10,7 @@
           <v-list>
             <v-list-item>
               <v-list-item-avatar>
-                <inline-svg class="symbol-label" src="/media/svg/icons/General/User.svg" />
+                <inline-svg class="symbol-label" :src="$adminPrefix +'/media/svg/icons/General/User.svg'" />
               </v-list-item-avatar>
             </v-list-item>
 
