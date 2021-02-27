@@ -21,13 +21,19 @@
           </v-card>
         </v-col>
         <v-col cols="6">
-          <transactions-widget></transactions-widget>
+          <transactions-widget
+              :key="$route.params.userId"
+              :user="user"></transactions-widget>
         </v-col>
         <v-col cols="6">
-          <answers-widget></answers-widget>
+          <answers-widget
+              :key="$route.params.userId"
+              :user="user"></answers-widget>
         </v-col>
         <v-col cols="12">
-          <user-answers-trend :user="user"></user-answers-trend>
+          <user-answers-trend
+              :key="$route.params.userId"
+              :user="user"></user-answers-trend>
         </v-col>
       </v-row>
 </template>
@@ -35,7 +41,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
-import { LOAD_USER_OBJECT} from "@/core/services/store/profile.module";
+import { LOAD_USER_OBJECT, EMPTY_LOCAL_OBJECT } from "@/core/services/store/profile.module";
 import AnswersWidget from "./AnswersWidget";
 import TransactionsWidget from "./TransactionsWidget";
 import UserAnswersTrend from "./UserAnswersTrend";
@@ -65,6 +71,7 @@ export default {
   },
   methods: {
     async setupThisUser() {
+      await this.$store.dispatch(`profile/${EMPTY_LOCAL_OBJECT}`);
       await this.$store.dispatch(`profile/${LOAD_USER_OBJECT}`, this.$route.params.userId);
       this.userDetails = [
         {
@@ -81,7 +88,7 @@ export default {
         },
         {
           title: 'Joined At',
-          value: new Date(this.user?.creationTime).toLocaleDateString("fa-IR")
+          value: new Date(this.user?.creationTime).toLocaleDateString("en-US")
         },
         {
           title: 'Email',
@@ -101,7 +108,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-        { title: "Users", route: `/users/list`},
+      { title: "Users", route: `/users/list`},
       { title: `User ${this.$route.params.userId} Profile`}
     ]);
 

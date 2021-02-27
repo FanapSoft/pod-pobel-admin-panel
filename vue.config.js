@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   publicPath:
-    process.env.NODE_ENV === "production" ? "/admin" : "",
+    process.env.NODE_ENV === "production" ? "/admin" : "/",
   configureWebpack: {
     resolve: {
       alias: {
@@ -11,6 +11,9 @@ module.exports = {
         // Or if using full build of Vue (runtime + compiler)
         // vue$: 'vue/dist/vue.esm.js'      // 'vue/dist/vue.common.js' for webpack 1
       }
+    },
+    optimization: {
+      minimize: true
     }
   },
   chainWebpack: config => {
