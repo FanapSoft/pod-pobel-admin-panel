@@ -144,13 +144,20 @@
               <br>
               {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
             </template>
-            <template v-slot:item.datasetItem="{ item }">
+            <template v-slot:item.dataset="{ item }">
               <DatasetDetails
                   :key="item.dataSetId"
                   :item="item"
                   @dataset-details="name => {item.datasetName = name}">
               </DatasetDetails>
             </template>
+            <template v-slot:item.datasetItem="{ item }">
+              <DatasetITem
+                  :key="item.id"
+                  :answer="item">
+              </DatasetITem>
+            </template>
+
             <template v-slot:item.ignored="{ item }">
               <v-chip x-small :class="{'success': item.ignored, 'error': !item.ignored}">{{item.ignored}}</v-chip>
             </template>
@@ -178,6 +185,7 @@ import {
 import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 
 import DatasetDetails from "../transactions/DatasetDetails";
+import DatasetITem from "@/view/pages/answers/DatasetItem";
 
 export default {
   data() {
@@ -191,6 +199,7 @@ export default {
         {text: "Date & Time", value: "dateTime"},
         {text: "Answer", value: "answer"},
         {text: "Is Ignored", value: "ignored"},
+        {text: "Dataset ", value: "dataset"},
         {text: "Dataset Item", value: "datasetItem"},
 
       ],
@@ -207,6 +216,7 @@ export default {
     };
   },
   components: {
+    DatasetITem,
     DatasetDetails
   },
   computed: {
