@@ -239,7 +239,7 @@ export default {
     generateInitDates() {
       this.dates = [];
       let totalDays = 30;
-      let lastDay = new Date();
+      let lastDay = new Date(new Date().getTime() + (3600 * 24 * 1000));
 
       this.resultsTo = `${lastDay.getFullYear()}-${(lastDay.getMonth() + 1)}-${lastDay.getDate()}`;
       let tmpFrom = new Date(lastDay.getTime() - (totalDays * 1000 * 3600 * 24));

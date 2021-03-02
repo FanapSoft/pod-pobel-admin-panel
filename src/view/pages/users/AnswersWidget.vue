@@ -8,13 +8,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "AnswersWidget",
-  components: { },
-  computed: {
-    ...mapGetters({user: "profile/user"})
+  props: {
+    user: null
   },
+  components: { },
   data() {
     return {
       answersCount: null,
@@ -45,7 +44,9 @@ export default {
     this.getTransactionsCount();
   },
   watch: {
-
+    user() {
+      this.getTransactionsCount();
+    }
   }
 };
 </script>

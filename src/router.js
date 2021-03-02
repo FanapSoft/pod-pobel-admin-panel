@@ -7,7 +7,7 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  base: '/admin',
+  base: process.env.NODE_ENV === 'production' ? '/admin' : '',
   routes: [
     {
       path: "/",

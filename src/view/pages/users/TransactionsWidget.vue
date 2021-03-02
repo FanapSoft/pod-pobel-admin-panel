@@ -11,10 +11,10 @@
 import { mapGetters } from "vuex";
 export default {
   name: "TransactionsWidget",
-  components: { },
-  computed: {
-    ...mapGetters({user: "profile/user"})
+  props: {
+    user: null
   },
+  components: { },
   data() {
     return {
       transactionsCount: null,
@@ -45,7 +45,9 @@ export default {
     this.getTransactionsCount();
   },
   watch: {
-
+    user() {
+      this.getTransactionsCount();
+    }
   }
 };
 </script>
