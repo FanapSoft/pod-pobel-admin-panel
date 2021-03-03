@@ -44,10 +44,10 @@ const HtmlClass = {
       }
     }
 
-    const bgImage = objectPath.get(this.config, "self.body.background-image");
+    /*const bgImage = objectPath.get(this.config, "self.body.background-image");
     if (typeof bgImage !== "undefined") {
       document.body.style.backgroundImage = `url(${bgImage})`;
-    }
+    }*/
 
     // Offcanvas directions
     store.dispatch(ADD_BODY_CLASSNAME, "quick-panel-right");

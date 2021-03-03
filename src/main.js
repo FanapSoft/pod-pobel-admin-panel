@@ -70,7 +70,7 @@ router.beforeEach((to, from, next) => {
   }, 100);
 });
 
-Vue.prototype.$adminPrefix = (process.env.NODE_ENV === 'production'? '/admin' : '')
+Vue.prototype.$adminPrefix = (process.env.NODE_ENV === 'production'? '/admin/' : '')
 
 new Vue({
   router,

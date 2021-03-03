@@ -15,12 +15,12 @@
           <router-link to="/">
             <img
               alt="Logo"
-              :src="layoutConfig('self.logo.default')"
+              :src="$adminPrefix + layoutConfig('self.logo.default')"
               class="logo-default max-h-40px"
             />
             <img
               alt="Logo"
-              :src="layoutConfig('self.logo.sticky')"
+              :src="$adminPrefix + layoutConfig('self.logo.sticky')"
               class="logo-sticky max-h-40px"
             />
           </router-link>
