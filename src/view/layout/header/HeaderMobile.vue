@@ -6,7 +6,7 @@
   >
     <!--begin::Logo-->
     <a href="/">
-      <img alt="Logo" :src="headerLogo" class="logo-default max-h-30px" />
+      <img alt="Logo" :src="$adminPrefix + layoutConfig('self.logo.sticky')" class="logo-default max-h-30px" />
     </a>
     <!--end::Logo-->
     <!--begin::Toolbar-->

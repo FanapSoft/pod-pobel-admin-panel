@@ -7,7 +7,7 @@
     v-bind:class="headerClasses"
   >
     <div
-      class="d-flex align-items-center justify-content-between"
+      class="d-flex align-items-center justify-content-between px-6"
       v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }"
     >
       <div class="d-flex align-items-stretch mr-3">

@@ -1,18 +1,21 @@
 // USA
 export const locale = {
-  TRANSLATOR: {
+  /*TRANSLATOR: {
     SELECT: "Select your language"
-  },
+  },*/
   MENU: {
-    NEW: "new",
-    ACTIONS: "Actions",
-    CREATE_POST: "Create New Post",
-    PAGES: "Pages",
-    FEATURES: "Features",
-    APPS: "Apps",
-    DASHBOARD: "Dashboard"
+    DATASET: "Dataset",
+    USERS: "Users",
+    DASHBOARD: "Dashboard",
+    TRANSACTIONS: "Transactions",
+    REPORTS: "Reports",
+    DATASETITEMS: "Dataset Items",
+    ANSWERS: "Answers"
   },
-  AUTH: {
+  QUICKUSER: {
+    HI: "Hi,"
+  }
+  /*AUTH: {
     GENERAL: {
       OR: "Or",
       SUBMIT_BUTTON: "Submit",
@@ -57,8 +60,8 @@ export const locale = {
       MAX_LENGTH_FIELD: "Maximum field length:",
       INVALID_FIELD: "Field is not valid"
     }
-  },
-  ECOMMERCE: {
+  },*/
+  /*ECOMMERCE: {
     COMMON: {
       SELECTED_RECORDS_COUNT: "Selected records count: ",
       ALL: "All",
@@ -98,5 +101,5 @@ export const locale = {
         ADD_MESSAGE: "Customer has been created"
       }
     }
-  }
+  }*/
 };

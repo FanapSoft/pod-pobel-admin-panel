@@ -1,5 +1,5 @@
 <template>
-  <ul class="navi navi-hover py-4">
+  <ul class="navi navi-hover py-4 px-0">
     <template v-for="(item, i) in languages">
       <li
         class="navi-item"
@@ -9,8 +9,8 @@
         <a
           href="#"
           class="navi-link"
-          v-bind:data-lang="item.lang"
-          v-on:click="selectedLanguage"
+          :data-lang="item.lang"
+          @click="selectedLanguage"
         >
           <span class="symbol symbol-20 mr-3">
             <img :src="item.flag" alt="" />

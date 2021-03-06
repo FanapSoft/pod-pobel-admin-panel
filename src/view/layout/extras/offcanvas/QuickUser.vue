@@ -7,10 +7,10 @@
       <span
         class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1"
       >
-        Hi,
+        {{ $t("QUICKUSER.HI") }}
       </span>
       <span
-        class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"
+        class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline current-user-name mr-4"
       >
         {{currentUser.userName}}
       </span>
@@ -208,3 +208,8 @@ export default {
   }
 };
 </script>
+<style>
+.rtl .current-user-name.mr-4 {
+  margin-right: 8px !important;
+}
+</style>

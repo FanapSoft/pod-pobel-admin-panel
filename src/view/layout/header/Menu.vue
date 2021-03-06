@@ -14,7 +14,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Dashboard </span>
+          <span class="menu-text"> {{ $t("MENU.DASHBOARD") }} </span>
         </a>
       </li>
     </router-link>
@@ -26,7 +26,7 @@
         v-bind:class="{ 'menu-item-active': hasActiveChildren('/dataset') }"
     >
       <a href="#" class="menu-link menu-toggle">
-        <span class="menu-text">Dataset</span>
+        <span class="menu-text">{{ $t("MENU.DATASET") }}</span>
       </a>
       <div class="menu-submenu menu-submenu-fixed">
         <div class="menu-subnav megamenu" style="max-width: 1000px;">
@@ -48,7 +48,7 @@
                   >
                     <a :href="href" class="menu-link" @click="navigate">
                       <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                      <span class="menu-text"> Datasets </span>
+                      <span class="menu-text"> {{ $t("MENU.DATASET") }} </span>
                     </a>
                   </li>
                 </router-link>
@@ -66,7 +66,7 @@
                   >
                     <a :href="href" class="menu-link" @click="navigate">
                       <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                      <span class="menu-text"> Dataset Items </span>
+                      <span class="menu-text"> {{ $t("MENU.DATASETITEMS") }} </span>
                     </a>
                   </li>
                 </router-link>
@@ -84,7 +84,7 @@
                   >
                     <a :href="href" class="menu-link" @click="navigate">
                       <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                      <span class="menu-text"> Answers </span>
+                      <span class="menu-text"> {{ $t("MENU.ANSWERS") }} </span>
                     </a>
                   </li>
                 </router-link>
@@ -109,7 +109,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Users </span>
+          <span class="menu-text"> {{ $t("MENU.USERS") }} </span>
         </a>
       </li>
     </router-link>
@@ -127,7 +127,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Transactions </span>
+          <span class="menu-text"> {{ $t("MENU.TRANSACTIONS") }} </span>
         </a>
       </li>
     </router-link>
@@ -145,7 +145,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Reports </span>
+          <span class="menu-text"> {{ $t("MENU.REPORTS") }} </span>
         </a>
       </li>
     </router-link>
@@ -567,5 +567,15 @@ export default {
   width: auto;
   left: auto;
   right: auto;
+}
+</style>
+<style scoped>
+.menu-item.menu-item-submenu{
+  position: relative;
+}
+.menu-submenu {
+  max-width: 180px !important;
+  left: 0 !important;
+  width: 180px !important;
 }
 </style>
