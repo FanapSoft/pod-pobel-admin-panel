@@ -62,13 +62,13 @@
               toggle-class="custom-v-dropdown btn btn-white font-weight-bold py-2 px-4"
               class="page-actions-dropdown"
               no-caret
-              right
+              :right="$i18nService.getActiveLanguage() !== 'fa'"
               no-flip
-              text="Actions"
-              v-b-tooltip.hover="'Quick actions'"
+              :text="$t('ACTIONS.ACTIONS')"
+              v-b-tooltip.hover="$t('ACTIONS.QUICKACTIONS')"
 
           >
-            <!--begin::Navigation-->
+            <!--begin::Navigation 'Quick actions' -->
             <div
                 v-for="(item, index) in actionLinks"
 

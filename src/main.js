@@ -72,6 +72,9 @@ router.beforeEach((to, from, next) => {
 
 Vue.prototype.$adminPrefix = (process.env.NODE_ENV === 'production'? '/admin' : '');
 
+import i18nService from "@/core/services/i18n.service.js";
+Vue.prototype.$i18nService = i18nService
+
 new Vue({
   router,
   store,

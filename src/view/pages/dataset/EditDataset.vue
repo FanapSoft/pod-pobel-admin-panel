@@ -259,7 +259,7 @@ export default {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
       { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: this.$t("BREADCRUMBS.EDITDATASET"), route: `` },
+      { title: this.$t("BREADCRUMBS.EDITDATASET")},
     ]);
 
     this.getItem();

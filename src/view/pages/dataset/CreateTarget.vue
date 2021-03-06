@@ -138,7 +138,7 @@ export default {
       { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
       { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
       { title: this.$t("BREADCRUMBS.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
-      { title: `Create Target` },
+      { title: this.$t("BREADCRUMBS.CREATETARGET") },
     ]);
 
   }

@@ -166,12 +166,12 @@ export default {
       { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
       { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
       { title: this.$t("BREADCRUMBS.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
-      { title: this.$t("BREADCRUMBS.EDITTARGET"), route: `` },
+      { title: this.$t("BREADCRUMBS.EDITTARGET") },
     ]);
 
     const actions = [
       {
-        title: 'Delete Target',
+        title: this.$t("BREADCRUMBS.DELETETARGET"),
         onClick: () => {
           this.deleteItem()
         }

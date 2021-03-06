@@ -26,11 +26,18 @@ export const locale = {
     TARGETS: "Targets",
     CREATETARGET: "Create Target",
     EDITTARGET: "Edit Target",
+    DELETETARGET: "Delete Target",
     USERS: "Users",
     TRANSACTIONS: "Transactions",
     REPORTS: "Reports",
     USER: "User",
     PROFILE: "Profile",
+    SETTINGS: "Settings",
+    OVERVIEW: "Overview",
+  },
+  ACTIONS: {
+    ACTIONS: "Actions",
+    QUICKACTIONS: "Quick Actions",
   }
   /*AUTH: {
     GENERAL: {

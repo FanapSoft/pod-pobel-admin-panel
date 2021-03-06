@@ -28,7 +28,7 @@
               cols="4"
               class="pb-0">
             <v-card :to="`/dataset/${$route.params.DatasetId}/target/${item.id}/edit`">
-              <v-card-title>Edit target {{item.answerCount}}</v-card-title>
+              <v-card-title>{{ $t("BREADCRUMBS.EDITTARGET") }} {{item.answerCount}}</v-card-title>
             </v-card>
           </v-col>
         </v-row>
@@ -66,7 +66,7 @@ export default {
   mounted() {
     const actions = [
       {
-        title: 'Create Target',
+        title: this.$t("BREADCRUMBS.CREATETARGET"),
         link: `/dataset/${this.$route.params.DatasetId}/target/create`
       },
     ];

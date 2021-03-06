@@ -27,11 +27,18 @@ export const locale = {
         TARGETS: "تارگت ها",
         CREATETARGET: "ایجاد تارگت",
         EDITTARGET: "ویرایش تارگت",
+        DELETETARGET: "حذف تارگت",
         USERS: "کاربران",
         TRANSACTIONS: "تراکنش ها",
         REPORTS: "گزارش ها",
         USER: "کاربر",
         PROFILE: "پروفایل",
+        SETTINGS: "تنظیمات",
+        OVERVIEW: "جزئیات",
 
-    }
+    },
+    ACTIONS: {
+        ACTIONS: "عملیات",
+        QUICKACTIONS: "عملیات",
+    },
 };

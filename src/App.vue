@@ -26,7 +26,7 @@
 
 <script>
 import { OVERRIDE_LAYOUT_CONFIG } from "@/core/services/store/config.module";
-import i18nService from "@/core/services/i18n.service.js";
+
 
 export default {
   name: "MetronicVue",
@@ -37,7 +37,7 @@ export default {
      */
     this.$store.dispatch(OVERRIDE_LAYOUT_CONFIG);
 
-    if (i18nService.getActiveLanguage() === 'fa') {
+    if (this.$i18nService.getActiveLanguage() === 'fa') {
       import("@/assets/css/style.vue.rtl.css");
 
       let body = document.getElementsByTagName("body")[0];

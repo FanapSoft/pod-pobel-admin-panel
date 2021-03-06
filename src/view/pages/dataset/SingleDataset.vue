@@ -150,7 +150,7 @@ export default {
   mounted() {
     this.$store.dispatch(SET_SUBHEADER_ACTION, [
       {
-        title: 'Edit Dataset',
+        title: this.$t("BREADCRUMBS.EDITDATASET"),
         link: `/dataset/${this.$route.params.DatasetId}/edit`
       },
       {
