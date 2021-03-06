@@ -13,7 +13,7 @@
 
                     @click.prevent="saveItem"
 
-                    class="btn btn-primary">Create</v-btn>
+                    class="btn btn-primary text-dark text-hover-light">Create</v-btn>
 
           </v-card-title>
         </v-card>
@@ -135,9 +135,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: `Targets`, route: `/dataset/${this.$route.params.DatasetId}/targets` },
+      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: this.$t("BREADCRUMBS.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
       { title: `Create Target` },
     ]);
 

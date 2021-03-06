@@ -44,7 +44,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Reports" },
+      { title: this.$t("BREADCRUMBS.REPORTS") },
     ]);
     /*this.$store.dispatch(SET_SUBHEADER_ACTION, [
       {

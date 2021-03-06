@@ -213,7 +213,10 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{title: "Score Board"}]);
+    this.$store.dispatch(SET_BREADCRUMB, [
+      { title: this.$t("BREADCRUMBS.REPORTS"), route: '/reports/list' },
+      { title: "Score Board" }
+    ]);
 
     if (this.$route.query.DatasetId) {
       this.$store.commit(`scoreboard/${SET_DATASET_ID}`, this.$route.query.DatasetId);

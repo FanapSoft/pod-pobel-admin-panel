@@ -164,8 +164,8 @@ export default {
 
     ]);
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...` },
+      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...` },
     ]);
 
     this.getTargetsCount();

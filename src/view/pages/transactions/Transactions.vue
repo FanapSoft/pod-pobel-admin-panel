@@ -3,7 +3,7 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Transactions
+            {{ $t("BREADCRUMBS.TRANSACTIONS") }}
             <v-spacer></v-spacer>
             <span>{{pagination.realCount}}</span>
           </v-card-title>
@@ -169,7 +169,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Transactions"}]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("BREADCRUMBS.TRANSACTIONS")}]);
 
     if(this.$route.query.OwnerId) {
       this.$store.commit(SET_OWNER_ID, this.$route.query.OwnerId);

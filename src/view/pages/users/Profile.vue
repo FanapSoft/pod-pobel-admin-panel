@@ -22,9 +22,9 @@
                 <v-list-item-subtitle>{{ user.emailAddress }}</v-list-item-subtitle>
               </v-list-item-content>
 
-              <v-list-item-action>
+<!--              <v-list-item-action>
                 <v-icon>mdi-menu-down</v-icon>
-              </v-list-item-action>
+              </v-list-item-action>-->
             </v-list-item>
           </v-list>
           <v-divider></v-divider>

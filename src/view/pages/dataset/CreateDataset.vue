@@ -10,7 +10,7 @@
 
                     @click.prevent="saveItem"
 
-                    class="btn btn-primary">Create</v-btn>
+                    class="btn btn-primary text-dark text-hover-light">Create</v-btn>
           </v-card-title>
         </v-card>
         <v-card v-if="loading">
@@ -164,8 +164,8 @@ export default {
   mounted() {
     //this.$store.dispatch(ADD_BREADCRUMB, [{ title: `Create Dataset`, route: `/dataset/create` }]);
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Create Dataset`, route: `` },
+      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: this.$t("BREADCRUMBS.CREATEDATASET"), route: `` },
     ]);
   }
 }

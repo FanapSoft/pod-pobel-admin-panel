@@ -3,7 +3,7 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Answers
+            {{ $t("BREADCRUMBS.ANSWERS") }}
             <v-spacer></v-spacer>
             <span>{{ pagination.realCount }}</span>
           </v-card-title>
@@ -285,7 +285,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{title: "Answers"}]);
+    this.$store.dispatch(SET_BREADCRUMB, [{title: this.$t("BREADCRUMBS.ANSWERS")}]);
 
     if (this.$route.query.UserId) {
       this.$store.commit(`answersList/${SET_USER_ID}`, this.$route.query.UserId);

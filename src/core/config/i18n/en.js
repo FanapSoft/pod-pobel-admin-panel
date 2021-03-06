@@ -14,6 +14,23 @@ export const locale = {
   },
   QUICKUSER: {
     HI: "Hi,"
+  },
+  BREADCRUMBS: {
+    MANAGEDATASETS: "Manage Datasets",
+    DATASET: "Dataset",
+    DATASETS: "Datasets",
+    EDITDATASET: "Edit Dataset",
+    CREATEDATASET: "Create Dataset",
+    DATASETSITEMS: "Datasets Items",
+    ANSWERS: "Answers",
+    TARGETS: "Targets",
+    CREATETARGET: "Create Target",
+    EDITTARGET: "Edit Target",
+    USERS: "Users",
+    TRANSACTIONS: "Transactions",
+    REPORTS: "Reports",
+    USER: "User",
+    PROFILE: "Profile",
   }
   /*AUTH: {
     GENERAL: {

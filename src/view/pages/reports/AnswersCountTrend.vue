@@ -154,7 +154,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-        { title: "Reports", route: '/reports/list' },
+        { title: this.$t("BREADCRUMBS.REPORTS"), route: '/reports/list' },
         { title: "AnswerCountTrend" }
     ]);
 

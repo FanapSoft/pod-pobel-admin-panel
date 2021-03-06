@@ -3,7 +3,7 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Users
+            {{ $t("BREADCRUMBS.USERS") }}
             <v-spacer></v-spacer>
             <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
             <v-text-field
@@ -162,7 +162,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Users"}]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("BREADCRUMBS.USERS")}]);
 
     this.refreshList()
   },

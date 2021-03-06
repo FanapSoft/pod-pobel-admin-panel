@@ -73,9 +73,9 @@ export default {
 
     this.$store.dispatch(SET_SUBHEADER_ACTION, actions);
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: `Targets` },
+      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: this.$t("BREADCRUMBS.TARGETS") },
     ]);
     //this.$store.dispatch(SET_BREADCRUMB, [{ title: `Dataset ${this.$route.params.DatasetId}`, route: `/dataset/${this.$route.params.DatasetId}/targets` }]);
     this.getItems();

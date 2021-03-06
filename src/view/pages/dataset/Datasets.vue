@@ -89,7 +89,7 @@ export default {
         link: `/dataset/create`
       }
     ]);
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Manage Datasets", route: "/dataset/list" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" }]);
     this.getItems();
   }
 };

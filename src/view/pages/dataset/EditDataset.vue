@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Editing dataset <span style="margin-left:10px; color: #42A5F5">{{ $route.params.DatasetId }}</span>
+            {{ $t("BREADCRUMBS.EDITDATASET") }} <span style="margin-left:10px; color: #42A5F5">{{ !loading && datasetObject ? datasetObject.name : $route.params.DatasetId }}</span>
 
             <v-spacer></v-spacer>
             <v-btn
@@ -12,14 +12,14 @@
 
                 @click.prevent="saveItem"
 
-                class="btn btn-primary mr-4">Save Changes</v-btn>
+                class="btn btn-primary mr-4 text-dark text-hover-light">Save Changes</v-btn>
 
             <v-btn
                 depressed
 
                 @click.stop="deleteDialog = true"
 
-                class="btn btn-danger">Delete Dataset</v-btn>
+                class="btn btn-danger text-dark text-hover-light">Delete Dataset</v-btn>
           </v-card-title>
         </v-card>
         <v-card v-if="loading">
@@ -28,14 +28,14 @@
           ></v-skeleton-loader>
         </v-card>
         <v-card v-if="!loading && !datasetObject">
-          Target Not Found
+          Dataset Not Found
         </v-card>
         <v-row v-if="!loading && datasetObject">
           <v-col
               cols="12"
               class="pb-0">
             <v-card>
-              <v-card-title>Target {{datasetObject.name}}</v-card-title>
+              <v-card-title>{{ $t("BREADCRUMBS.EDITDATASET") }} <strong>{{datasetObject.name}}</strong></v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col cols="12">
@@ -257,9 +257,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: `Edit Dataset`, route: `` },
+      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: this.$t("BREADCRUMBS.EDITDATASET"), route: `` },
     ]);
 
     this.getItem();

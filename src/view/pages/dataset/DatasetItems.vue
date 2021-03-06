@@ -3,7 +3,7 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Dataset Items
+            {{ $t("BREADCRUMBS.DATASETSITEMS") }}
             <v-spacer></v-spacer>
             <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
             <v-text-field
@@ -185,7 +185,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Datasets Items" },
+      { title: this.$t("BREADCRUMBS.DATASETSITEMS")},
       //{ title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
       //{ title: `Items` },
     ]);
