@@ -125,8 +125,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-        { title: "Users", route: `/users/list`},
-      { title: `User ${this.$route.params.userId} Profile`}
+      { title: this.$t("BREADCRUMBS.USERS"), route: `/users/list`},
+      { title: this.user ? this.user.name : this.$route.params.userId }
     ]);
 
     this.setupThisUser();

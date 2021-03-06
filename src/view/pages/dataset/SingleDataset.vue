@@ -70,10 +70,26 @@ export default {
       targetsCount: null,
       transactionsCount: null,
       answersCount: null,
-      loading: false
+      loading: false,
+      datasetObject: null
     };
   },
   methods: {
+    async getDataset() {
+      this.loading = true;
+      try {
+        const dataset = await this.$http.get(`/api/services/app/Datasets/Get?id=${this.$route.params.DatasetId}`);
+        if(dataset.data && dataset.data.result) {
+          this.$set(this, "datasetObject", {
+            ...this.datasetObject,
+            ...dataset.data.result
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.loading = false;
+    },
     async getDatasetItemsCount() {
       this.loading = true;
       const data = {
@@ -146,8 +162,15 @@ export default {
       }
       this.loading = false;
     },
+    setBreadcrumbs() {
+      this.$store.dispatch(SET_BREADCRUMB, [
+        { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
+        { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      ]);
+    }
   },
   mounted() {
+    this.setBreadcrumbs();
     this.$store.dispatch(SET_SUBHEADER_ACTION, [
       {
         title: this.$t("BREADCRUMBS.EDITDATASET"),
@@ -163,15 +186,17 @@ export default {
       },
 
     ]);
-    this.$store.dispatch(SET_BREADCRUMB, [
-      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
-      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...` },
-    ]);
 
+    this.getDataset();
     this.getTargetsCount();
     this.getDatasetItemsCount();
     this.getAnswersCount();
     this.getTransactionsCount();
+  },
+  watch: {
+    datasetObject() {
+      this.setBreadcrumbs();
+    }
   }
 };
 </script>

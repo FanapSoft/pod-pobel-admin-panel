@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            {{ $t("BREADCRUMBS.EDITDATASET") }} <span style="margin-left:10px; color: #42A5F5">{{ !loading && datasetObject ? datasetObject.name : $route.params.DatasetId }}</span>
+            {{ $t("BREADCRUMBS.EDITDATASET") }} <span class="mx-1" style="color: #42A5F5">{{ !loading && datasetObject ? datasetObject.name : $route.params.DatasetId }}</span>
 
             <v-spacer></v-spacer>
             <v-btn
@@ -35,7 +35,6 @@
               cols="12"
               class="pb-0">
             <v-card>
-              <v-card-title>{{ $t("BREADCRUMBS.EDITDATASET") }} <strong>{{datasetObject.name}}</strong></v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col cols="12">
@@ -188,13 +187,11 @@ export default {
       try {
         const dataset = await this.$http.get(`/api/services/app/Datasets/Get?id=${this.$route.params.DatasetId}`);
         if(dataset.data && dataset.data.result) {
-          this.datasetObject = {
+
+          this.$set(this, "datasetObject", {
             ...this.datasetObject,
             ...dataset.data.result
-          };
-
-          //this.datasetObject.isActive = (dataset.data.result.isActive === "true");
-          //this.datasetObject.labelingStatus = (dataset.data.result.labelingStatus === "1");//dataset.data.result.labelingStatus;
+          });
 
         }
       } catch (error) {
@@ -253,16 +250,23 @@ export default {
         });
       }
       this.deleting = false;
+    },
+    setBreadcrumbs() {
+      this.$store.dispatch(SET_BREADCRUMB, [
+        { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
+        { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+        { title: this.$t("BREADCRUMBS.EDITDATASET")},
+      ]);
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [
-      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
-      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: this.$t("BREADCRUMBS.EDITDATASET")},
-    ]);
-
+    this.setBreadcrumbs();
     this.getItem();
+  },
+  watch: {
+    datasetObject() {
+      this.setBreadcrumbs();
+    }
   }
 }
 </script>
