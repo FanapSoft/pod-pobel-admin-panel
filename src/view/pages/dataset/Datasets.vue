@@ -3,7 +3,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Select a dataset
+            {{ $t("DATASET.SELECTADATASET") }}
             <v-spacer></v-spacer>
           </v-card-title>
         </v-card>
@@ -85,11 +85,11 @@ export default {
   mounted() {
     this.$store.dispatch(SET_SUBHEADER_ACTION, [
       {
-        title: this.$t("BREADCRUMBS.CREATEDATASET"),
+        title: this.$t("DATASET.CREATEDATASET"),
         link: `/dataset/create`
       }
     ]);
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" }]);
     this.getItems();
   }
 };

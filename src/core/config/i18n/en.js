@@ -16,28 +16,53 @@ export const locale = {
     HI: "Hi,"
   },
   BREADCRUMBS: {
+    ANSWERS: "Answers",
+    TRANSACTIONS: "Transactions",
+    REPORTS: "Reports",
+
+  },
+  ACTIONS: {
+    ACTIONS: "Actions",
+    QUICKACTIONS: "Quick Actions",
+  },
+  USER: {
+    USER: "User",
+    USERS: "Users",
+    PROFILE: "Profile",
+    SETTINGS: "Settings",
+    OVERVIEW: "Overview",
+    USEROVERVIEW: "User Overview",
+    CHOOSEAUSER: "Choose a user",
+  },
+  DATASET: {
     MANAGEDATASETS: "Manage Datasets",
     DATASET: "Dataset",
     DATASETS: "Datasets",
     EDITDATASET: "Edit Dataset",
     CREATEDATASET: "Create Dataset",
+    SELECTADATASET: "Select a dataset",
+
     DATASETSITEMS: "Datasets Items",
-    ANSWERS: "Answers",
+    ITEMS: "Items",
+    VIEWDATASETITEMS: "View Dataset Items",
+    ITEMLABELNAME: "Label Name",
+
+    VIEWDATASETTARGETS: "View Dataset Targets",
+    VIEWDATASETANSWERS: "View Dataset Answers",
+    VIEWDATASETTRANSACTIONS: "View Dataset Transactions",
+
+  },
+  TARGET: {
+    TARGET: "Target",
     TARGETS: "Targets",
     CREATETARGET: "Create Target",
     EDITTARGET: "Edit Target",
     DELETETARGET: "Delete Target",
-    USERS: "Users",
-    TRANSACTIONS: "Transactions",
-    REPORTS: "Reports",
-    USER: "User",
-    PROFILE: "Profile",
-    SETTINGS: "Settings",
-    OVERVIEW: "Overview",
+    SELECTATARGETTOMODIFY: "Select a target to modify",
   },
-  ACTIONS: {
-    ACTIONS: "Actions",
-    QUICKACTIONS: "Quick Actions",
+  GENERAL: {
+    ANSWERSCOUNTSTRENDFORUSER: "Answers counts trend for user",
+    ALL: "All"
   }
   /*AUTH: {
     GENERAL: {

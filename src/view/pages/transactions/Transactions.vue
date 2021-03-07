@@ -10,15 +10,16 @@
           <v-row>
             <v-col cols="12" class="px-6">
               <v-chip
-                  close
+                  close label
 
                   @click="$router.push('/users/list?showTransactionsBtn=true')"
-                  @click:close="removeQueryItem('ownerId')">User: {{ownerId}}</v-chip>
+                  @click:close="removeQueryItem('ownerId')">{{ $t("USER.USER") }}: {{ownerId}}</v-chip>
               <v-chip
-                  close
+                  close label
 
                   @click="$router.push('/dataset/list')"
-                  @click:close="removeQueryItem('datasetId')">Dataset: {{datasetId}}</v-chip>
+                  @click:close="removeQueryItem('datasetId')"
+              class="mr-1">{{ $t("DATASET.DATASET") }}: {{datasetId}}</v-chip>
             </v-col>
           </v-row>
           <v-data-table

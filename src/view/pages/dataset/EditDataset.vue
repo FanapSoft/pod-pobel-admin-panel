@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            {{ $t("BREADCRUMBS.EDITDATASET") }} <span class="mx-1" style="color: #42A5F5">{{ !loading && datasetObject ? datasetObject.name : $route.params.DatasetId }}</span>
+            {{ $t("DATASET.EDITDATASET") }} <span class="mx-1" style="color: #42A5F5">{{ !loading && datasetObject ? datasetObject.name : $route.params.DatasetId }}</span>
 
             <v-spacer></v-spacer>
             <v-btn
@@ -253,9 +253,9 @@ export default {
     },
     setBreadcrumbs() {
       this.$store.dispatch(SET_BREADCRUMB, [
-        { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
-        { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-        { title: this.$t("BREADCRUMBS.EDITDATASET")},
+        { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+        { title: `${this.$t("DATASET.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+        { title: this.$t("DATASET.EDITDATASET")},
       ]);
     }
   },

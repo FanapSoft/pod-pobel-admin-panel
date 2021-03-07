@@ -135,10 +135,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
-      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: this.$t("BREADCRUMBS.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
-      { title: this.$t("BREADCRUMBS.CREATETARGET") },
+      { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: `${this.$t("DATASET.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: this.$t("TARGET.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
+      { title: this.$t("TARGET.CREATETARGET") },
     ]);
 
   }

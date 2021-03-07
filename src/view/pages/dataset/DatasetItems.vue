@@ -3,7 +3,7 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            {{ $t("BREADCRUMBS.DATASETSITEMS") }}
+            {{ $t("DATASET.DATASETSITEMS") }}
             <v-spacer></v-spacer>
             <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
             <v-text-field
@@ -14,7 +14,7 @@
 
                 v-model="LabelName"
                 append-icon="search"
-                label="Label Name"></v-text-field>
+                :label="$t('DATASET.ITEMLABELNAME')"></v-text-field>
           </v-card-title>
           <v-card-text>
             <v-row>
@@ -23,7 +23,7 @@
                     close
 
                     @click="$router.push('/dataset/list')"
-                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">Dataset: {{$route.query.DatasetId}}</v-chip>
+                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">{{ $t("DATASET.DATASET")}}: {{$route.query.DatasetId}}</v-chip>
               </v-col>
               <v-col cols="3">
                 <v-switch
@@ -185,7 +185,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: this.$t("BREADCRUMBS.DATASETSITEMS")},
+      { title: this.$t("DATASET.DATASETSITEMS")},
       //{ title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
       //{ title: `Items` },
     ]);

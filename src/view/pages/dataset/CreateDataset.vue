@@ -164,8 +164,8 @@ export default {
   mounted() {
     //this.$store.dispatch(ADD_BREADCRUMB, [{ title: `Create Dataset`, route: `/dataset/create` }]);
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
-      { title: this.$t("BREADCRUMBS.CREATEDATASET") },
+      { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: this.$t("DATASET.CREATEDATASET") },
     ]);
   }
 }

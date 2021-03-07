@@ -11,15 +11,18 @@
             <v-col cols="12" class="px-6">
               <v-chip
                   close
-
+                  label
                   @click="$router.push('/users/list?showAnswersBtn=true')"
-                  @click:close="removeQueryItem('userId')">User: {{ userId }}
+                  @click:close="removeQueryItem('userId')">{{ $t("USER.USER") }}: {{ userId }}
               </v-chip>
               <v-chip
                   close
+                  label
 
                   @click="$router.push('/dataset/list')"
-                  @click:close="removeQueryItem('datasetId')">Dataset: {{ datasetId }}
+                  @click:close="removeQueryItem('datasetId')"
+
+              class="mr-1">{{ $t("DATASET.DATASET") }}: {{ datasetId }}
               </v-chip>
 
               <!--              <v-date-picker v-model="dateTo"></v-date-picker>-->

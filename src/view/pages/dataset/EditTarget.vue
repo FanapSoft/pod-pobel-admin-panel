@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            {{ this.$t("BREADCRUMBS.EDITTARGET") }} <span style="margin-left:10px; color: #42A5F5">{{ $route.params.TargetId }}</span>
+            {{ this.$t("TARGET.EDITTARGET") }} <span class="mx-1" style=" color: #42A5F5">{{ $route.params.TargetId }}</span>
 
             <v-spacer></v-spacer>
 
@@ -163,15 +163,15 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
-      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: this.$t("BREADCRUMBS.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
-      { title: this.$t("BREADCRUMBS.EDITTARGET") },
+      { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: `${this.$t("DATASET.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: this.$t("TARGET.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
+      { title: this.$t("TARGET.EDITTARGET") },
     ]);
 
     const actions = [
       {
-        title: this.$t("BREADCRUMBS.DELETETARGET"),
+        title: this.$t("TARGET.DELETETARGET"),
         onClick: () => {
           this.deleteItem()
         }

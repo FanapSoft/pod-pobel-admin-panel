@@ -9,11 +9,11 @@
               class="pb-0">
             <v-card :to="`/datasetitems?DatasetId=${this.$route.params.DatasetId}`">
               <v-card-title>
-                Items
+                {{$t("DATASET.ITEMS")}}
                 <v-spacer></v-spacer>
                 {{ datasetItemsCount }}
               </v-card-title>
-              <v-card-subtitle>View Dataset Items</v-card-subtitle>
+              <v-card-subtitle>{{ $t("DATASET.VIEWDATASETITEMS")}}</v-card-subtitle>
             </v-card>
           </v-col>
           <v-col
@@ -21,11 +21,11 @@
               class="pb-0">
             <v-card to="targets">
               <v-card-title>
-                Targets
+                {{ $t("TARGET.TARGETS") }}
                 <v-spacer></v-spacer>
                 {{ targetsCount }}
               </v-card-title>
-              <v-card-subtitle>View Dataset Targets</v-card-subtitle>
+              <v-card-subtitle>{{ $t("DATASET.VIEWDATASETTARGETS")}}</v-card-subtitle>
             </v-card>
           </v-col>
           <v-col
@@ -33,11 +33,11 @@
               class="pb-0">
             <v-card :to="`/answers?DatasetId=${$route.params.DatasetId}`">
               <v-card-title>
-                Answers
+                {{ $t("BREADCRUMBS.ANSWERS")}}
                 <v-spacer></v-spacer>
                 {{ answersCount }}
               </v-card-title>
-              <v-card-subtitle>View Dataset Answers</v-card-subtitle>
+              <v-card-subtitle>{{ $t("DATASET.VIEWDATASETANSWERS") }}</v-card-subtitle>
             </v-card>
           </v-col>
           <v-col
@@ -45,11 +45,11 @@
               class="pb-0">
             <v-card :to="`/transaction/list?DatasetId=${this.$route.params.DatasetId}`">
               <v-card-title>
-                Transactions
+                {{ $t("BREADCRUMBS.TRANSACTIONS") }}
                 <v-spacer></v-spacer>
                 {{ transactionsCount }}
               </v-card-title>
-              <v-card-subtitle>View Dataset Transactions</v-card-subtitle>
+              <v-card-subtitle>{{ $t("DATASET.VIEWDATASETTRANSACTIONS") }}</v-card-subtitle>
             </v-card>
           </v-col>
         </v-row>
@@ -164,8 +164,8 @@ export default {
     },
     setBreadcrumbs() {
       this.$store.dispatch(SET_BREADCRUMB, [
-        { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
-        { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+        { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+        { title: `${this.$t("DATASET.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
       ]);
     }
   },
@@ -173,7 +173,7 @@ export default {
     this.setBreadcrumbs();
     this.$store.dispatch(SET_SUBHEADER_ACTION, [
       {
-        title: this.$t("BREADCRUMBS.EDITDATASET"),
+        title: this.$t("DATASET.EDITDATASET"),
         link: `/dataset/${this.$route.params.DatasetId}/edit`
       },
       {

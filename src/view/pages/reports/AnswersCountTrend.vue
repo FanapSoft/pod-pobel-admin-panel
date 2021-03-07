@@ -7,20 +7,20 @@
             close
 
             @click="$router.push('/users/list?showAnswerCountTrend=true')"
-            @click:close="removeQueryItem('userId')">User: {{userId ? userId : ':) Choose a user'}}</v-chip>
+            @click:close="removeQueryItem('userId')">{{ $t("USER.USER")}}: {{userId ? userId : $t("USER.CHOOSEAUSER")}}</v-chip>
         <v-chip
             v-if="userId"
             close
 
             @click="$router.push('/dataset/list')"
-            @click:close="removeQueryItem('datasetId')">Dataset: {{datasetId ? datasetId : 'All'}}</v-chip>
+            @click:close="removeQueryItem('datasetId')">{{ $t("DATASET.DATASET")}}: {{datasetId ? datasetId : $t("GENERAL.ALL")}}</v-chip>
       </v-col>
     </v-row>
     <div class="row">
       <div class="col-12 ">
         <v-card style="background-color: #cfd8dc">
           <v-card-title>
-            Answers counts trend for user: {{userId}}
+            {{ $t("GENERAL.ANSWERSCOUNTSTRENDFORUSER") }} {{userId}}
             <v-spacer></v-spacer>
             <v-menu
                 v-if="userId"

@@ -4,7 +4,8 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Select a target to modify
+
+            {{ $t("TARGET.SELECTATARGETTOMODIFY") }}
             <v-spacer></v-spacer>
 
           </v-card-title>
@@ -28,7 +29,7 @@
               cols="4"
               class="pb-0">
             <v-card :to="`/dataset/${$route.params.DatasetId}/target/${item.id}/edit`">
-              <v-card-title>{{ $t("BREADCRUMBS.EDITTARGET") }} {{item.answerCount}}</v-card-title>
+              <v-card-title>{{ $t("TARGET.EDITTARGET") }} {{item.answerCount}}</v-card-title>
             </v-card>
           </v-col>
         </v-row>
@@ -66,16 +67,16 @@ export default {
   mounted() {
     const actions = [
       {
-        title: this.$t("BREADCRUMBS.CREATETARGET"),
+        title: this.$t("TARGET.CREATETARGET"),
         link: `/dataset/${this.$route.params.DatasetId}/target/create`
       },
     ];
 
     this.$store.dispatch(SET_SUBHEADER_ACTION, actions);
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: this.$t("BREADCRUMBS.MANAGEDATASETS"), route: "/dataset/list" },
-      { title: `${this.$t("BREADCRUMBS.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: this.$t("BREADCRUMBS.TARGETS") },
+      { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: `${this.$t("DATASET.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: this.$t("TARGET.TARGETS") },
     ]);
     //this.$store.dispatch(SET_BREADCRUMB, [{ title: `Dataset ${this.$route.params.DatasetId}`, route: `/dataset/${this.$route.params.DatasetId}/targets` }]);
     this.getItems();
