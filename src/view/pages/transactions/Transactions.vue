@@ -19,7 +19,7 @@
 
                   @click="$router.push('/dataset/list')"
                   @click:close="removeQueryItem('datasetId')"
-              class="mr-1">{{ $t("DATASET.DATASET") }}: {{datasetId}}</v-chip>
+              class="mx-1">{{ $t("DATASET.DATASET") }}: {{datasetId}}</v-chip>
             </v-col>
           </v-row>
           <v-data-table
