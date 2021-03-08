@@ -98,7 +98,7 @@
           :series="chartOptions.series"
 
           type="area"
-          class="card-rounded-bottom"></apexchart>
+          class="card-rounded-bottom" style="direction: ltr"></apexchart>
     </template>
 
   </v-card>
@@ -238,8 +238,8 @@ export default {
             fontSize: "12px",
           },
           y: {
-            formatter: function (val) {
-              return val + " Answers";
+            formatter: (val) => {
+              return `${val} ${this.$t("GENERAL.ANSWER")}`;
             }
           },
           marker: {
