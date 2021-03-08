@@ -14,7 +14,7 @@
 
                 v-model="search"
                 append-icon="search"
-                label="Search"></v-text-field>
+                :label="$t('GENERAL.SEARCH')"></v-text-field>
           </v-card-title>
           <v-data-table
               v-if="users"
@@ -52,7 +52,7 @@
                     <v-icon>mdi-file-account</v-icon>
                   </v-btn>
                 </template>
-                <span>View Profile</span>
+                <span>{{ $t("USER.VIEWPROFILE")}}</span>
               </v-tooltip>
               <v-btn
                   v-if="$route.query.showTransactionsBtn"
@@ -95,16 +95,16 @@ export default {
       isActive: null,
       search: null,
       listHeaders: [
-        { text: "Row", value: "ind" },
-        { text: "Username", value: "userName" },
+        { text: this.$t("GENERAL.ROW"), value: "ind" },
+        { text: this.$t("USER.USERNAME"), value: "userName" },
         {
-          text: "Full Name",
+          text: this.$t("USER.FULLNAME"),
           /*align: "left",*/
           sortable: false,
           value: "fullName"
         },
-        { text: "Email", value: "emailAddress" },
-        { text: "Actions", value: "actions" },
+        { text: this.$t("USER.EMAIL"), value: "emailAddress" },
+        { text: this.$t("GENERAL.ACTIONS"), value: "actions" },
       ],
       loading: false,
       pagination: {

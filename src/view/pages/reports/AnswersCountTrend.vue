@@ -2,18 +2,21 @@
   <div>
     <!--begin::Dashboard-->
     <v-row>
-      <v-col cols="12" class="px-6">
+      <v-col cols="12" class="px-3">
         <v-chip
-            close
+            close label
 
             @click="$router.push('/users/list?showAnswerCountTrend=true')"
             @click:close="removeQueryItem('userId')">{{ $t("USER.USER")}}: {{userId ? userId : $t("USER.CHOOSEAUSER")}}</v-chip>
         <v-chip
             v-if="userId"
-            close
+
+            close label
 
             @click="$router.push('/dataset/list')"
-            @click:close="removeQueryItem('datasetId')">{{ $t("DATASET.DATASET")}}: {{datasetId ? datasetId : $t("GENERAL.ALL")}}</v-chip>
+            @click:close="removeQueryItem('datasetId')"
+
+            class="mx-1">{{ $t("DATASET.DATASET")}}: {{datasetId ? datasetId : $t("GENERAL.ALL")}}</v-chip>
       </v-col>
     </v-row>
     <div class="row">
@@ -107,7 +110,10 @@
             </v-menu>
 
           </v-card-title>
-          <v-card-text v-if="userId" class="px-0 py-0">
+          <v-card-text
+              v-if="userId"
+              class="px-0 py-0"
+              style="direction: ltr">
             <chart
                 v-if="dataCounts && !loading"
 

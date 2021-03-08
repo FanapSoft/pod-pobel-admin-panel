@@ -7,7 +7,7 @@
             <v-spacer></v-spacer>
             <span>{{pagination.realCount}}</span>
           </v-card-title>
-          <v-row>
+          <v-row class="mb-0">
             <v-col cols="12" class="px-6">
               <v-chip
                   close label
@@ -42,12 +42,15 @@
 
               item-key="id"
               class="elevation-1">
+            <template v-slot:header.creditAmount="{ header }">
+              <div class="text-center"> {{ header.text }}</div>
+            </template>
             <template v-slot:item.ind="{ item }">
               {{ (pagination.skip ? pagination.skip + transactions.indexOf(item) + 1 : transactions.indexOf(item) + 1) }}
             </template>
             <template v-slot:item.creditAmount="{ item }">
-              <div style="direction: ltr">
-                <span class="d-inline-block mr-3">تومان</span>
+              <div class="d-flex justify-center" style="direction: ltr">
+                <span class="d-inline-block mr-3">ریال</span>
                 <span class="d-inline-block">{{ (item.creditAmount).toFixed(3) }}</span>
               </div>
             </template>
@@ -66,7 +69,6 @@
                 </DatasetDetails>
               </div>
             </template>
-
 
           </v-data-table>
           <v-row class="mx-9">
@@ -92,10 +94,10 @@ export default {
     return {
       transactions: null,
       listHeaders: [
-        { text: "Row", value: "ind" },
-        { text: "creditAmount", value: "creditAmount" },
-        { text: "Date & Time", value: "dateTime"},
-        { text: "Dataset", value: "referenceDataSetId"},
+        { text: this.$t("GENERAL.ROW"), value: "ind" },
+        { text: this.$t("GENERAL.CREDITAMOUNT"), value: "creditAmount" },
+        { text: this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
+        { text: this.$t("DATASET.DATASET"), value: "referenceDataSetId"},
 
       ],
       loading: false,

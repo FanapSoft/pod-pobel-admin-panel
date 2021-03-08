@@ -574,8 +574,8 @@ export default {
   position: relative;
 }
 .menu-submenu {
-  max-width: 185px !important;
+  max-width: 200px !important;
   left: 0 !important;
-  width: 185px !important;
+  width: 200px !important;
 }
 </style>

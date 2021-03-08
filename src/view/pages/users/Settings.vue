@@ -3,9 +3,9 @@
         <v-col cols="12">
           <v-card>
             <v-card-title>
-              User Settings
+              {{ $t("USER.USERSETTINGS") }}
               <v-spacer></v-spacer>
-              <v-btn class="primary" depressed>Save</v-btn>
+              <v-btn class="primary" depressed>{{ $t("GENERAL.SAVE") }}</v-btn>
             </v-card-title>
             <v-divider class="my-0"></v-divider>
             <v-card-text>

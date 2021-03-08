@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <v-card>
         <v-card-title>
-          Answers
+          {{ $t("REPORTS.SCOREBOARD") }}
           <v-spacer></v-spacer>
 
         </v-card-title>
@@ -13,7 +13,7 @@
                 close
 
                 @click="$router.push('/dataset/list')"
-                @click:close="removeQueryItem('datasetId')">Dataset: {{ datasetId }}
+                @click:close="removeQueryItem('datasetId')">{{ $t("DATASET.DATASET") }}: {{ datasetId }}
             </v-chip>
           </v-col>
           <v-col
@@ -132,11 +132,11 @@ export default {
       dateFromMenu: false,
       dateToMenu: null,
       listHeaders: [
-        {text: "Row", value: "ind"},
+        {text: this.$t("GENERAL.ROW"), value: "ind"},
         //{ text: "creditAmount", value: "creditAmount" },
-        {text: "Date & Time", value: "dateTime"},
-        {text: "User", value: "name"},
-        {text: "Answers", value: "count"},
+        {text: this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
+        {text: this.$t("USER.USER"), value: "name"},
+        {text: this.$t("BREADCRUMBS.ANSWERS"), value: "count"},
 
       ],
       loading: false,
@@ -215,7 +215,7 @@ export default {
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("BREADCRUMBS.REPORTS"), route: '/reports/list' },
-      { title: "Score Board" }
+      { title: this.$t("REPORTS.SCOREBOARD") }
     ]);
 
     if (this.$route.query.DatasetId) {

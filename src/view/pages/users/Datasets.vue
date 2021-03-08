@@ -2,7 +2,7 @@
   <div>
     <v-card class="mb-5">
       <v-card-title>
-        Datasets Activities
+        {{ $t("DATASET.DATASETSACTIVITIES") }}
       </v-card-title>
       <v-card-text>
         <v-select
@@ -14,9 +14,9 @@
 
             :items="datasets"
 
-            label="Choose a dataset">
+            :label="$t('DATASET.CHOOSEADATASET')">
           <template v-slot:selection="{ item }" >
-            {{ (item? item.name : 'Choose a dataset') }}
+            {{ (item? item.name : $t('DATASET.CHOOSEADATASET')) }}
           </template>
           <template v-slot:item="{ active, item, attrs, on }">
             <v-list-item
@@ -34,7 +34,7 @@
                         class="mb-2"
                     >{{ item.name }}</v-chip>
                     <v-spacer></v-spacer>
-                    Answers: {{ (item.answersCount ? item.answersCount : '0') }}
+                    {{ $t("BREADCRUMBS.ANSWERS") }}: {{ (item.answersCount ? item.answersCount : '0') }}
                   </v-row>
                 </v-list-item-title>
                 <v-list-item-subtitle>
@@ -63,10 +63,10 @@
             <v-chip
                 label small
 
-                class="mr-1">Transactions: {{(selectedItem.transactionsCount ? selectedItem.transactionsCount : '0')}}</v-chip>
+                class="mr-1">{{ $t("BREADCRUMBS.TRANSACTIONS") }}: {{(selectedItem.transactionsCount ? selectedItem.transactionsCount : '0')}}</v-chip>
             <v-chip
                 label small
-            >Answers: {{ (selectedItem.answersCount ? selectedItem.answersCount : '0') }}</v-chip>
+            >{{ $t("BREADCRUMBS.ANSWERS") }}: {{ (selectedItem.answersCount ? selectedItem.answersCount : '0') }}</v-chip>
 
           </v-card-title>
           <v-card-subtitle>{{ selectedItem.description }}</v-card-subtitle>

@@ -177,11 +177,11 @@ export default {
         link: `/dataset/${this.$route.params.DatasetId}/edit`
       },
       {
-        title: 'AnswerCountTrend',
+        title: this.$t("REPORTS.ANSWERSTREND"),
         link: `/reports/AnswerCountTrend?DatasetId=${this.$route.params.DatasetId}`
       },
       {
-        title: 'Scoreboard',
+        title: this.$t("REPORTS.SCOREBOARD"),
         link: `/reports/Scoreboard?DatasetId=${this.$route.params.DatasetId}`
       },
 

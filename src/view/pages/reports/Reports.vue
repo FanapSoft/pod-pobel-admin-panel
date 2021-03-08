@@ -4,21 +4,21 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Choose a report type
+            {{ $t("REPORTS.CHOOSEAREPORTTYPE") }}
             <v-spacer></v-spacer>
           </v-card-title>
         </v-card>
         <v-row>
             <v-col cols="4" class="pb-0">
               <v-card to="AnswerCountTrend">
-                <v-card-title>Answers Counts Trend</v-card-title>
-                <v-card-subtitle>Users activity trend on datasets</v-card-subtitle>
+                <v-card-title>{{ $t("REPORTS.ANSWERSTREND") }}</v-card-title>
+                <v-card-subtitle>{{ $t("REPORTS.USERSACTIVITYTRENDONDATASETS") }}</v-card-subtitle>
               </v-card>
             </v-col>
           <v-col cols="4" class="pb-0">
             <v-card :to="`/reports/scoreboard`">
-              <v-card-title>Scoreboard</v-card-title>
-              <v-card-subtitle>Scoreboard</v-card-subtitle>
+              <v-card-title>{{ $t("REPORTS.SCOREBOARD") }}</v-card-title>
+              <v-card-subtitle>{{ $t("REPORTS.SCOREBOARD") }}</v-card-subtitle>
             </v-card>
           </v-col>
         </v-row>

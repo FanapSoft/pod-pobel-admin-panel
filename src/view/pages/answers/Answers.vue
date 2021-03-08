@@ -7,8 +7,8 @@
             <v-spacer></v-spacer>
             <span>{{ pagination.realCount }}</span>
           </v-card-title>
-          <v-row>
-            <v-col cols="12" class="px-6">
+          <v-row class="mx-0 mb-0">
+            <v-col cols="12" class="px-3">
               <v-chip
                   close
                   label
@@ -16,8 +16,7 @@
                   @click:close="removeQueryItem('userId')">{{ $t("USER.USER") }}: {{ userId }}
               </v-chip>
               <v-chip
-                  close
-                  label
+                  close label
 
                   @click="$router.push('/dataset/list')"
                   @click:close="removeQueryItem('datasetId')"
@@ -37,24 +36,25 @@
                 sm="6"
                 md="3"
             >
-              <v-menu
-                  ref="dateFromMenu"
-                  v-model="dateFromMenu"
+              <v-dialog
+                  ref="dateFromDialog"
+                  v-model="dateFromDialog"
                   :close-on-content-click="false"
 
+
                   transition="scale-transition"
-                  offset-y
-                  min-width="auto"
-              >
+                  width="290px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
+                      readonly solo clearable hide-details
+
                       v-model="$store.state['answersList/dateFrom']"
-                      label="From"
-                      prepend-icon="mdi-calendar"
-                      readonly
+                      :label="$t('GENERAL.FROM')"
                       v-bind="attrs"
                       v-on="on"
-                  ></v-text-field>
+                      @click:clear="()=> {$store.state['answersList/dateFrom'] = ''; dateFromDialog = false; refreshList()}"
+
+                      prepend-inner-icon="mdi-calendar"></v-text-field>
                 </template>
                 <v-date-picker
                     no-title scrollable
@@ -64,38 +64,42 @@
                   <v-btn
                       text
                       color="primary"
-                      @click="()=> {$store.state['answersList/dateFrom'] = ''; dateFromMenu = false; refreshList()}">
-                    Cancel
+                      @click="()=> {$store.state['answersList/dateFrom'] = ''; dateFromDialog = false; refreshList()}">
+                    {{ $t("GENERAL.CANCEL") }}
                   </v-btn>
                   <v-btn
                       text
                       color="primary"
-                      @click="()=>{$refs.dateFromMenu.save($store.state['answersList/dateFrom']); refreshList()}">
-                    OK
+                      @click="()=>{$refs.dateFromDialog.save($store.state['answersList/dateFrom']); refreshList()}">
+                    {{ $t("GENERAL.OK") }}
                   </v-btn>
                 </v-date-picker>
-              </v-menu>
+              </v-dialog>
             </v-col>
 
             <v-col
                 cols="12"
                 sm="6"
                 md="3">
-              <v-menu
-                  ref="dateToMenu"
+              <v-dialog
                   v-model="dateToMenu"
                   :close-on-content-click="false"
+
+                  ref="dateToMenu"
                   transition="scale-transition"
-                  offset-y
-                  min-width="auto">
+                  width="290px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
+                      readonly solo clearable hide-details
+
                       v-model="$store.state['answersList/dateTo']"
-                      label="To"
-                      prepend-icon="mdi-calendar"
-                      readonly
                       v-bind="attrs"
                       v-on="on"
+                      :label="$t('GENERAL.TO')"
+                      @click:clear="()=>{dateToMenu = false; $store.state['answersList/dateTo'] = null; refreshList()}"
+
+                      prepend-inner-icon="mdi-calendar"
+
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -107,16 +111,16 @@
                       text
                       color="primary"
                       @click="()=>{dateToMenu = false; $store.state['answersList/dateTo'] = null; refreshList()}">
-                    Cancel
+                    {{ $t("GENERAL.CANCEL") }}
                   </v-btn>
                   <v-btn
                       text
                       color="primary"
                       @click="()=>{$refs.dateToMenu.save($store.state['answersList/dateTo']); refreshList()}">
-                    OK
+                    {{ $t("GENERAL.OK") }}
                   </v-btn>
                 </v-date-picker>
-              </v-menu>
+              </v-dialog>
             </v-col>
           </v-row>
           <v-data-table
@@ -194,16 +198,16 @@ export default {
   data() {
     return {
       answers: null,
-      dateFromMenu: false,
+      dateFromDialog: false,
       dateToMenu: null,
       listHeaders: [
-        {text: "Row", value: "ind"},
+        {text: this.$t("GENERAL.ROW"), value: "ind"},
         //{ text: "creditAmount", value: "creditAmount" },
-        {text: "Date & Time", value: "dateTime"},
-        {text: "Answer", value: "answer"},
+        {text: this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
+        {text: this.$t("GENERAL.ANSWER"), value: "answer"},
         {text: "Is Ignored", value: "ignored"},
-        {text: "Dataset ", value: "dataset"},
-        {text: "Dataset Item", value: "datasetItem"},
+        {text: this.$t("DATASET.DATASET"), value: "dataset"},
+        {text: this.$t("DATASET.DATASETITEM"), value: "datasetItem"},
 
       ],
       loading: false,

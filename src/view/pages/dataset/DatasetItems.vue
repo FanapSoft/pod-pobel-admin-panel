@@ -9,10 +9,11 @@
             <v-text-field
                 single-line hide-details filled dense rounded
 
+                v-model="LabelName"
+
                 @click:append="refreshList"
                 @keydown.enter="refreshList"
 
-                v-model="LabelName"
                 append-icon="search"
                 :label="$t('DATASET.ITEMLABELNAME')"></v-text-field>
           </v-card-title>
@@ -20,7 +21,7 @@
             <v-row>
               <v-col cols="12" style="vertical-align: middle">
                 <v-chip
-                    close
+                    close label
 
                     @click="$router.push('/dataset/list')"
                     @click:close="()=>{$router.push('/datasetItems'); refreshList()}">{{ $t("DATASET.DATASET")}}: {{$route.query.DatasetId}}</v-chip>
@@ -112,11 +113,11 @@ export default {
       OnlyNonDecidedGoldens: false,
 
       listHeaders: [
-        { text: "Row", value: "ind" },
-        { text: "File", value: "file" },
-        { text: "Label", value: "labelName" },
-        { text: "Dataset", value: "datasetItem"},
-        { text: "Actions", value: "actions" },
+        { text: this.$t("GENERAL.ROW"), value: "ind" },
+        { text: this.$t("GENERAL.FILE"), value: "file" },
+        { text: this.$t("GENERAL.LABEL"), value: "labelName" },
+        { text: this.$t("DATASET.DATASET"), value: "datasetItem"},
+        { text: this.$t("GENERAL.ACTIONS"), value: "actions" },
       ],
       loading: false,
       pagination: {

@@ -33,6 +33,17 @@ export const locale = {
     OVERVIEW: "Overview",
     USEROVERVIEW: "User Overview",
     CHOOSEAUSER: "Choose a user",
+
+    NAME: "Name",
+    USERNAME: "UserName",
+    EMAIL: "Email",
+    FULLNAME: "Full Name",
+    VIEWPROFILE: "View Profile",
+    SURNAME: "Surname",
+    JOINEDAT: "Joined At",
+    ROLES: "Roles",
+
+    USERSETTINGS: "User Settings"
   },
   DATASET: {
     MANAGEDATASETS: "Manage Datasets",
@@ -40,9 +51,11 @@ export const locale = {
     DATASETS: "Datasets",
     EDITDATASET: "Edit Dataset",
     CREATEDATASET: "Create Dataset",
+    DELETEDATASET: "Delete Dataset",
     SELECTADATASET: "Select a dataset",
 
     DATASETSITEMS: "Datasets Items",
+    DATASETITEM: "Dataset Item",
     ITEMS: "Items",
     VIEWDATASETITEMS: "View Dataset Items",
     ITEMLABELNAME: "Label Name",
@@ -51,6 +64,16 @@ export const locale = {
     VIEWDATASETANSWERS: "View Dataset Answers",
     VIEWDATASETTRANSACTIONS: "View Dataset Transactions",
 
+    DATASETSACTIVITIES: "Datasets Activities",
+    CHOOSEADATASET: "Choose a dataset",
+
+    YOUAREDELETINGDATASET: "You are deleting dataset",
+    YOUCANNOTRESTOREYOURDATASET: "You can not restore your dataset after it's deleted.",
+
+    CREATENEWDATASET: "Create new dataset",
+
+    DATASETSUCCESSFULLYUPDATED: "Dataset successfully updated",
+    DATASETSUCCESSFULLYSAVED: "Dataset successfully saved"
   },
   TARGET: {
     TARGET: "Target",
@@ -59,10 +82,47 @@ export const locale = {
     EDITTARGET: "Edit Target",
     DELETETARGET: "Delete Target",
     SELECTATARGETTOMODIFY: "Select a target to modify",
+    TARGETSUCCESSFULLYUPDATED: "Target successfully updated",
+    TARGETUPDATEFAILED: "Target update failed. Check your console for more",
+    TARGETNOTFOUND: "Target Not Found",
+    CREATENEWTARGETFORDATASET: "Create New Target for Dataset",
+    TARGETSUCCESSFULLYSAVED: "Target successfully saved"
   },
   GENERAL: {
     ANSWERSCOUNTSTRENDFORUSER: "Answers counts trend for user",
-    ALL: "All"
+    ALL: "All",
+    SEARCH: "Search",
+    ROW: "Row",
+    ACTIONS: "Actions",
+    FILE: "File",
+    LABEL: "Label",
+    FROM: "From",
+    TO: "To",
+    ANSWER: "Answer",
+    DATE: "تاریخ",
+    DATEANDTIME: "Date & Time",
+
+    SAVE: "Save",
+    SAVECHANGES: "Save Changes",
+    OK: "OK",
+    CANCEL: "CANCEL",
+    CREATE: "Create",
+    DELETE: "Delete",
+    YES: "Yes",
+    NO: "No",
+    NOTICE: "Notice",
+
+    YESDELETE:"Yes, Delete",
+
+    CREDITAMOUNT: "Credit Amount",
+  },
+  REPORTS: {
+    CHOOSEAREPORTTYPE: "Choose a report type",
+
+    ANSWERSTREND: "Answers Trend",
+    USERSACTIVITYTRENDONDATASETS: "Users activity trend on datasets",
+
+    SCOREBOARD: "Scoreboard"
   }
   /*AUTH: {
     GENERAL: {

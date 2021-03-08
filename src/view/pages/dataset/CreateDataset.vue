@@ -3,14 +3,14 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Create new dataset
+            {{ $t("DATASET.CREATENEWDATASET") }}
             <v-spacer></v-spacer>
                 <v-btn
                     depressed
 
                     @click.prevent="saveItem"
 
-                    class="btn btn-primary text-dark text-hover-light">Create</v-btn>
+                    class="btn btn-primary text-dark text-hover-light">{{ $t("GENERAL.CREATE") }}</v-btn>
           </v-card-title>
         </v-card>
         <v-card v-if="loading">
@@ -144,7 +144,7 @@ export default {
       try {
         const result = await this.$http.post(`/api/services/app/DataSets/Create`, data);
         if(result.status == 200) {
-          this.$bvToast.toast('Dataset successfully saved', {
+          this.$bvToast.toast(this.$t("DATASET.DATASETSUCCESSFULLYSAVED"), {
             title: `Done`,
             variant: 'success',
             solid: true

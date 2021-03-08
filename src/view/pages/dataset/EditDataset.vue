@@ -12,14 +12,14 @@
 
                 @click.prevent="saveItem"
 
-                class="btn btn-primary mr-4 text-dark text-hover-light">Save Changes</v-btn>
+                class="btn btn-primary mr-4 text-dark text-hover-light">{{ $t("GENERAL.SAVECHANGES")}}</v-btn>
 
             <v-btn
                 depressed
 
                 @click.stop="deleteDialog = true"
 
-                class="btn btn-danger text-dark text-hover-light">Delete Dataset</v-btn>
+                class="btn btn-danger text-dark text-hover-light">{{ $t("DATASET.DELETEDATASET")}}</v-btn>
           </v-card-title>
         </v-card>
         <v-card v-if="loading">
@@ -125,12 +125,12 @@
           max-width="290"
       >
         <v-card>
-          <v-card-title class="headline">Delete</v-card-title>
+          <v-card-title class="headline">{{ $t("GENERAL.DELETE") }}</v-card-title>
 
           <v-card-text>
-            You are deleting dataset: {{datasetObject.name}}
+            {{ $t("DATASET.YOUAREDELETINGDATASET") }}: {{datasetObject.name}}
             <br>
-            Notice: You can not restore your dataset after it's deleted.
+            {{ $t("GENERAL.NOTICE") }}: {{ $t("DATASET.YOUCANNOTRESTOREYOURDATASET") }}
             <br>
           </v-card-text>
 
@@ -145,7 +145,7 @@
 
                 color="error"
             >
-              Yes, Delete
+              {{ $t("GENERAL.YESDELETE") }}
             </v-btn>
 
             <v-btn
@@ -153,7 +153,7 @@
                 text
                 @click="deleteDialog = false"
             >
-              No
+              {{ $t("GENERAL.NO") }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -211,7 +211,7 @@ export default {
       try {
         const result = await this.$http.put(`/api/services/app/DataSets/Update`, data);
         if(result.status == 200) {
-          this.$bvToast.toast('Dataset successfully updated', {
+          this.$bvToast.toast(this.$t("DATASET.DATASETSUCCESSFULLYUPDATED"), {
             title: `Done`,
             variant: 'success',
             solid: true

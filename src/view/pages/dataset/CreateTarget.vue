@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Create New Target for Dataset <span style="margin-left:10px; color: #42A5F5">{{ $route.params.DatasetID }}</span>
+            {{ $t("TARGET.CREATENEWTARGETFORDATASET") }} <span style="margin-left:10px; color: #42A5F5">{{ $route.params.DatasetID }}</span>
 
             <v-spacer></v-spacer>
 
@@ -13,7 +13,7 @@
 
                     @click.prevent="saveItem"
 
-                    class="btn btn-primary text-dark text-hover-light">Create</v-btn>
+                    class="btn btn-primary text-dark text-hover-light">{{ $t("GENERAL.CREATE") }}</v-btn>
 
           </v-card-title>
         </v-card>
@@ -23,14 +23,14 @@
           ></v-skeleton-loader>
         </v-card>
         <v-card v-if="!loading && !targetObject">
-          Target Not Found
+          {{ $t("TARGET.TARGETNOTFOUND") }}
         </v-card>
         <v-row v-if="!loading && targetObject">
           <v-col
               cols="12"
               class="pb-0">
             <v-card>
-              <v-card-title>Target {{targetObject.answerCount}}</v-card-title>
+              <v-card-title>{{ $t("TARGET.TARGET") }}: {{targetObject.answerCount}}</v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col cols="4">
@@ -116,7 +116,7 @@ export default {
       try {
         const result = await this.$http.post(`/api/services/app/TargetDefinitions/Create`, data);
         if(result.status == 200) {
-          this.$bvToast.toast('Target successfully saved', {
+          this.$bvToast.toast(this.$t('TARGET.TARGETSUCCESSFULLYSAVED'), {
             title: `Done`,
             variant: 'success',
             solid: true
@@ -124,7 +124,7 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        this.$bvToast.toast('Target save failed. Check your console for more', {
+        this.$bvToast.toast(this.$t('TARGET.TARGETUPDATEFAILED'), {
           title: `Error`,
           variant: 'danger',
           solid: true

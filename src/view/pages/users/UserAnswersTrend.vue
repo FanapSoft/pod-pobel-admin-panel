@@ -1,7 +1,7 @@
 <template>
   <v-card color="red lighten-3 ">
     <v-card-title class="text-white">
-      Answers Trend
+      {{ $t("REPORTS.ANSWERSTREND") }}
       <v-spacer></v-spacer>
       <v-menu
           ref="dateFromMenu"
@@ -16,7 +16,7 @@
               v-bind="attrs"
               v-on="on"
 
-              class="mr-2">From: {{ resultsFrom ? new Date(resultsFrom).toLocaleDateString('en-US') : '' }}</v-chip>
+              class="mr-2">{{ $t("GENERAL.FROM")}}: {{ resultsFrom ? new Date(resultsFrom).toLocaleDateString('en-US') : '' }}</v-chip>
 <!--
 :close="(resultsFrom ? true : false)"
               @click:close="() => {resultsFrom = null; refreshResults()}"
@@ -32,13 +32,13 @@
               color="primary"
 
               @click="()=>{dateFromMenu = false; refreshResults()}">
-            Cancel
+            {{ $t("GENERAL.CANCEL") }}
           </v-btn>
           <v-btn
               text
               color="primary"
               @click="()=>{$refs.dateFromMenu.save(resultsFrom); refreshResults()}">
-            OK
+            {{ $t("GENERAL.OK") }}
           </v-btn>
         </v-date-picker>
       </v-menu>
@@ -57,7 +57,7 @@
               v-bind="attrs"
               v-on="on"
 
-          >To: {{ resultsTo ? new Date(resultsTo).toLocaleDateString('en-US') : '' }}</v-chip>
+          >{{ $t("GENERAL.TO")}}: {{ resultsTo ? new Date(resultsTo).toLocaleDateString('en-US') : '' }}</v-chip>
 <!--
       :close="(resultsTo ? true : false)"
               @click:close="() => {resultsTo = null; refreshResults()}"
@@ -72,13 +72,13 @@
               text
               color="primary"
               @click="()=>{dateToMenu = false; refreshResults()}">
-            Cancel
+            {{ $t("GENERAL.CANCEL") }}
           </v-btn>
           <v-btn
               text
               color="primary"
               @click="()=>{$refs.dateToMenu.save(resultsTo); refreshResults()}">
-            OK
+            {{ $t("GENERAL.OK") }}
           </v-btn>
         </v-date-picker>
       </v-menu>

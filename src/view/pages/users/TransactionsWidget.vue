@@ -1,6 +1,6 @@
 <template>
   <v-card size="50" class="bg-danger text-light px-5 py-3" style="font-size: 30px; line-height: 1">
-    <h6 class="mb-0" style="font-size: 13px">TRANSACTIONS</h6>
+    <h6 class="mb-0 text-uppercase" style="font-size: 13px;">{{ $t("BREADCRUMBS.TRANSACTIONS") }}</h6>
     <v-divider></v-divider>
     <v-icon size="35" class="text-light">mdi-cash-multiple</v-icon>
     {{ (transactionsCount? transactionsCount : '000') }}
