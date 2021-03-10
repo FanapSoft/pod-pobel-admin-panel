@@ -22,7 +22,10 @@
               type="card-avatar, article, actions"
           ></v-skeleton-loader>
         </v-card>
-        <v-card v-if="!loading && !targetObject">
+        <v-card
+            v-if="!loading && !targetObject"
+
+            class="pa-3">
           {{ $t("TARGET.TARGETNOTFOUND") }}
         </v-card>
         <v-row v-if="!loading && targetObject">
@@ -88,6 +91,8 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_SUBHEADER_ACTION } from "@/core/services/store/subheaderActions.module";
+import { LOAD_DATASET } from "@/core/services/store/datasets.module";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DatasetTargets",
@@ -96,6 +101,11 @@ export default {
       targetObject: null,
       loading: false,
     };
+  },
+  computed: {
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
   },
   methods:{
     async getItem() {
@@ -161,10 +171,14 @@ export default {
       this.deleting = false;
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.$route.params.DatasetId);
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
-      { title: `${this.$t("DATASET.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      {
+        title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
+        route: `/dataset/${this.$route.params.DatasetId}/singleDataset`
+      },
       { title: this.$t("TARGET.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
       { title: this.$t("TARGET.EDITTARGET") },
     ]);

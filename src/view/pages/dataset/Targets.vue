@@ -41,6 +41,8 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_SUBHEADER_ACTION } from "@/core/services/store/subheaderActions.module";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DatasetTargets",
@@ -49,6 +51,11 @@ export default {
       targets: null,
       loading: false
     };
+  },
+  computed: {
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
   },
   methods:{
     async getItems() {
@@ -64,7 +71,8 @@ export default {
       this.loading = false;
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.$route.params.DatasetId);
     const actions = [
       {
         title: this.$t("TARGET.CREATETARGET"),
@@ -75,7 +83,10 @@ export default {
     this.$store.dispatch(SET_SUBHEADER_ACTION, actions);
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
-      { title: `${this.$t("DATASET.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      {
+        title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
+        route: `/dataset/${this.$route.params.DatasetId}/singleDataset`
+      },
       { title: this.$t("TARGET.TARGETS") },
     ]);
     //this.$store.dispatch(SET_BREADCRUMB, [{ title: `Dataset ${this.$route.params.DatasetId}`, route: `/dataset/${this.$route.params.DatasetId}/targets` }]);

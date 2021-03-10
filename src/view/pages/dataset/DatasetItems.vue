@@ -87,10 +87,11 @@
             <v-row class="mx-9">
               <v-col cols="12" class="position-relative">
                 <v-pagination
-
-                    :key="pagination.currentPage"
                     v-model="pagination.currentPage"
-                    :length="pagination.count"></v-pagination>
+                    :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 404) / 44 - 1"
+                    :length="pagination.count"
+
+                    class="mt-4 pb-2"></v-pagination>
               </v-col>
             </v-row>
           </v-card-text>

@@ -61,6 +61,8 @@
 import ApiService from "@/core/services/api.service";
 import {SET_SUBHEADER_ACTION} from "@/core/services/store/subheaderActions.module";
 import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
+import {mapGetters} from "vuex";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
 
 export default {
   name: 'Datasets',
@@ -70,26 +72,15 @@ export default {
       targetsCount: null,
       transactionsCount: null,
       answersCount: null,
-      loading: false,
-      datasetObject: null
+      loading: false
     };
   },
+  computed: {
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
+  },
   methods: {
-    async getDataset() {
-      this.loading = true;
-      try {
-        const dataset = await this.$http.get(`/api/services/app/Datasets/Get?id=${this.$route.params.DatasetId}`);
-        if(dataset.data && dataset.data.result) {
-          this.$set(this, "datasetObject", {
-            ...this.datasetObject,
-            ...dataset.data.result
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      this.loading = false;
-    },
     async getDatasetItemsCount() {
       this.loading = true;
       const data = {
@@ -165,11 +156,15 @@ export default {
     setBreadcrumbs() {
       this.$store.dispatch(SET_BREADCRUMB, [
         { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
-        { title: `${this.$t("DATASET.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+        {
+          title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
+          route: `/dataset/${this.$route.params.DatasetId}/singleDataset`
+        },
       ]);
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.$route.params.DatasetId);
     this.setBreadcrumbs();
     this.$store.dispatch(SET_SUBHEADER_ACTION, [
       {
@@ -187,16 +182,10 @@ export default {
 
     ]);
 
-    this.getDataset();
     this.getTargetsCount();
     this.getDatasetItemsCount();
     this.getAnswersCount();
     this.getTransactionsCount();
   },
-  watch: {
-    datasetObject() {
-      this.setBreadcrumbs();
-    }
-  }
 };
 </script>

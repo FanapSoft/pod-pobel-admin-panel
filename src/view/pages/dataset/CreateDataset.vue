@@ -35,7 +35,7 @@
 
                         v-model="datasetObject.name"
                         style="direction: rtl"
-                        label="Name" />
+                        :label="$t('USER.NAME')" />
                   </v-col>
                   <v-col cols="12">
                     <v-text-field
@@ -43,21 +43,21 @@
 
                         v-model="datasetObject.description"
                         style="direction: rtl"
-                        label="description" />
+                        :label="$t('GENERAL.DESCRIPTION')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-switch
                         filled dense rounded
 
                         v-model="datasetObject.isActive"
-                        label="Dataset Status" />
+                        :label="$t('DATASET.DATASETSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-switch
                         filled dense rounded
 
                         v-model="datasetObject.labelingStatus"
-                        label="Labeling Status" />
+                        :label="$t('DATASET.LABELINGSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
@@ -85,7 +85,7 @@
                         filled dense rounded
 
                         v-model="datasetObject.answerBudgetCountPerUser"
-                        label="answerBudgetCountPerUser" />
+                        label="Answer Budget Count Per User" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
@@ -99,7 +99,7 @@
                         filled dense rounded
 
                         v-model="datasetObject.questionType"
-                        label="QuestionType" />
+                        label="Question Type" />
                   </v-col>
 
                 </v-row>

@@ -67,7 +67,8 @@ export const locale = {
         ITEMS: "آیتم ها",
         VIEWDATASETITEMS: "مشاهده آیتم های دیتاست",
         ITEMLABELNAME: "لیبل آیتم",
-
+        DATASETSTATUS: "دیتاست قابل مشاهده باشد؟",
+        LABELINGSTATUS: "امکان لیبل گذاری فعال باشد؟",
 
         VIEWDATASETTARGETS: "مشاهده تارگت های دیتاست",
         VIEWDATASETANSWERS: "مشاهده پاسخ های دیتاست",
@@ -111,6 +112,7 @@ export const locale = {
         ANSWER: "پاسخ",
         DATE: "تاریخ",
         DATEANDTIME: "تاریخ",
+        DESCRIPTION: "توضیحات",
 
         SAVE: "ذخیره",
         SAVECHANGES: "ذخیره تغییرات",

@@ -74,13 +74,12 @@
                   :to="`/answers?UserId=${item.id}`">View Answers</v-btn>
             </template>
           </v-data-table>
-          <v-row class="mx-9">
-            <v-col>
-              <v-pagination
-                  v-model="pagination.currentPage"
-                  :length="pagination.count"></v-pagination>
-            </v-col>
-          </v-row>
+          <v-pagination
+              v-model="pagination.currentPage"
+              :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 404) / 44 - 1"
+              :length="pagination.count"
+
+              class="mt-4 pb-2"></v-pagination>
         </v-card>
       </div>
     </div>

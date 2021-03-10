@@ -53,6 +53,8 @@ export const locale = {
     CREATEDATASET: "Create Dataset",
     DELETEDATASET: "Delete Dataset",
     SELECTADATASET: "Select a dataset",
+    DATASETSTATUS: "Dataset Status",
+    LABELINGSTATUS: "Labeling Status",
 
     DATASETSITEMS: "Datasets Items",
     DATASETITEM: "Dataset Item",
@@ -99,8 +101,10 @@ export const locale = {
     FROM: "From",
     TO: "To",
     ANSWER: "Answer",
-    DATE: "تاریخ",
+    DATE: "Date",
     DATEANDTIME: "Date & Time",
+    NAME: "Name",
+    DESCRIPTION: "Description",
 
     SAVE: "Save",
     SAVECHANGES: "Save Changes",
