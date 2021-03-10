@@ -19,7 +19,7 @@
 
                   @click="$router.push('/dataset/list')"
                   @click:close="removeQueryItem('datasetId')"
-              class="mx-1">{{ $t("DATASET.DATASET") }}: {{datasetId}}</v-chip>
+              class="mx-1">{{ $t("DATASET.DATASET") }}: {{datasetId && currentDataset ? currentDataset.name : ''}}</v-chip>
             </v-col>
           </v-row>
           <v-data-table
@@ -87,6 +87,7 @@ import { SET_OWNER_ID, SET_DATASET_ID } from "@/core/services/store/transactions
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 
 import DatasetDetails from "./DatasetDetails";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
 
 export default {
   data() {
@@ -117,8 +118,12 @@ export default {
   computed:{
     ...mapGetters([
         "ownerId",
-        "datasetId"
-    ])
+        "datasetId",
+
+    ]),
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
   },
   methods:{
     async getItems(page) {
@@ -170,7 +175,7 @@ export default {
       this.refreshList()
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("BREADCRUMBS.TRANSACTIONS")}]);
 
     if(this.$route.query.OwnerId) {
@@ -180,6 +185,8 @@ export default {
     if(this.$route.query.DatasetId) {
       this.$store.commit(SET_DATASET_ID, this.$route.query.DatasetId);
     }
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.datasetId);
+
 
     this.refreshList()
   },

@@ -24,7 +24,7 @@
                     close label
 
                     @click="$router.push('/dataset/list')"
-                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">{{ $t("DATASET.DATASET")}}: {{$route.query.DatasetId}}</v-chip>
+                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">{{ $t("DATASET.DATASET")}}: {{$route.query.DatasetId && currentDataset ? currentDataset.name : ''}}</v-chip>
               </v-col>
               <v-col cols="3">
                 <v-switch
@@ -103,6 +103,8 @@
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_DATASET_ID } from "@/core/services/store/transactionsList.module";
 import DatasetDetails from "../transactions/DatasetDetails";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
+import {mapGetters} from "vuex";
 
 export default {
   data() {
@@ -133,6 +135,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
   },
   components: {
     DatasetDetails
@@ -185,7 +190,9 @@ export default {
       await this.getItems(this.pagination.currentPage);
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.$route.query.DatasetId);
+
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("DATASET.DATASETSITEMS")},
       //{ title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },

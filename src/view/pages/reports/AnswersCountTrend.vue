@@ -16,7 +16,7 @@
             @click="$router.push('/dataset/list')"
             @click:close="removeQueryItem('datasetId')"
 
-            class="mx-1">{{ $t("DATASET.DATASET")}}: {{datasetId ? datasetId : $t("GENERAL.ALL")}}</v-chip>
+            class="mx-1">{{ $t("DATASET.DATASET")}}: {{datasetId  && currentDataset ? currentDataset.name : ''}}</v-chip>
       </v-col>
     </v-row>
     <div class="row">
@@ -132,6 +132,7 @@ import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_DATASET_ID, SET_USER_ID } from "@/core/services/store/answerCountTrend.module";
 import { mapGetters } from "vuex";
 import Chart from "./Chart";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
 
 export default {
   name: "AnswersCountTrend",
@@ -155,13 +156,14 @@ export default {
     ...mapGetters({
       layoutConfig: "layoutConfig",
       datasetId: "answerCountTrend/datasetId",
-      userId: "answerCountTrend/userId"
-    })
+      userId: "answerCountTrend/userId",
+      currentDataset: `datasets/currentDataset`
+    }),
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
         { title: this.$t("BREADCRUMBS.REPORTS"), route: '/reports/list' },
-        { title: "AnswerCountTrend" }
+        { title: this.$t("REPORTS.ANSWERSTREND") }
     ]);
 
     if(this.$route.query.UserId) {
@@ -172,6 +174,7 @@ export default {
       this.$store.commit(`answerCountTrend/${SET_DATASET_ID}`, this.$route.query.DatasetId);
     }
 
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.datasetId);
     this.generateInitDates();
     this.refreshResults();
   },

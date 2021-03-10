@@ -21,7 +21,7 @@
                   @click="$router.push('/dataset/list')"
                   @click:close="removeQueryItem('datasetId')"
 
-              class="mx-1">{{ $t("DATASET.DATASET") }}: {{ datasetId }}
+              class="mx-1">{{ $t("DATASET.DATASET") }}: {{ datasetId && currentDataset ? currentDataset.name : '' }}
               </v-chip>
 
               <!--              <v-date-picker v-model="dateTo"></v-date-picker>-->
@@ -194,6 +194,7 @@ import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 
 import DatasetDetails from "../transactions/DatasetDetails";
 import DatasetITem from "@/view/pages/answers/DatasetItem";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
 
 export default {
   data() {
@@ -231,6 +232,9 @@ export default {
     ...mapGetters({
       userId: "answersList/userId",
       datasetId: "answersList/datasetId",
+    }),
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
     })
   },
   methods: {
@@ -292,7 +296,7 @@ export default {
       this.refreshList()
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{title: this.$t("BREADCRUMBS.ANSWERS")}]);
 
     if (this.$route.query.UserId) {
@@ -302,6 +306,7 @@ export default {
     if (this.$route.query.DatasetId) {
       this.$store.commit(`answersList/${SET_DATASET_ID}`, this.$route.query.DatasetId);
     }
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.datasetId);
     if (this.$route.query.DatasetItemId) {
       this.$store.commit(`answersList/${SET_DATASETITEM_ID}`, this.$route.query.DatasetItemId);
     }
