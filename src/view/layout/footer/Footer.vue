@@ -11,8 +11,8 @@
         <a
           href="http://fanap.ir"
           target="_blank"
-          class="text-dark-75 text-hover-primary"
-          >FANAP</a
+          class="text-dark-75 text-hover-primary text-uppercase"
+          >{{ $t('GENERAL.FANAP') }}</a
         >
       </div>
       <!--end::Copyright-->
@@ -22,13 +22,7 @@
           href="http://pobel.ir"
           target="_blank"
           class="nav-link pl-3 pr-0">
-          Home
-        </a>
-        <a
-            href="http://talk.pod.ir"
-            target="_blank"
-            class="nav-link px-3">
-          Talk
+          {{ $t('GENERAL.HOME') }}
         </a>
       </div>
       <!--end::Nav-->

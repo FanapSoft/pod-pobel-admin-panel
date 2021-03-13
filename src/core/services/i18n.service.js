@@ -1,3 +1,5 @@
+import i18n from "@/core/plugins/vue-i18n";
+
 const i18nService = {
   defaultLanguage: "en",
 
@@ -5,6 +7,7 @@ const i18nService = {
     {
       lang: "en",
       name: "English",
+      translationKey: "GENERAL.ENGLISH",
       flag: process.env.BASE_URL + "media/svg/flags/226-united-states.svg"
     },
     /*{
@@ -34,7 +37,8 @@ const i18nService = {
     },*/
     {
       lang: "fa",
-      name: "Farsi",
+      name: "Persian",
+      translationKey: "GENERAL.PERSIAN",
       flag: process.env.BASE_URL + "media/svg/flags/136-iran.svg"
     },
 

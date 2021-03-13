@@ -60,7 +60,8 @@ const mainConfig = function() {
             })();
           });
         }
-      }
+      },
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ],
     module: {
       rules: [

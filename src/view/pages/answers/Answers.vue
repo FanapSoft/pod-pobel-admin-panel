@@ -36,12 +36,38 @@
                 sm="6"
                 md="3"
             >
-              <v-dialog
+              <jalali-date-picker
+                  clearable
+
+                  v-model="$store.state['answersList/dateFrom']"
+
+                  :placeholder="$t('GENERAL.FROM')"
+                  :locale="$langIsFa? 'fa,en': 'en,fa'"
+                  :locale-config="{
+                      fa: {
+                        displayFormat: 'jYYYY/jMM/jDD',
+                        lang: { label: 'شمسی' }
+                      },
+                      en: {
+                        displayFormat: 'YYYY/MM/DD',
+                        lang: { label: 'Gregorian' }
+                      }
+                    }"
+                  :editable="true"
+                  @input="checkDateFromValue"
+
+                  format="YYYY/MM/DD"
+                  :class="{'ltr-picker': !$langIsFa}"
+              >
+                <template v-slot:clear-btn="{ vm }">×</template>
+              </jalali-date-picker>
+
+<!--              <v-dialog
                   ref="dateFromDialog"
                   v-model="dateFromDialog"
                   :close-on-content-click="false"
 
-
+                  dir="ltr"
                   transition="scale-transition"
                   width="290px">
                 <template v-slot:activator="{ on, attrs }">
@@ -56,10 +82,16 @@
 
                       prepend-inner-icon="mdi-calendar"></v-text-field>
                 </template>
-                <v-date-picker
-                    no-title scrollable
+&lt;!&ndash;                <v-date-picker
+                    scrollable
 
-                    v-model="$store.state['answersList/dateFrom']">
+                    v-if="$i18nService.getActiveLanguage() !== 'fa'"
+
+                    direction="ltr"
+                    dir="ltr"
+                    v-model="$store.state['answersList/dateFrom']"
+
+                    class="date-picker-dialog">
                   <v-spacer></v-spacer>
                   <v-btn
                       text
@@ -73,54 +105,98 @@
                       @click="()=>{$refs.dateFromDialog.save($store.state['answersList/dateFrom']); refreshList()}">
                     {{ $t("GENERAL.OK") }}
                   </v-btn>
-                </v-date-picker>
-              </v-dialog>
+                </v-date-picker>&ndash;&gt;
+                <jalali-date-picker
+                    v-model="$store.state['answersList/dateFrom']"
+
+                    :locale="$i18nService.getActiveLanguage() == 'fa'? 'fa,en': 'en,fa'"
+                    :locale-config="{
+                      fa: {
+                        displayFormat: 'jYYYY/jMM/jDD',
+                        lang: { label: 'شمسی' }
+                      },
+                      en: {
+                        displayFormat: 'YYYY/MM/DD',
+                        lang: { label: 'Gregorian' }
+                      }
+                    }"
+                    :editable="true"
+                    :show="show"
+                    @close="show=false"
+                    element="my-custom-editable-input"
+                ></jalali-date-picker>
+              </v-dialog>-->
             </v-col>
 
             <v-col
                 cols="12"
                 sm="6"
                 md="3">
-              <v-dialog
-                  v-model="dateToMenu"
-                  :close-on-content-click="false"
+              <jalali-date-picker
+                  clearable
 
-                  ref="dateToMenu"
-                  transition="scale-transition"
-                  width="290px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                      readonly solo clearable hide-details
+                  v-model="$store.state['answersList/dateTo']"
 
-                      v-model="$store.state['answersList/dateTo']"
-                      v-bind="attrs"
-                      v-on="on"
-                      :label="$t('GENERAL.TO')"
-                      @click:clear="()=>{dateToMenu = false; $store.state['answersList/dateTo'] = null; refreshList()}"
+                  :placeholder="$t('GENERAL.TO')"
+                  :locale="$langIsFa? 'fa,en': 'en,fa'"
+                  :locale-config="{
+                    fa: {
+                      dir: 'rtl',
+                      displayFormat: 'jYYYY/jMM/jDD',
+                      lang: { label: 'شمسی' }
+                    },
+                    en: {
+                      dir: 'ltr',
+                      displayFormat: 'YYYY/MM/DD',
+                      lang: { label: 'Gregorian' }
+                    }
+                  }"
+                  :editable="true"
+                  @input="checkDateToValue"
 
-                      prepend-inner-icon="mdi-calendar"
+                  format="YYYY/MM/DD"
+                  :class="{'ltr-picker': !$langIsFa}"
+              ></jalali-date-picker>
 
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                    no-title scrollable
+              <!--              <v-dialog
+                                v-model="dateToMenu"
+                                :close-on-content-click="false"
 
-                    v-model="$store.state['answersList/dateTo']">
-                  <v-spacer></v-spacer>
-                  <v-btn
-                      text
-                      color="primary"
-                      @click="()=>{dateToMenu = false; $store.state['answersList/dateTo'] = null; refreshList()}">
-                    {{ $t("GENERAL.CANCEL") }}
-                  </v-btn>
-                  <v-btn
-                      text
-                      color="primary"
-                      @click="()=>{$refs.dateToMenu.save($store.state['answersList/dateTo']); refreshList()}">
-                    {{ $t("GENERAL.OK") }}
-                  </v-btn>
-                </v-date-picker>
-              </v-dialog>
+                                ref="dateToMenu"
+                                transition="scale-transition"
+                                width="290px">
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                    readonly solo clearable hide-details
+
+                                    v-model="$store.state['answersList/dateTo']"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    :label="$t('GENERAL.TO')"
+                                    @click:clear="()=>{dateToMenu = false; $store.state['answersList/dateTo'] = null; refreshList()}"
+
+                                    prepend-inner-icon="mdi-calendar"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker
+                                  no-title scrollable
+
+                                  v-model="$store.state['answersList/dateTo']">
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    text
+                                    color="primary"
+                                    @click="()=>{dateToMenu = false; $store.state['answersList/dateTo'] = null; refreshList()}">
+                                  {{ $t("GENERAL.CANCEL") }}
+                                </v-btn>
+                                <v-btn
+                                    text
+                                    color="primary"
+                                    @click="()=>{$refs.dateToMenu.save($store.state['answersList/dateTo']); refreshList()}">
+                                  {{ $t("GENERAL.OK") }}
+                                </v-btn>
+                              </v-date-picker>
+                            </v-dialog>-->
             </v-col>
           </v-row>
           <v-data-table
@@ -147,7 +223,7 @@
               {{ (pagination.skip ? pagination.skip + answers.indexOf(item) + 1 : answers.indexOf(item) + 1) }}
             </template>
             <template v-slot:item.dateTime="{ item }">
-              {{ new Date(item.creationTime).toLocaleDateString("en-US") }}
+              {{ new Date(item.creationTime).toLocaleDateString($langIsFa ? "fa-IR" : "en-US") }}
               <br>
               {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
             </template>
@@ -294,7 +370,19 @@ export default {
         this.$store.commit(`answersList/${SET_DATASETITEM_ID}`, null);
 
       this.refreshList()
-    }
+    },
+    checkDateFromValue(val) {
+      if(!val) {
+        this.$store.state['answersList/dateTo'] = null;
+      }
+      this.refreshList()
+    },
+    checkDateToValue(val) {
+      if(!val) {
+        this.$store.state['answersList/dateTo'] = null;
+      }
+      this.refreshList()
+    },
   },
   async mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{title: this.$t("BREADCRUMBS.ANSWERS")}]);
@@ -320,3 +408,12 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.date-picker-dialog {
+  direction: ltr;
+
+  * {
+    direction: ltr !important;
+  }
+}
+</style>

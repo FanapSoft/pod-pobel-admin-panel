@@ -15,7 +15,7 @@
           <span class="symbol symbol-20 mr-3">
             <img :src="item.flag" alt="" />
           </span>
-          <span class="navi-text">{{ item.name }}</span>
+          <span class="navi-text">{{ $t(item.translationKey) }}</span>
         </a>
       </li>
     </template>

@@ -49,7 +49,9 @@ export const locale = {
         JOINEDAT: "تاریخ عضویت",
         ROLES: "سطوح کاربری",
 
-        USERSETTINGS: "تنظیمات کاربر"
+        USERSETTINGS: "تنظیمات کاربر",
+        MYPROFILE: "پروفایل من",
+        USERPROFILE: "پروفایل کاربر",
 
     },
     DATASET: {
@@ -127,7 +129,11 @@ export const locale = {
         YESDELETE:"بله، حذف شود",
 
         CREDITAMOUNT: "مبلغ برداشتی",
-
+        SIGNOUT: "خروج",
+        FANAP: 'فناپ',
+        HOME: 'خانه',
+        ENGLISH: 'انگلیسی',
+        PERSIAN: 'فارسی '
     },
     REPORTS: {
         ANSWERSTREND: "نمودار پاسخ دهی",

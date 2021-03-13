@@ -37,7 +37,7 @@ export default {
      */
     this.$store.dispatch(OVERRIDE_LAYOUT_CONFIG);
 
-    if (this.$i18nService.getActiveLanguage() === 'fa') {
+    if (this.$langIsFa) {
       import("@/assets/css/style.vue.rtl.css");
 
       let body = document.getElementsByTagName("body")[0];
@@ -55,3 +55,16 @@ export default {
   }
 };
 </script>
+
+<style>
+.vpd-input-group input {
+  border: 1px solid #dadada !important;
+  border-right: 1px solid #dadada !important;
+  border-radius: 0;
+}
+
+.ltr-picker .vpd-input-group .vpd-clear-btn {
+  left: auto;
+  right: 0;
+}
+</style>

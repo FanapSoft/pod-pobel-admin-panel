@@ -88,7 +88,7 @@ export default {
         },
         {
           title: this.$t("USER.JOINEDAT"),
-          value: new Date(this.user?.creationTime).toLocaleDateString("en-US")
+          value: new Date(this.user?.creationTime).toLocaleDateString((this.$langIsFa ? "fa-IR" : "en-US"))
         },
         {
           title: this.$t("USER.EMAIL"),

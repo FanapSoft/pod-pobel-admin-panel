@@ -55,7 +55,7 @@
               </div>
             </template>
             <template v-slot:item.dateTime="{ item }">
-              {{ new Date(item.creationTime).toLocaleDateString("en-US") }}
+              {{ new Date(item.creationTime).toLocaleDateString($langIsFa ? "fa-IR" : "en-US") }}
               <br>
               {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
             </template>

@@ -62,7 +62,7 @@
               toggle-class="custom-v-dropdown btn btn-white font-weight-bold py-2 px-4"
               class="page-actions-dropdown"
               no-caret
-              :right="$i18nService.getActiveLanguage() !== 'fa'"
+              :right="!$langIsFa"
               no-flip
               :text="$t('ACTIONS.ACTIONS')"
               v-b-tooltip.hover="$t('ACTIONS.QUICKACTIONS')"

@@ -43,7 +43,9 @@ export const locale = {
     JOINEDAT: "Joined At",
     ROLES: "Roles",
 
-    USERSETTINGS: "User Settings"
+    USERSETTINGS: "User Settings",
+    MYPROFILE: "My Profile",
+    USERPROFILE: "User Profile"
   },
   DATASET: {
     MANAGEDATASETS: "Manage Datasets",
@@ -119,6 +121,11 @@ export const locale = {
     YESDELETE:"Yes, Delete",
 
     CREDITAMOUNT: "Credit Amount",
+    SIGNOUT: "Sign out",
+    FANAP: 'Fanap',
+    HOME: 'Home',
+    ENGLISH: 'English',
+    PERSIAN: 'Farsi (Persian)'
   },
   REPORTS: {
     CHOOSEAREPORTTYPE: "Choose a report type",

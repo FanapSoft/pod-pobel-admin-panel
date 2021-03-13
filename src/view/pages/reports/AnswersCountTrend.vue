@@ -25,49 +25,78 @@
           <v-card-title>
             {{ $t("GENERAL.ANSWERSCOUNTSTRENDFORUSER") }} {{userId}}
             <v-spacer></v-spacer>
-            <v-menu
+            <v-chip
                 v-if="userId"
 
-                ref="dateFromMenu"
-                v-model="dateFromMenu"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                left
-                min-width="auto">
-              <template v-slot:activator="{ on, attrs }">
-                <v-chip
-                    label
-                    v-bind="attrs"
-                    v-on="on"
+                label
 
-                    class="mr-2">From: {{ resultsFrom ? new Date(resultsFrom).toLocaleDateString('en-US') : '' }}</v-chip>
-                <!--
-                :close="(resultsFrom ? true : false)"
-                              @click:close="() => {resultsFrom = null; refreshResults()}"
-                                  -->
-              </template>
-              <v-date-picker
-                  no-title scrollable
+                @click="dateFromMenu = true"
 
-                  v-model="resultsFrom">
-                <v-spacer></v-spacer>
-                <v-btn
-                    text
-                    color="primary"
+                class="mr-2">{{ $t("GENERAL.FROM") }}: {{ displayResultsFrom }}</v-chip>
+            <jalali-date-picker
+                v-if="userId"
 
-                    @click="()=>{dateFromMenu = false; refreshResults()}">
-                  Cancel
-                </v-btn>
-                <v-btn
-                    text
-                    color="primary"
-                    @click="()=>{$refs.dateFromMenu.save(resultsFrom); refreshResults()}">
-                  OK
-                </v-btn>
-              </v-date-picker>
-            </v-menu>
+                clearable
 
-            <v-menu
+                v-model="resultsFrom"
+                :placeholder="$t('GENERAL.FROM')"
+                :locale="$langIsFa? 'fa,en': 'en,fa'"
+                :locale-config="{
+                      fa: {
+                        displayFormat: 'jYYYY/jMM/jDD',
+                        lang: { label: 'شمسی' }
+                      },
+                      en: {
+                        displayFormat: 'YYYY/MM/DD',
+                        lang: { label: 'Gregorian' }
+                      }
+                    }"
+                :editable="true"
+                :class="{'ltr-picker': !$langIsFa}"
+                :show="dateFromMenu"
+                @close="dateFromMenu=false"
+                @input="checkDateFromValue"
+
+                format="YYYY/MM/DD"
+                element="my-custom-editable-input" >
+            </jalali-date-picker>
+
+            <v-chip
+                v-if="userId"
+
+                label
+
+                @click="dateToMenu = true"
+
+                class="mr-2">{{ $t("GENERAL.TO") }}: {{ displayResultsTo }}</v-chip>
+            <jalali-date-picker
+                v-if="userId"
+
+                clearable
+
+                v-model="resultsTo"
+                :placeholder="$t('GENERAL.TO')"
+                :locale="$langIsFa? 'fa,en': 'en,fa'"
+                :locale-config="{
+                      fa: {
+                        displayFormat: 'jYYYY/jMM/jDD',
+                        lang: { label: 'شمسی' }
+                      },
+                      en: {
+                        displayFormat: 'YYYY/MM/DD',
+                        lang: { label: 'Gregorian' }
+                      }
+                    }"
+                :editable="true"
+                :class="{'ltr-picker': !$langIsFa}"
+                :show="dateToMenu"
+                @close="dateToMenu=false"
+                @input="checkDateToValue"
+
+                format="YYYY/MM/DD"
+                element="my-custom-editable-input1" >
+            </jalali-date-picker>
+<!--            <v-menu
                 v-if="userId"
 
                 ref="dateToMenu"
@@ -84,10 +113,10 @@
                     v-on="on"
 
                 >To: {{ resultsTo ? new Date(resultsTo).toLocaleDateString('en-US') : '' }}</v-chip>
-                <!--
+                &lt;!&ndash;
                       :close="(resultsTo ? true : false)"
                               @click:close="() => {resultsTo = null; refreshResults()}"
-                     -->
+                     &ndash;&gt;
               </template>
               <v-date-picker
                   no-title scrollable
@@ -107,7 +136,7 @@
                   OK
                 </v-btn>
               </v-date-picker>
-            </v-menu>
+            </v-menu>-->
 
           </v-card-title>
           <v-card-text
@@ -118,7 +147,7 @@
                 v-if="dataCounts && !loading"
 
                 :data="dataCounts"
-                :categories="dates"></chart>
+                :categories="displayDates"></chart>
           </v-card-text>
         </v-card>
       </div>
@@ -139,12 +168,13 @@ export default {
   data(){
     return {
       dates: [],
+      displayDates: [],
       dataCounts: [],
       resultsFrom: null,
       dateFromMenu: false,
       resultsTo: null,
       dateToMenu: false,
-      loading: false
+      loading: false,
     }
   },
   components: {
@@ -159,6 +189,24 @@ export default {
       userId: "answerCountTrend/userId",
       currentDataset: `datasets/currentDataset`
     }),
+    displayResultsFrom() {
+      if(this.resultsFrom && this.$langIsFa) {
+        return new Date(this.resultsFrom).toLocaleDateString('fa-IR')
+      } if(this.resultsFrom && !this.$langIsFa) {
+        return new Date(this.resultsFrom).toLocaleDateString('en-US')
+      } else {
+        return  ''
+      }
+    },
+    displayResultsTo() {
+      if(this.resultsTo && this.$langIsFa) {
+        return new Date(this.resultsTo).toLocaleDateString('fa-IR')
+      } else if(this.resultsTo && !this.$langIsFa) {
+        return new Date(this.resultsTo).toLocaleDateString('en-US')
+      } else {
+        return  ''
+      }
+    },
   },
   async mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
@@ -228,6 +276,7 @@ export default {
     },
     generateDates() {
       this.dates = [];
+      this.displayDates = [];
       let totalDays = 30;
       let lastDay = new Date();
 
@@ -236,10 +285,12 @@ export default {
 
       totalDays = (tmpTo - tmpFrom) / (1000 * 3600 * 24);
       lastDay = new Date(this.resultsTo);
+      let lang = this.$langIsFa ? "fa-IR" : "en-US";
 
       for (let i = totalDays; i >= 1; i--) {
         const tmpDay = new Date(lastDay.getTime() - (i * 1000 * 3600 * 24));
         this.dates.push(tmpDay.toLocaleDateString("en-US"));
+        this.displayDates.push(tmpDay.toLocaleDateString(lang));
       }
 
       //this.chartOptions.xaxis.categories = this.dates;
@@ -247,6 +298,7 @@ export default {
     },
     generateInitDates() {
       this.dates = [];
+      this.displayDates = [];
       let totalDays = 30;
       let lastDay = new Date(new Date().getTime() + (3600 * 24 * 1000));
 
@@ -255,14 +307,18 @@ export default {
       this.resultsFrom = `${tmpFrom.getFullYear()}-${tmpFrom.getMonth() + 1}-${tmpFrom.getDate()}`;
       //this.chartOptions.xaxis.categories = this.dates;
       //this.chartKey++;
+      let lang = this.$langIsFa ? "fa-IR" : "en-US";
+
       for (let i = totalDays; i >= 1; i--) {
         const tmpDay = new Date(lastDay.getTime() - (i * 1000 * 3600 * 24));
-        this.dates.push(tmpDay.toLocaleDateString("en-US"))
+        this.dates.push(tmpDay.toLocaleDateString("en-US"));
+        this.displayDates.push(tmpDay.toLocaleDateString(lang));
+
       }
     },
     extractApiData(apiData) {
       this.dataCounts = [];
-
+      let lang = this.$langIsFa ? "fa-IR" : "en-US";
       this.dates.forEach((item, index) => {
         let hasAdi = false
         apiData.forEach(adi => {
@@ -271,11 +327,24 @@ export default {
             hasAdi = true;
           }
           this.$set(this.dates, index, new Date(item).toLocaleDateString('en-US'));
+          this.$set(this.displayDates, index, new Date(item).toLocaleDateString(lang));
         })
         if(!hasAdi) {
           this.dataCounts.push(0);
         }
       })
+    },
+    checkDateFromValue(val) {
+      if(!val) {
+        this.resultsFrom = null
+      }
+      this.refreshResults()
+    },
+    checkDateToValue(val) {
+      if(!val) {
+        this.resultsTo = null
+      }
+      this.refreshResults()
     },
   },
   watch: {
@@ -305,7 +374,7 @@ export default {
         })
       }
       this.generateDates();
-    }
+    },
   }
 };
 </script>

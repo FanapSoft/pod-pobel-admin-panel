@@ -5,7 +5,7 @@
     <div class="topbar-item">
       <b-dropdown
           no-caret right no-flip
-          :right="$i18nService.getActiveLanguage() !== 'fa'"
+          :right="!$langIsFa"
           size="sm"
           variant="link"
           toggle-class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto">
