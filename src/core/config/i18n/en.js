@@ -77,7 +77,13 @@ export const locale = {
     CREATENEWDATASET: "Create new dataset",
 
     DATASETSUCCESSFULLYUPDATED: "Dataset successfully updated",
-    DATASETSUCCESSFULLYSAVED: "Dataset successfully saved"
+    DATASETSUCCESSFULLYSAVED: "Dataset successfully saved",
+    ONLYNONDECIDEDGOLDENS: "Only Non Decided Goldens",
+    ONLYGOLDENS: "Only Goldens",
+    ANSWERBUDGETCOUNT: "Answer budget count per user",
+    ANSWERREPLICATIONCOUNT: "Required answers per each DatasetItem",
+
+    DATASETNOTFOUND: "Dataset Not Found",
   },
   TARGET: {
     TARGET: "Target",
@@ -90,7 +96,16 @@ export const locale = {
     TARGETUPDATEFAILED: "Target update failed. Check your console for more",
     TARGETNOTFOUND: "Target Not Found",
     CREATENEWTARGETFORDATASET: "Create New Target for Dataset",
-    TARGETSUCCESSFULLYSAVED: "Target successfully saved"
+    TARGETSUCCESSFULLYSAVED: "Target successfully saved",
+
+    ANSWERCOUNT: "Answer Count",
+    GOLDENANSWERSCOUNT: "Golden Answers Count",
+    ADDITIVECOEFFICIENT: 'Additive Coefficient in terms of User\'s True answers',
+    DEDUCTIONCOEFFICIENT: 'Deduction Coefficient in terms of User\'s wrong answers',
+    UMIN: 'Minimum obtainable credit for each user after completing the corresponding Target',
+    UMAX: 'Maximum obtainable credit for each user after completing the corresponding Target',
+    CONFIDENCELEVEL: 'Confidence level'
+
   },
   GENERAL: {
     ANSWERSCOUNTSTRENDFORUSER: "Answers counts trend for user",
@@ -117,6 +132,10 @@ export const locale = {
     YES: "Yes",
     NO: "No",
     NOTICE: "Notice",
+
+    TYPE: "Type",
+    QUESTIONTYPE: "Question Type",
+
 
     YESDELETE:"Yes, Delete",
 

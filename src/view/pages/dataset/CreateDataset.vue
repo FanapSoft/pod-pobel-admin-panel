@@ -19,13 +19,13 @@
           ></v-skeleton-loader>
         </v-card>
         <v-card v-if="!loading && !datasetObject">
-          Dataset Not Found
+          {{ $t('DATASET.DATASETNOTFOUND') }}
         </v-card>
         <v-row v-if="!loading && datasetObject">
           <v-col
               cols="12"
               class="pb-0">
-            <v-card>
+            <v-card class="mb-4">
 <!--              <v-card-title>Target {{datasetObject.name}}</v-card-title>-->
               <v-card-text>
                 <v-row>
@@ -61,45 +61,46 @@
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.uMin"
-                        label="uMin" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.uMax"
-                        label="uMax" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.t"
-                        label="T" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.answerBudgetCountPerUser"
-                        label="Answer Budget Count Per User" />
+                        label="Answer Budget Count"
+                        :hint="$t('DATASET.ANSWERBUDGETCOUNT')"
+                        dir="ltr"/>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.type"
-                        label="Type" />
+
+                        :hint="$t('GENERAL.TYPE')"
+
+                        label="Type"
+                        dir="ltr" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.questionType"
-                        label="Question Type" />
+
+                        :hint="$t('GENERAL.QUESTIONTYPE')"
+
+                        label="Question Type"
+                        dir="ltr" />
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="datasetObject.answerReplicationCount"
+
+                        :label="$t('DATASET.ANSWERREPLICATIONCOUNT')"
+
+                        hint="Answer Replication Count"
+                        dir="ltr" />
                   </v-col>
 
                 </v-row>
@@ -123,9 +124,6 @@ export default {
         description: '',
         questionType: 0,
         answerBudgetCountPerUser: 100,
-        t: 0,
-        uMin: 0,
-        uMax: 0,
         type: 0
       },
       loading: false,

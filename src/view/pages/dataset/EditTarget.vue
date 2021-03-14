@@ -38,45 +38,73 @@
                 <v-row>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.t"
-                        label="T" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
 
-                        v-model="targetObject.uMax"
-                        label="uMax" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
+                        :hint="$t('TARGET.CONFIDENCELEVEL')"
 
-                        v-model="targetObject.answerCount"
-                        label="Answer Count" />
+                        label="T"
+                        dir="ltr" />
                   </v-col>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
-
-                        v-model="targetObject.bonusFalse"
-                        label="Bonus False" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.uMin"
-                        label="uMin" />
+                        label="uMin"
+
+                        :hint="$t('TARGET.UMIN')"
+                        dir="ltr"/>
                   </v-col>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.uMax"
+                        label="uMax"
+
+                        :hint="$t('TARGET.UMAX')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.answerCount"
+                        label="Answer Count "
+                        :hint="$t('TARGET.ANSWERCOUNT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.bonusFalse"
+                        label="Bonus False"
+
+                        :hint="$t('TARGET.DEDUCTIONCOEFFICIENT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.bonusTrue"
+                        label="Bonus True"
+
+                        :hint="$t('TARGET.ADDITIVECOEFFICIENT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.goldenCount"
-                        label="Golden Answers Count" />
+                        label="Golden Answers Count "
+
+                        :hint="$t('TARGET.GOLDENANSWERSCOUNT')"
+                        dir="ltr" />
                   </v-col>
                 </v-row>
               </v-card-text>

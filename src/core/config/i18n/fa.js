@@ -84,7 +84,13 @@ export const locale = {
         CREATENEWDATASET: "ایجاد یک دیتاست",
 
         DATASETSUCCESSFULLYUPDATED: "دیتاست آپدیت شد",
-        DATASETSUCCESSFULLYSAVED: "دیتاست با موفقیت ذخیره شذ"
+        DATASETSUCCESSFULLYSAVED: "دیتاست با موفقیت ذخیره شذ",
+        ONLYNONDECIDEDGOLDENS: "فقط گلدن های نهایی نشده",
+        ONLYGOLDENS: "فقط گلدن ها",
+        ANSWERBUDGETCOUNT: "تعداد پاسخ مجاز هر کاربر",
+        ANSWERREPLICATIONCOUNT: "تعداد پاسخ مورد لازم به ازای هر دیتاست آیتم",
+
+        DATASETNOTFOUND: "دیتاست یافت نشد",
     },
     TARGET: {
         TARGET: "تارگت",
@@ -97,9 +103,15 @@ export const locale = {
         TARGETUPDATEFAILED: "تارگت آپدیت نشد. کنسول مرورگرتان را بررسی نمایید",
         TARGETNOTFOUND: "تارگت یافت نشد",
         CREATENEWTARGETFORDATASET: "ایجاد تارگت جدید برای دیتاست",
-        TARGETSUCCESSFULLYSAVED: "تارگت ذخیره شد"
+        TARGETSUCCESSFULLYSAVED: "تارگت ذخیره شد",
 
-
+        ANSWERCOUNT: "تعداد پاسخ مورد نیاز این نارگت",
+        GOLDENANSWERSCOUNT: "تعداد آیتم های طلایی موجود در هدف",
+        ADDITIVECOEFFICIENT: 'ضریب افزایش اعتبار کاربر در صورت پاسخ صحیح',
+        DEDUCTIONCOEFFICIENT: 'ضریب کسر اعتبار کاربر در صورت پاسخ غلط',
+        UMIN: 'حداقل اعتبار تخصیص یافته به کاربر',
+        UMAX: 'حداکثر اعتبار ممکن برای این تارگت',
+        CONFIDENCELEVEL: 'سطح اطمینان'
     },
     GENERAL: {
         ANSWERSCOUNTSTRENDFORUSER: "نمودار پاسخ دهی برای: ",
@@ -125,6 +137,9 @@ export const locale = {
         YES: "بله",
         NO: "خیر",
         NOTICE: "توجه",
+
+        TYPE: "نوع",
+        QUESTIONTYPE: "نوع سوال",
 
         YESDELETE:"بله، حذف شود",
 

@@ -56,40 +56,6 @@ export default {
 
   },
   methods: {
-    async setupThisUser() {
-      await this.$store.dispatch(`profile/${LOAD_USER_OBJECT}`, this.$route.params.userId);
-      this.userDetails = [
-        {
-          title: 'Name',
-          value: this.user?.name
-        },
-        {
-          title: 'Surname',
-          value: this.user?.surname
-        },
-        {
-          title: 'Full Name',
-          value: this.user?.fullName
-        },
-        {
-          title: 'Joined At',
-          value: new Date(this.user?.creationTime).toLocaleDateString("fa-IR")
-        },
-        {
-          title: 'Email',
-          value: this.user?.emailAddress
-        },
-        {
-          title: 'POD Contact ID',
-          value: this.user?.podContactId
-        },
-        {
-          title: 'Roles',
-          value: this.user?.roleNames?.join(', ')
-        },
-
-      ]
-    }
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
@@ -98,7 +64,6 @@ export default {
       { title: this.$t("USER.SETTINGS") }
     ]);
 
-    this.setupThisUser();
   }
 };
 </script>

@@ -47,10 +47,11 @@
       </v-card-text>
     </v-card>
 
-    <v-row v-if="selectedItem">
+    <v-row
+        v-if="selectedItem">
       <v-col
           cols="12">
-        <v-card>
+        <v-card class="mb-4">
           <v-card-title>
             <v-chip
                 label
@@ -70,17 +71,14 @@
 
           </v-card-title>
           <v-card-subtitle>{{ selectedItem.description }}</v-card-subtitle>
-          <v-divider class="mt-0"></v-divider>
-          <user-answers-trend
-              v-if="selectedItem"
-
-              :key="selectedItem.id"
-              :user="user"
-              :dataset="selectedItem"
-          ></user-answers-trend>
-          <v-card-text>
-          </v-card-text>
         </v-card>
+        <user-answers-trend
+            v-if="selectedItem"
+
+            :key="selectedItem.id"
+            :user="user"
+            :dataset="selectedItem"
+        ></user-answers-trend>
       </v-col>
     </v-row>
   </div>

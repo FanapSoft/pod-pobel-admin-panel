@@ -30,14 +30,14 @@
                 <v-switch
                     v-model="IsGoldenData"
 
-                    label="Only Goldens"
+                    :label="$t('DATASET.ONLYGOLDENS')"
                     class="mt-0"></v-switch>
               </v-col>
               <v-col cols="4">
                 <v-switch
                     v-model="OnlyNonDecidedGoldens"
 
-                    label="Only Non Decided Goldens"
+                    :label="$t('DATASET.ONLYNONDECIDEDGOLDENS')"
                     class="mt-0"></v-switch>
               </v-col>
             </v-row>
