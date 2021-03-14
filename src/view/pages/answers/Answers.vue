@@ -130,11 +130,12 @@
           </v-data-table>
 
           <v-pagination
-
               v-model="pagination.currentPage"
-              :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 404) / 44 - 1"
+
+              :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 504) / 44 - 1"
               :length="pagination.count"
 
+              length="700"
               class="mt-4 pb-2"></v-pagination>
         </v-card>
       </div>
