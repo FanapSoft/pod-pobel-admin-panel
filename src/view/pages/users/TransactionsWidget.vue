@@ -3,7 +3,7 @@
     <h6 class="mb-0 text-uppercase" style="font-size: 13px;">{{ $t("BREADCRUMBS.TRANSACTIONS") }}</h6>
     <v-divider></v-divider>
     <v-icon size="35" class="text-light">mdi-cash-multiple</v-icon>
-    {{ (transactionsCount? transactionsCount : '000') }}
+    {{ (transactionsCount? transactionsCount.toLocaleString() : '000') }}
   </v-card>
 </template>
 
