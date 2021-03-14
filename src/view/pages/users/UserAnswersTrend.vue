@@ -1,87 +1,80 @@
 <template>
   <v-card color="red lighten-3 ">
-    <v-card-title class="text-white">
-      Answers Trend
+    <v-card-title class="">
+      <span class="text-white">{{ $t("REPORTS.ANSWERSTREND") }}</span>
       <v-spacer></v-spacer>
-      <v-menu
-          ref="dateFromMenu"
-          v-model="dateFromMenu"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          left
-          min-width="auto">
-        <template v-slot:activator="{ on, attrs }">
-          <v-chip
-              label
-              v-bind="attrs"
-              v-on="on"
+      <v-chip
+          v-if="user"
 
-              class="mr-2">From: {{ resultsFrom ? new Date(resultsFrom).toLocaleDateString('en-US') : '' }}</v-chip>
-<!--
-:close="(resultsFrom ? true : false)"
-              @click:close="() => {resultsFrom = null; refreshResults()}"
-                  -->
-        </template>
-        <v-date-picker
-            no-title scrollable
+          label
 
-            v-model="resultsFrom">
-          <v-spacer></v-spacer>
-          <v-btn
-              text
-              color="primary"
+          @click="dateFromMenu = true"
 
-              @click="()=>{dateFromMenu = false; refreshResults()}">
-            Cancel
-          </v-btn>
-          <v-btn
-              text
-              color="primary"
-              @click="()=>{$refs.dateFromMenu.save(resultsFrom); refreshResults()}">
-            OK
-          </v-btn>
-        </v-date-picker>
-      </v-menu>
+          class="mr-2">{{ $t("GENERAL.FROM") }}: {{ displayResultsFrom }}</v-chip>
+      <jalali-date-picker
+          v-if="user"
 
-      <v-menu
-          ref="dateToMenu"
-          v-model="dateToMenu"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          left
-          min-width="auto">
-        <template v-slot:activator="{ on, attrs }">
-          <v-chip
-              label
+          clearable
 
-              v-bind="attrs"
-              v-on="on"
+          v-model="resultsFrom"
+          :placeholder="$t('GENERAL.FROM')"
+          :locale="$langIsFa ? 'fa,en': 'en,fa'"
+          :locale-config="{
+                      fa: {
+                        displayFormat: 'jYYYY/jMM/jDD',
+                        lang: { label: 'شمسی' }
+                      },
+                      en: {
+                        displayFormat: 'YYYY/MM/DD',
+                        lang: { label: 'Gregorian' }
+                      }
+                    }"
+          :editable="true"
+          :class="{'ltr-picker': $langIsFa != 'fa'}"
+          :show="dateFromMenu"
+          @close="dateFromMenu=false"
+          @input="checkDateFromValue"
 
-          >To: {{ resultsTo ? new Date(resultsTo).toLocaleDateString('en-US') : '' }}</v-chip>
-<!--
-      :close="(resultsTo ? true : false)"
-              @click:close="() => {resultsTo = null; refreshResults()}"
-     -->
-        </template>
-        <v-date-picker
-            no-title scrollable
+          format="YYYY/MM/DD"
+          element="my-custom-editable-input" >
+      </jalali-date-picker>
 
-            v-model="resultsTo">
-          <v-spacer></v-spacer>
-          <v-btn
-              text
-              color="primary"
-              @click="()=>{dateToMenu = false; refreshResults()}">
-            Cancel
-          </v-btn>
-          <v-btn
-              text
-              color="primary"
-              @click="()=>{$refs.dateToMenu.save(resultsTo); refreshResults()}">
-            OK
-          </v-btn>
-        </v-date-picker>
-      </v-menu>
+      <v-chip
+          v-if="user"
+
+          label
+
+          @click="dateToMenu = true"
+
+          class="mr-2">{{ $t("GENERAL.TO") }}: {{ displayResultsTo }}</v-chip>
+      <jalali-date-picker
+          v-if="user"
+
+          clearable
+
+          v-model="resultsTo"
+          :placeholder="$t('GENERAL.TO')"
+          :locale="$langIsFa? 'fa,en': 'en,fa'"
+          :locale-config="{
+                      fa: {
+                        displayFormat: 'jYYYY/jMM/jDD',
+                        lang: { label: 'شمسی' }
+                      },
+                      en: {
+                        displayFormat: 'YYYY/MM/DD',
+                        lang: { label: 'Gregorian' }
+                      }
+                    }"
+          :editable="true"
+          :class="{'ltr-picker': $langIsFa}"
+          :show="dateToMenu"
+          @close="dateToMenu=false"
+          @input="checkDateToValue"
+
+          format="YYYY/MM/DD"
+          element="my-custom-editable-input1" >
+      </jalali-date-picker>
+
 
     </v-card-title>
     <v-row align="center" justify="center">
@@ -98,7 +91,7 @@
           :series="chartOptions.series"
 
           type="area"
-          class="card-rounded-bottom"></apexchart>
+          class="card-rounded-bottom" style="direction: ltr"></apexchart>
     </template>
 
   </v-card>
@@ -238,8 +231,8 @@ export default {
             fontSize: "12px",
           },
           y: {
-            formatter: function (val) {
-              return val + " Answers";
+            formatter: (val) => {
+              return `${val} ${this.$t("GENERAL.ANSWER")}`;
             }
           },
           marker: {
@@ -260,6 +253,16 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    displayResultsFrom() {
+      let lang = this.$langIsFa ? 'fa-IR' : 'en-US';
+      return this.resultsFrom ?  new Date(this.resultsFrom).toLocaleDateString(lang) : '';
+    },
+    displayResultsTo() {
+      let lang = this.$langIsFa ? 'fa-IR' : 'en-US';
+      return this.resultsTo ?  new Date(this.resultsTo).toLocaleDateString(lang) : '';
+    },
   },
   mounted() {
     this.generateInitDates();
@@ -341,6 +344,7 @@ export default {
     },
     extractApiData(apiData) {
       this.dataCounts = [];
+      let lang = this.$langIsFa ? "fa-IR" : "en-US";
 
       this.userActivityDates.forEach((item, index) => {
         let hasAdi = false;
@@ -354,11 +358,23 @@ export default {
         if (!hasAdi) {
           this.dataCounts.push(0);
         }
-        this.$set(this.userActivityDates, index, new Date(item).toLocaleDateString('en-US'));
+        this.$set(this.userActivityDates, index, new Date(item).toLocaleDateString(lang));
 
       });
       this.chartOptions.series[0].data = this.dataCounts;
       this.chartKey++;
+    },
+    checkDateFromValue(val) {
+      if(!val) {
+        this.resultsFrom = null
+      }
+      this.refreshResults()
+    },
+    checkDateToValue(val) {
+      if(!val) {
+        this.resultsTo = null
+      }
+      this.refreshResults()
     },
   },
   watch: {

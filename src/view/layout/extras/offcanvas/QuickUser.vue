@@ -7,10 +7,10 @@
       <span
         class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1"
       >
-        Hi,
+        {{ $t("QUICKUSER.HI") }}
       </span>
       <span
-        class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"
+        class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline current-user-name mr-4"
       >
         {{currentUser.userName}}
       </span>
@@ -33,7 +33,7 @@
         class="offcanvas-header d-flex align-items-center justify-content-between pb-5"
       >
         <h3 class="font-weight-bold m-0">
-          User Profile
+          {{ $t('USER.USERPROFILE') }}
 <!--          <small class="text-muted font-size-sm ml-2">12 messages</small>-->
         </h3>
         <a
@@ -87,7 +87,7 @@
               </a>
             </div>
             <button class="btn btn-light-primary btn-bold" @click="onLogout">
-              Sign out
+              {{ $t("GENERAL.SIGNOUT") }}
             </button>
           </div>
         </div>
@@ -115,9 +115,9 @@
                 </div>
               </div>
               <div class="navi-text">
-                <div class="font-weight-bold">My Profile</div>
+                <div class="font-weight-bold"> {{ $t('USER.MYPROFILE') }}</div>
                 <div class="text-muted">
-                  View your profile
+                  {{ $t('USER.VIEWPROFILE') }}
 <!--                  <span
                     class="label label-light-danger label-inline font-weight-bold"
                   >
@@ -208,3 +208,8 @@ export default {
   }
 };
 </script>
+<style>
+.rtl .current-user-name.mr-4 {
+  margin-right: 8px !important;
+}
+</style>

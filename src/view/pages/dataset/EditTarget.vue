@@ -4,16 +4,16 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Editing target <span style="margin-left:10px; color: #42A5F5">{{ $route.params.TargetId }}</span>
+            {{ this.$t("TARGET.EDITTARGET") }} <span class="mx-1" style=" color: #42A5F5">{{ $route.params.TargetId }}</span>
 
             <v-spacer></v-spacer>
 
                 <v-btn
-                    depressed
+                    depressed light
 
                     @click.prevent="saveItem"
 
-                    class="btn btn-primary">Save Changes</v-btn>
+                    class="btn btn-primary text-dark text-hover-light">{{ $t("GENERAL.SAVECHANGES")}}</v-btn>
 
           </v-card-title>
         </v-card>
@@ -22,58 +22,89 @@
               type="card-avatar, article, actions"
           ></v-skeleton-loader>
         </v-card>
-        <v-card v-if="!loading && !targetObject">
-          Target Not Found
+        <v-card
+            v-if="!loading && !targetObject"
+
+            class="pa-3">
+          {{ $t("TARGET.TARGETNOTFOUND") }}
         </v-card>
         <v-row v-if="!loading && targetObject">
           <v-col
               cols="12"
               class="pb-0">
             <v-card>
-              <v-card-title>Target {{targetObject.answerCount}}</v-card-title>
+              <v-card-title>{{ $t("TARGET.TARGET") }}: {{targetObject.answerCount}}</v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.t"
-                        label="T" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
 
-                        v-model="targetObject.uMax"
-                        label="uMax" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
+                        :hint="$t('TARGET.CONFIDENCELEVEL')"
 
-                        v-model="targetObject.answerCount"
-                        label="Answer Count" />
+                        label="T"
+                        dir="ltr" />
                   </v-col>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
-
-                        v-model="targetObject.bonusFalse"
-                        label="Bonus False" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.uMin"
-                        label="uMin" />
+                        label="uMin"
+
+                        :hint="$t('TARGET.UMIN')"
+                        dir="ltr"/>
                   </v-col>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.uMax"
+                        label="uMax"
+
+                        :hint="$t('TARGET.UMAX')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.answerCount"
+                        label="Answer Count "
+                        :hint="$t('TARGET.ANSWERCOUNT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.bonusFalse"
+                        label="Bonus False"
+
+                        :hint="$t('TARGET.DEDUCTIONCOEFFICIENT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.bonusTrue"
+                        label="Bonus True"
+
+                        :hint="$t('TARGET.ADDITIVECOEFFICIENT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.goldenCount"
-                        label="Golden Answers Count" />
+                        label="Golden Answers Count "
+
+                        :hint="$t('TARGET.GOLDENANSWERSCOUNT')"
+                        dir="ltr" />
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -88,6 +119,8 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_SUBHEADER_ACTION } from "@/core/services/store/subheaderActions.module";
+import { LOAD_DATASET } from "@/core/services/store/datasets.module";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DatasetTargets",
@@ -96,6 +129,11 @@ export default {
       targetObject: null,
       loading: false,
     };
+  },
+  computed: {
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
   },
   methods:{
     async getItem() {
@@ -121,7 +159,7 @@ export default {
       try {
         const result = await this.$http.put(`/api/services/app/TargetDefinitions/Update`, data);
         if(result.status == 200) {
-          this.$bvToast.toast('Target successfully updated', {
+          this.$bvToast.toast(this.$t('TARGET.TARGETSUCCESSFULLYUPDATED'), {
             title: `Done`,
             variant: 'success',
             solid: true
@@ -129,7 +167,7 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        this.$bvToast.toast('Target update failed. Check your console for more', {
+        this.$bvToast.toast(this.$t('TARGET.TARGETUPDATEFAILED'), {
           title: `Error`,
           variant: 'danger',
           solid: true
@@ -143,7 +181,7 @@ export default {
       try {
         const result = await this.$http.delete(`/api/services/app/TargetDefinitions/Delete?id=${this.targetObject.id}`);
         if(result.status == 200) {
-          this.$bvToast.toast('Dataset successfully deleted', {
+          this.$bvToast.toast('Target successfully deleted', {
             title: `Done`,
             variant: 'success',
             solid: true
@@ -152,7 +190,7 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        this.$bvToast.toast('Dataset delete failed. Check your console for more', {
+        this.$bvToast.toast('Target delete failed. Check your console for more', {
           title: `Error`,
           variant: 'danger',
           solid: true
@@ -161,17 +199,21 @@ export default {
       this.deleting = false;
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.$route.params.DatasetId);
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: `Targets`, route: `/dataset/${this.$route.params.DatasetId}/targets` },
-      { title: `Edit Target`, route: `` },
+      { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+      {
+        title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
+        route: `/dataset/${this.$route.params.DatasetId}/singleDataset`
+      },
+      { title: this.$t("TARGET.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
+      { title: this.$t("TARGET.EDITTARGET") },
     ]);
 
     const actions = [
       {
-        title: 'Delete Target',
+        title: this.$t("TARGET.DELETETARGET"),
         onClick: () => {
           this.deleteItem()
         }

@@ -128,8 +128,8 @@ export default {
             fontSize: "12px",
           },
           y: {
-            formatter: function(val) {
-              return  val + " Answers";
+            formatter: (val) => {
+              return `<span class="d-inline-block">${val}</span> <span class="d-inline-block">${this.$t('GENERAL.ANSWER')}</span>`;
             }
           },
           marker: {

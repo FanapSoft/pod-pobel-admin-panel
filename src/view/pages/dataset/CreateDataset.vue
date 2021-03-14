@@ -3,14 +3,14 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Create new dataset
+            {{ $t("DATASET.CREATENEWDATASET") }}
             <v-spacer></v-spacer>
                 <v-btn
                     depressed
 
                     @click.prevent="saveItem"
 
-                    class="btn btn-primary">Create</v-btn>
+                    class="btn btn-primary text-dark text-hover-light">{{ $t("GENERAL.CREATE") }}</v-btn>
           </v-card-title>
         </v-card>
         <v-card v-if="loading">
@@ -19,13 +19,13 @@
           ></v-skeleton-loader>
         </v-card>
         <v-card v-if="!loading && !datasetObject">
-          Dataset Not Found
+          {{ $t('DATASET.DATASETNOTFOUND') }}
         </v-card>
         <v-row v-if="!loading && datasetObject">
           <v-col
               cols="12"
               class="pb-0">
-            <v-card>
+            <v-card class="mb-4">
 <!--              <v-card-title>Target {{datasetObject.name}}</v-card-title>-->
               <v-card-text>
                 <v-row>
@@ -35,7 +35,7 @@
 
                         v-model="datasetObject.name"
                         style="direction: rtl"
-                        label="Name" />
+                        :label="$t('USER.NAME')" />
                   </v-col>
                   <v-col cols="12">
                     <v-text-field
@@ -43,63 +43,64 @@
 
                         v-model="datasetObject.description"
                         style="direction: rtl"
-                        label="description" />
+                        :label="$t('GENERAL.DESCRIPTION')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-switch
                         filled dense rounded
 
                         v-model="datasetObject.isActive"
-                        label="Dataset Status" />
+                        :label="$t('DATASET.DATASETSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-switch
                         filled dense rounded
 
                         v-model="datasetObject.labelingStatus"
-                        label="Labeling Status" />
+                        :label="$t('DATASET.LABELINGSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.uMin"
-                        label="uMin" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.uMax"
-                        label="uMax" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.t"
-                        label="T" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.answerBudgetCountPerUser"
-                        label="answerBudgetCountPerUser" />
+                        label="Answer Budget Count"
+                        :hint="$t('DATASET.ANSWERBUDGETCOUNT')"
+                        dir="ltr"/>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.type"
-                        label="Type" />
+
+                        :hint="$t('GENERAL.TYPE')"
+
+                        label="Type"
+                        dir="ltr" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.questionType"
-                        label="QuestionType" />
+
+                        :hint="$t('GENERAL.QUESTIONTYPE')"
+
+                        label="Question Type"
+                        dir="ltr" />
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="datasetObject.answerReplicationCount"
+
+                        :label="$t('DATASET.ANSWERREPLICATIONCOUNT')"
+
+                        hint="Answer Replication Count"
+                        dir="ltr" />
                   </v-col>
 
                 </v-row>
@@ -123,9 +124,6 @@ export default {
         description: '',
         questionType: 0,
         answerBudgetCountPerUser: 100,
-        t: 0,
-        uMin: 0,
-        uMax: 0,
         type: 0
       },
       loading: false,
@@ -144,7 +142,7 @@ export default {
       try {
         const result = await this.$http.post(`/api/services/app/DataSets/Create`, data);
         if(result.status == 200) {
-          this.$bvToast.toast('Dataset successfully saved', {
+          this.$bvToast.toast(this.$t("DATASET.DATASETSUCCESSFULLYSAVED"), {
             title: `Done`,
             variant: 'success',
             solid: true
@@ -164,8 +162,8 @@ export default {
   mounted() {
     //this.$store.dispatch(ADD_BREADCRUMB, [{ title: `Create Dataset`, route: `/dataset/create` }]);
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Create Dataset`, route: `` },
+      { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: this.$t("DATASET.CREATEDATASET") },
     ]);
   }
 }

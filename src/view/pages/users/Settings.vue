@@ -3,9 +3,9 @@
         <v-col cols="12">
           <v-card>
             <v-card-title>
-              User Settings
+              {{ $t("USER.USERSETTINGS") }}
               <v-spacer></v-spacer>
-              <v-btn class="primary" depressed>Save</v-btn>
+              <v-btn class="primary" depressed>{{ $t("GENERAL.SAVE") }}</v-btn>
             </v-card-title>
             <v-divider class="my-0"></v-divider>
             <v-card-text>
@@ -56,48 +56,14 @@ export default {
 
   },
   methods: {
-    async setupThisUser() {
-      await this.$store.dispatch(`profile/${LOAD_USER_OBJECT}`, this.$route.params.userId);
-      this.userDetails = [
-        {
-          title: 'Name',
-          value: this.user?.name
-        },
-        {
-          title: 'Surname',
-          value: this.user?.surname
-        },
-        {
-          title: 'Full Name',
-          value: this.user?.fullName
-        },
-        {
-          title: 'Joined At',
-          value: new Date(this.user?.creationTime).toLocaleDateString("fa-IR")
-        },
-        {
-          title: 'Email',
-          value: this.user?.emailAddress
-        },
-        {
-          title: 'POD Contact ID',
-          value: this.user?.podContactId
-        },
-        {
-          title: 'Roles',
-          value: this.user?.roleNames?.join(', ')
-        },
-
-      ]
-    }
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-        { title: "Users", route: `/users/list`},
-      { title: `User ${this.$route.params.userId} Profile`}
+      { title: this.$t("USER.USERS"), route: `/users/list`},
+      { title: this.user ? this.user.name : this.$route.params.userId, route: `/users/${this.user?.id}/profile/overview` },
+      { title: this.$t("USER.SETTINGS") }
     ]);
 
-    this.setupThisUser();
   }
 };
 </script>

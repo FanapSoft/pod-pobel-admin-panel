@@ -3,7 +3,7 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Users
+            {{ $t("USER.USERS") }}
             <v-spacer></v-spacer>
             <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
             <v-text-field
@@ -14,7 +14,7 @@
 
                 v-model="search"
                 append-icon="search"
-                label="Search"></v-text-field>
+                :label="$t('GENERAL.SEARCH')"></v-text-field>
           </v-card-title>
           <v-data-table
               v-if="users"
@@ -52,7 +52,7 @@
                     <v-icon>mdi-file-account</v-icon>
                   </v-btn>
                 </template>
-                <span>View Profile</span>
+                <span>{{ $t("USER.VIEWPROFILE")}}</span>
               </v-tooltip>
               <v-btn
                   v-if="$route.query.showTransactionsBtn"
@@ -74,13 +74,12 @@
                   :to="`/answers?UserId=${item.id}`">View Answers</v-btn>
             </template>
           </v-data-table>
-          <v-row class="mx-9">
-            <v-col>
-              <v-pagination
-                  v-model="pagination.currentPage"
-                  :length="pagination.count"></v-pagination>
-            </v-col>
-          </v-row>
+          <v-pagination
+              v-model="pagination.currentPage"
+              :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 404) / 44 - 1"
+              :length="pagination.count"
+
+              class="mt-4 pb-2"></v-pagination>
         </v-card>
       </div>
     </div>
@@ -95,16 +94,16 @@ export default {
       isActive: null,
       search: null,
       listHeaders: [
-        { text: "Row", value: "ind" },
-        { text: "Username", value: "userName" },
+        { text: this.$t("GENERAL.ROW"), value: "ind" },
+        { text: this.$t("USER.USERNAME"), value: "userName" },
         {
-          text: "Full Name",
+          text: this.$t("USER.FULLNAME"),
           /*align: "left",*/
           sortable: false,
           value: "fullName"
         },
-        { text: "Email", value: "emailAddress" },
-        { text: "Actions", value: "actions" },
+        { text: this.$t("USER.EMAIL"), value: "emailAddress" },
+        { text: this.$t("GENERAL.ACTIONS"), value: "actions" },
       ],
       loading: false,
       pagination: {
@@ -162,7 +161,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Users"}]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("USER.USERS")}]);
 
     this.refreshList()
   },

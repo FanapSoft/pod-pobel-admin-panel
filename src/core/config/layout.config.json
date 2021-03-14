@@ -3,16 +3,16 @@
   "self": {
     "layout": "default",
     "body": {
-      "background-image": "/admin/media/bg/bg-10.jpg !important"
+      "background-image": "/media/bg/bg-10.jpg !important"
     },
     "logo": {
-      "default": "/admin/media/logos/logo-letter-9.png",
-      "sticky": "/admin/media/logos/logo-letter-1.png"
+      "default": "/media/logos/logo-letter-9.png",
+      "sticky": "/media/logos/logo-letter-1.png"
     }
   },
   "loader": {
     "type": "spinner-logo",
-    "logo": "/admin/media/logos/logo-letter-1.png",
+    "logo": "/media/logos/logo-letter-1.png",
     "message": "Please wait..."
   },
   "breakpoints": {

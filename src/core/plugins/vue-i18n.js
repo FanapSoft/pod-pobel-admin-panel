@@ -8,11 +8,12 @@ import { locale as es } from "@/core/config/i18n/es";
 import { locale as jp } from "@/core/config/i18n/jp";
 import { locale as de } from "@/core/config/i18n/de";
 import { locale as fr } from "@/core/config/i18n/fr";
+import { locale as fa } from "@/core/config/i18n/fa";
 
 Vue.use(VueI18n);
 
 let messages = {};
-messages = { ...messages, en, ch, es, jp, de, fr };
+messages = { ...messages, en, ch, es, jp, de, fr, fa };
 
 // get current selected language
 const lang = localStorage.getItem("language") || "en";

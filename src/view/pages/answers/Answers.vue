@@ -3,117 +3,83 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Answers
+            {{ $t("BREADCRUMBS.ANSWERS") }}
             <v-spacer></v-spacer>
             <span>{{ pagination.realCount }}</span>
           </v-card-title>
-          <v-row>
-            <v-col cols="12" class="px-6">
+          <v-row class="mx-0 mb-0">
+            <v-col cols="12" class="px-3">
               <v-chip
                   close
-
+                  label
                   @click="$router.push('/users/list?showAnswersBtn=true')"
-                  @click:close="removeQueryItem('userId')">User: {{ userId }}
+                  @click:close="removeQueryItem('userId')">{{ $t("USER.USER") }}: {{ userId }}
               </v-chip>
               <v-chip
-                  close
+                  close label
 
                   @click="$router.push('/dataset/list')"
-                  @click:close="removeQueryItem('datasetId')">Dataset: {{ datasetId }}
+                  @click:close="removeQueryItem('datasetId')"
+
+              class="mx-1">{{ $t("DATASET.DATASET") }}: {{ datasetId && currentDataset ? currentDataset.name : '' }}
               </v-chip>
-
-              <!--              <v-date-picker v-model="dateTo"></v-date-picker>-->
-              <!--              <v-chip
-                                close
-
-                                @click="$router.push('/dataset/list')"
-                                @click:close="removeQueryItem('datasetId')">Dataset Item: {{datasetItemId}}</v-chip>-->
             </v-col>
             <v-col
                 cols="12"
                 sm="6"
                 md="3"
             >
-              <v-menu
-                  ref="dateFromMenu"
-                  v-model="dateFromMenu"
-                  :close-on-content-click="false"
+              <jalali-date-picker
+                  clearable
 
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                      v-model="$store.state['answersList/dateFrom']"
-                      label="From"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                    no-title scrollable
+                  v-model="$store.state['answersList/dateFrom']"
 
-                    v-model="$store.state['answersList/dateFrom']">
-                  <v-spacer></v-spacer>
-                  <v-btn
-                      text
-                      color="primary"
-                      @click="()=> {$store.state['answersList/dateFrom'] = ''; dateFromMenu = false; refreshList()}">
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                      text
-                      color="primary"
-                      @click="()=>{$refs.dateFromMenu.save($store.state['answersList/dateFrom']); refreshList()}">
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-menu>
+                  :placeholder="$t('GENERAL.FROM')"
+                  :locale="$langIsFa ? 'fa,en': 'en,fa'"
+                  :locale-config="{
+                      fa: {
+                        displayFormat: 'jYYYY/jMM/jDD',
+                        lang: { label: 'شمسی' }
+                      },
+                      en: {
+                        displayFormat: 'YYYY/MM/DD',
+                        lang: { label: 'Gregorian' }
+                      }
+                    }"
+                  :editable="true"
+                  :class="{'ltr-picker': !$langIsFa}"
+                  @input="checkDateFromValue"
+
+                  format="YYYY/MM/DD"
+              ></jalali-date-picker>
             </v-col>
-
             <v-col
                 cols="12"
                 sm="6"
                 md="3">
-              <v-menu
-                  ref="dateToMenu"
-                  v-model="dateToMenu"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                      v-model="$store.state['answersList/dateTo']"
-                      label="To"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                    no-title scrollable
+              <jalali-date-picker
+                  clearable
 
-                    v-model="$store.state['answersList/dateTo']">
-                  <v-spacer></v-spacer>
-                  <v-btn
-                      text
-                      color="primary"
-                      @click="()=>{dateToMenu = false; $store.state['answersList/dateTo'] = null; refreshList()}">
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                      text
-                      color="primary"
-                      @click="()=>{$refs.dateToMenu.save($store.state['answersList/dateTo']); refreshList()}">
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-menu>
+                  v-model="$store.state['answersList/dateTo']"
+
+                  :placeholder="$t('GENERAL.TO')"
+                  :locale="$langIsFa ? 'fa,en': 'en,fa'"
+                  :locale-config="{
+                    fa: {
+                      displayFormat: 'jYYYY/jMM/jDD',
+                      lang: { label: 'شمسی' }
+                    },
+                    en: {
+                      displayFormat: 'YYYY/MM/DD',
+                      lang: { label: 'Gregorian' }
+                    }
+                  }"
+                  :editable="true"
+                  :class="{'ltr-picker': !$langIsFa}"
+                  @input="checkDateToValue"
+
+                  format="YYYY/MM/DD"
+              ></jalali-date-picker>
             </v-col>
           </v-row>
           <v-data-table
@@ -140,7 +106,7 @@
               {{ (pagination.skip ? pagination.skip + answers.indexOf(item) + 1 : answers.indexOf(item) + 1) }}
             </template>
             <template v-slot:item.dateTime="{ item }">
-              {{ new Date(item.creationTime).toLocaleDateString("en-US") }}
+              {{ new Date(item.creationTime).toLocaleDateString($langIsFa ? "fa-IR" : "en-US") }}
               <br>
               {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
             </template>
@@ -162,13 +128,15 @@
               <v-chip x-small :class="{'success': item.ignored, 'error': !item.ignored}">{{item.ignored}}</v-chip>
             </template>
           </v-data-table>
-          <v-row class="mx-9">
-            <v-col>
-              <v-pagination
-                  v-model="pagination.currentPage"
-                  :length="pagination.count"></v-pagination>
-            </v-col>
-          </v-row>
+
+          <v-pagination
+              v-model="pagination.currentPage"
+
+              :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 504) / 44 - 1"
+              :length="pagination.count"
+
+              length="700"
+              class="mt-4 pb-2"></v-pagination>
         </v-card>
       </div>
     </div>
@@ -186,21 +154,22 @@ import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 
 import DatasetDetails from "../transactions/DatasetDetails";
 import DatasetITem from "@/view/pages/answers/DatasetItem";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
 
 export default {
   data() {
     return {
       answers: null,
-      dateFromMenu: false,
+      dateFromDialog: false,
       dateToMenu: null,
       listHeaders: [
-        {text: "Row", value: "ind"},
+        {text: this.$t("GENERAL.ROW"), value: "ind"},
         //{ text: "creditAmount", value: "creditAmount" },
-        {text: "Date & Time", value: "dateTime"},
-        {text: "Answer", value: "answer"},
+        {text: this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
+        {text: this.$t("GENERAL.ANSWER"), value: "answer"},
         {text: "Is Ignored", value: "ignored"},
-        {text: "Dataset ", value: "dataset"},
-        {text: "Dataset Item", value: "datasetItem"},
+        {text: this.$t("DATASET.DATASET"), value: "dataset"},
+        {text: this.$t("DATASET.DATASETITEM"), value: "datasetItem"},
 
       ],
       loading: false,
@@ -223,6 +192,9 @@ export default {
     ...mapGetters({
       userId: "answersList/userId",
       datasetId: "answersList/datasetId",
+    }),
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
     })
   },
   methods: {
@@ -282,10 +254,22 @@ export default {
         this.$store.commit(`answersList/${SET_DATASETITEM_ID}`, null);
 
       this.refreshList()
-    }
+    },
+    checkDateFromValue(val) {
+      if(!val) {
+        this.$store.state['answersList/dateFrom'] = null;
+      }
+      this.refreshList()
+    },
+    checkDateToValue(val) {
+      if(!val) {
+        this.$store.state['answersList/dateTo'] = null;
+      }
+      this.refreshList()
+    },
   },
-  mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{title: "Answers"}]);
+  async mounted() {
+    this.$store.dispatch(SET_BREADCRUMB, [{title: this.$t("BREADCRUMBS.ANSWERS")}]);
 
     if (this.$route.query.UserId) {
       this.$store.commit(`answersList/${SET_USER_ID}`, this.$route.query.UserId);
@@ -294,6 +278,7 @@ export default {
     if (this.$route.query.DatasetId) {
       this.$store.commit(`answersList/${SET_DATASET_ID}`, this.$route.query.DatasetId);
     }
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.datasetId);
     if (this.$route.query.DatasetItemId) {
       this.$store.commit(`answersList/${SET_DATASETITEM_ID}`, this.$route.query.DatasetItemId);
     }
@@ -307,3 +292,12 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.date-picker-dialog {
+  direction: ltr;
+
+  * {
+    direction: ltr !important;
+  }
+}
+</style>

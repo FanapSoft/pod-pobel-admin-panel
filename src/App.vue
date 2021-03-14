@@ -17,7 +17,7 @@
 @import "assets/plugins/keenthemes-icons/font/ki.css";
 
 // Main demo style scss
-@import "assets/sass/style.vue";
+// @import "assets/sass/style.vue";
 
 // Check documentation for RTL css
 // Update HTML with RTL attribute at public/index.html
@@ -27,6 +27,7 @@
 <script>
 import { OVERRIDE_LAYOUT_CONFIG } from "@/core/services/store/config.module";
 
+
 export default {
   name: "MetronicVue",
   mounted() {
@@ -35,6 +36,35 @@ export default {
      * remove this to use config only from static json (@/core/config/layout.config.json)
      */
     this.$store.dispatch(OVERRIDE_LAYOUT_CONFIG);
+
+    if (this.$langIsFa) {
+      import("@/assets/css/style.vue.rtl.css");
+
+      let body = document.getElementsByTagName("body")[0];
+      body.setAttribute("direction", "rtl");
+      body.setAttribute("dir", "rtl");
+      body.style.direction = "rtl";
+      body.classList.add("rtl");
+
+      this.$vuetify.rtl = true;
+    } else {
+      import("@/assets/css/style.vue.css")
+
+      this.$vuetify.rtl = false;
+    }
   }
 };
 </script>
+
+<style>
+.vpd-input-group input {
+  border: 1px solid #dadada !important;
+  border-right: 1px solid #dadada !important;
+  border-radius: 0;
+}
+
+.ltr-picker .vpd-input-group .vpd-clear-btn {
+  left: auto;
+  right: 0;
+}
+</style>

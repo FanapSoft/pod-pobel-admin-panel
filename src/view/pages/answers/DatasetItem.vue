@@ -31,7 +31,7 @@ export default {
   computed: {
     datasetItemName(){
       if(this.answer && this.answer.questionObject) {
-        return JSON.parse(this.answer.questionObject).Title.replace(/[0-9]/g, '').replace(/_/g, ' ')
+        return JSON.parse(this.answer.questionObject).Title
       }
       else if(this.loading) {
         return 'Loading...'

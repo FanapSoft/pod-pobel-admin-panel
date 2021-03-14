@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Editing dataset <span style="margin-left:10px; color: #42A5F5">{{ $route.params.DatasetId }}</span>
+            {{ $t("DATASET.EDITDATASET") }} <span class="mx-1" style="color: #42A5F5">{{ !loading && datasetObject ? datasetObject.name : $route.params.DatasetId }}</span>
 
             <v-spacer></v-spacer>
             <v-btn
@@ -12,14 +12,14 @@
 
                 @click.prevent="saveItem"
 
-                class="btn btn-primary mr-4">Save Changes</v-btn>
+                class="btn btn-primary mr-4 text-dark text-hover-light">{{ $t("GENERAL.SAVECHANGES")}}</v-btn>
 
             <v-btn
                 depressed
 
                 @click.stop="deleteDialog = true"
 
-                class="btn btn-danger">Delete Dataset</v-btn>
+                class="btn btn-danger text-dark text-hover-light">{{ $t("DATASET.DELETEDATASET")}}</v-btn>
           </v-card-title>
         </v-card>
         <v-card v-if="loading">
@@ -28,14 +28,13 @@
           ></v-skeleton-loader>
         </v-card>
         <v-card v-if="!loading && !datasetObject">
-          Target Not Found
+          {{ $t('DATASET.DATASETNOTFOUND') }}
         </v-card>
         <v-row v-if="!loading && datasetObject">
           <v-col
               cols="12"
               class="pb-0">
-            <v-card>
-              <v-card-title>Target {{datasetObject.name}}</v-card-title>
+            <v-card class="mb-4">
               <v-card-text>
                 <v-row>
                   <v-col cols="12">
@@ -44,7 +43,7 @@
 
                         v-model="datasetObject.name"
                         style="direction: rtl"
-                        label="Name" />
+                        :label="$t('USER.NAME')" />
                   </v-col>
                   <v-col cols="12">
                     <v-text-field
@@ -52,7 +51,7 @@
 
                         v-model="datasetObject.description"
                         style="direction: rtl"
-                        label="description" />
+                        :label="$t('GENERAL.DESCRIPTION')" />
                   </v-col>
 
                   <v-col cols="12" md="6">
@@ -60,58 +59,62 @@
                         filled dense rounded
 
                         v-model="datasetObject.isActive"
-                        label="Dataset Status" />
+                        :label="$t('DATASET.DATASETSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-switch
                         filled dense rounded
 
                         v-model="datasetObject.labelingStatus"
-                        label="Labeling Status" />
+                        :label="$t('DATASET.LABELINGSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.uMin"
-                        label="uMin" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.uMax"
-                        label="uMax" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
-
-                        v-model="datasetObject.t"
-                        label="T" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.answerBudgetCountPerUser"
-                        label="answerBudgetCountPerUser" />
+                        label="Answer Budget Count"
+
+                        :hint="$t('DATASET.ANSWERBUDGETCOUNT')"
+                        dir="ltr"/>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.type"
-                        label="Type" />
+
+                        label="Type"
+                        :hint="$t('GENERAL.TYPE')"
+
+                        dir="ltr"/>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="datasetObject.questionType"
-                        label="QuestionType" />
+
+
+
+                        :hint="$t('GENERAL.QUESTIONTYPE')"
+
+                        label="Question Type"
+                        dir="ltr"/>
                   </v-col>
 
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="datasetObject.answerReplicationCount"
+
+
+                        :hint="$t('DATASET.ANSWERREPLICATIONCOUNT')"
+
+                        label="Answer Replication Count"
+                        dir="ltr" />
+                  </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
@@ -126,12 +129,12 @@
           max-width="290"
       >
         <v-card>
-          <v-card-title class="headline">Delete</v-card-title>
+          <v-card-title class="headline">{{ $t("GENERAL.DELETE") }}</v-card-title>
 
           <v-card-text>
-            You are deleting dataset: {{datasetObject.name}}
+            {{ $t("DATASET.YOUAREDELETINGDATASET") }}: {{datasetObject.name}}
             <br>
-            Notice: You can not restore your dataset after it's deleted.
+            {{ $t("GENERAL.NOTICE") }}: {{ $t("DATASET.YOUCANNOTRESTOREYOURDATASET") }}
             <br>
           </v-card-text>
 
@@ -146,7 +149,7 @@
 
                 color="error"
             >
-              Yes, Delete
+              {{ $t("GENERAL.YESDELETE") }}
             </v-btn>
 
             <v-btn
@@ -154,7 +157,7 @@
                 text
                 @click="deleteDialog = false"
             >
-              No
+              {{ $t("GENERAL.NO") }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -188,13 +191,11 @@ export default {
       try {
         const dataset = await this.$http.get(`/api/services/app/Datasets/Get?id=${this.$route.params.DatasetId}`);
         if(dataset.data && dataset.data.result) {
-          this.datasetObject = {
+
+          this.$set(this, "datasetObject", {
             ...this.datasetObject,
             ...dataset.data.result
-          };
-
-          //this.datasetObject.isActive = (dataset.data.result.isActive === "true");
-          //this.datasetObject.labelingStatus = (dataset.data.result.labelingStatus === "1");//dataset.data.result.labelingStatus;
+          });
 
         }
       } catch (error) {
@@ -214,7 +215,7 @@ export default {
       try {
         const result = await this.$http.put(`/api/services/app/DataSets/Update`, data);
         if(result.status == 200) {
-          this.$bvToast.toast('Dataset successfully updated', {
+          this.$bvToast.toast(this.$t("DATASET.DATASETSUCCESSFULLYUPDATED"), {
             title: `Done`,
             variant: 'success',
             solid: true
@@ -253,16 +254,23 @@ export default {
         });
       }
       this.deleting = false;
+    },
+    setBreadcrumbs() {
+      this.$store.dispatch(SET_BREADCRUMB, [
+        { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+        { title: `${this.$t("DATASET.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+        { title: this.$t("DATASET.EDITDATASET")},
+      ]);
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: `Edit Dataset`, route: `` },
-    ]);
-
+    this.setBreadcrumbs();
     this.getItem();
+  },
+  watch: {
+    datasetObject() {
+      this.setBreadcrumbs();
+    }
   }
 }
 </script>

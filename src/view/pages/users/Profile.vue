@@ -22,9 +22,9 @@
                 <v-list-item-subtitle>{{ user.emailAddress }}</v-list-item-subtitle>
               </v-list-item-content>
 
-              <v-list-item-action>
+<!--              <v-list-item-action>
                 <v-icon>mdi-menu-down</v-icon>
-              </v-list-item-action>
+              </v-list-item-action>-->
             </v-list-item>
           </v-list>
           <v-divider></v-divider>
@@ -55,7 +55,7 @@
       </v-card>
     </v-col>
     <v-col cols="8">
-      <router-view></router-view>
+      <router-view :key="$route.path"></router-view>
     </v-col>
   </v-row>
 </template>
@@ -116,25 +116,28 @@ export default {
     },
     setupAsideLinks() {
       this.asideItems = [
-        {text: 'Transactions', icon: 'mdi-cash-multiple', link: `/transaction/list?OwnerId=${this.user?.id}`},
+        {text: this.$t('BREADCRUMBS.TRANSACTIONS'), icon: 'mdi-cash-multiple', link: `/transaction/list?OwnerId=${this.user?.id}`},
         {text: 'Answers Trend', icon: 'mdi-chart-timeline-variant', link: `/reports/AnswerCountTrend?UserId=${this.user?.id}`},
-        {text: 'Datasets', icon: 'mdi-database', link: `datasets`},
-        {text: 'Settings', icon: 'mdi-cogs', link: `settings`},
+        {text: this.$t('DATASET.DATASETS'), icon: 'mdi-database', link: `datasets`},
+        {text: this.$t('USER.SETTINGS'), icon: 'mdi-cogs', link: `settings`},
       ]
+    },
+    setBreadcrumbs() {
+      this.$store.dispatch(SET_BREADCRUMB, [
+        { title: this.$t("USER.USERS"), route: `/users/list`},
+        { title: this.user ? this.user.name : this.$route.params.userId }
+      ]);
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [
-        { title: "Users", route: `/users/list`},
-      { title: `User ${this.$route.params.userId} Profile`}
-    ]);
-
     this.setupThisUser();
-    this.setupAsideLinks()
+    this.setupAsideLinks();
+    this.setBreadcrumbs();
   },
   watch: {
     user(){
-      this.setupAsideLinks()
+      this.setupAsideLinks();
+      this.setBreadcrumbs();
     }
   }
 };

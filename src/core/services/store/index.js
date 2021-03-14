@@ -11,6 +11,7 @@ import transactionsList from "./transactionsList.module";
 import answerCountTrend from "./answerCountTrend.module";
 import answersList from  "./answersList.module"
 import scoreboard from "./scoreboard.module"
+import datasets from "./datasets.module"
 
 Vue.use(Vuex);
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     transactionsList,
     answerCountTrend,
     answersList,
-    scoreboard
+    scoreboard,
+    datasets
   }
 });

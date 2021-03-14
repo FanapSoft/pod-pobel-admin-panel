@@ -2,7 +2,7 @@
   <div>
     <v-card class="mb-5">
       <v-card-title>
-        Datasets Activities
+        {{ $t("DATASET.DATASETSACTIVITIES") }}
       </v-card-title>
       <v-card-text>
         <v-select
@@ -14,9 +14,9 @@
 
             :items="datasets"
 
-            label="Choose a dataset">
+            :label="$t('DATASET.CHOOSEADATASET')">
           <template v-slot:selection="{ item }" >
-            {{ (item? item.name : 'Choose a dataset') }}
+            {{ (item? item.name : $t('DATASET.CHOOSEADATASET')) }}
           </template>
           <template v-slot:item="{ active, item, attrs, on }">
             <v-list-item
@@ -34,7 +34,7 @@
                         class="mb-2"
                     >{{ item.name }}</v-chip>
                     <v-spacer></v-spacer>
-                    Answers: {{ (item.answersCount ? item.answersCount : '0') }}
+                    {{ $t("BREADCRUMBS.ANSWERS") }}: {{ (item.answersCount ? item.answersCount : '0') }}
                   </v-row>
                 </v-list-item-title>
                 <v-list-item-subtitle>
@@ -47,10 +47,11 @@
       </v-card-text>
     </v-card>
 
-    <v-row v-if="selectedItem">
+    <v-row
+        v-if="selectedItem">
       <v-col
           cols="12">
-        <v-card>
+        <v-card class="mb-4">
           <v-card-title>
             <v-chip
                 label
@@ -63,24 +64,21 @@
             <v-chip
                 label small
 
-                class="mr-1">Transactions: {{(selectedItem.transactionsCount ? selectedItem.transactionsCount : '0')}}</v-chip>
+                class="mr-1">{{ $t("BREADCRUMBS.TRANSACTIONS") }}: {{(selectedItem.transactionsCount ? selectedItem.transactionsCount : '0')}}</v-chip>
             <v-chip
                 label small
-            >Answers: {{ (selectedItem.answersCount ? selectedItem.answersCount : '0') }}</v-chip>
+            >{{ $t("BREADCRUMBS.ANSWERS") }}: {{ (selectedItem.answersCount ? selectedItem.answersCount : '0') }}</v-chip>
 
           </v-card-title>
           <v-card-subtitle>{{ selectedItem.description }}</v-card-subtitle>
-          <v-divider class="mt-0"></v-divider>
-          <user-answers-trend
-              v-if="selectedItem"
-
-              :key="selectedItem.id"
-              :user="user"
-              :dataset="selectedItem"
-          ></user-answers-trend>
-          <v-card-text>
-          </v-card-text>
         </v-card>
+        <user-answers-trend
+            v-if="selectedItem"
+
+            :key="selectedItem.id"
+            :user="user"
+            :dataset="selectedItem"
+        ></user-answers-trend>
       </v-col>
     </v-row>
   </div>
@@ -159,8 +157,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-        { title: "Users", route: `/users/list`},
-      { title: `User ${this.$route.params.userId} Profile`}
+      { title: this.$t("USER.USERS"), route: `/users/list`},
+      { title: this.user ? this.user.name : this.$route.params.userId, route: `/users/${this.user?.id}/profile/overview` },
+      { title: this.$t("DATASET.DATASETS")}
     ]);
 
     this.getItems();

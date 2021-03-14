@@ -15,7 +15,7 @@
           <h2 class="text-white font-weight-bold my-2 mr-5">
             {{ title }}
           </h2>
-          <ul class="d-flex align-items-center font-weight-bold my-2">
+          <ul class="d-flex align-items-center font-weight-bold my-2 px-0">
             <router-link :to="'/'" class="opacity-75 hover-opacity-100">
               <i class="flaticon2-shelter text-white icon-1x"></i>
             </router-link>
@@ -54,19 +54,25 @@
         </a>-->
         <!--end::Button-->
         <!--begin::Dropdown-->
-        <template v-if="actionLinks && actionLinks.length">
+        <template
+            v-if="actionLinks && actionLinks.length">
           <b-dropdown
               size="sm"
               variant="link"
-              toggle-class="custom-v-dropdown btn btn-white font-weight-bold py-3 px-6"
+              toggle-class="custom-v-dropdown btn btn-white font-weight-bold py-2 px-4"
+              class="page-actions-dropdown"
               no-caret
-              right
+              :right="!$langIsFa"
               no-flip
-              text="Actions"
-              v-b-tooltip.hover="'Quick actions'"
+              :text="$t('ACTIONS.ACTIONS')"
+              v-b-tooltip.hover="$t('ACTIONS.QUICKACTIONS')"
+
           >
-            <!--begin::Navigation-->
-            <div v-for="(item, index) in actionLinks" class="navi navi-hover min-w-md-250px">
+            <!--begin::Navigation 'Quick actions' -->
+            <div
+                v-for="(item, index) in actionLinks"
+
+                class="navi navi-hover min-w-md-250px">
               <b-dropdown-text tag="div" class="navi-item">
                 <a
                     v-if="!item.link"
@@ -235,3 +241,8 @@ export default {
   }
 };
 </script>
+<style>
+.page-actions-dropdown ul {
+  padding-left: 0 !important;
+}
+</style>

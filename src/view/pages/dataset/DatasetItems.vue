@@ -3,40 +3,41 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Dataset Items
+            {{ $t("DATASET.DATASETSITEMS") }}
             <v-spacer></v-spacer>
             <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
             <v-text-field
                 single-line hide-details filled dense rounded
 
+                v-model="LabelName"
+
                 @click:append="refreshList"
                 @keydown.enter="refreshList"
 
-                v-model="LabelName"
                 append-icon="search"
-                label="Label Name"></v-text-field>
+                :label="$t('DATASET.ITEMLABELNAME')"></v-text-field>
           </v-card-title>
           <v-card-text>
             <v-row>
               <v-col cols="12" style="vertical-align: middle">
                 <v-chip
-                    close
+                    close label
 
                     @click="$router.push('/dataset/list')"
-                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">Dataset: {{$route.query.DatasetId}}</v-chip>
+                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">{{ $t("DATASET.DATASET")}}: {{$route.query.DatasetId && currentDataset ? currentDataset.name : ''}}</v-chip>
               </v-col>
               <v-col cols="3">
                 <v-switch
                     v-model="IsGoldenData"
 
-                    label="Only Goldens"
+                    :label="$t('DATASET.ONLYGOLDENS')"
                     class="mt-0"></v-switch>
               </v-col>
               <v-col cols="4">
                 <v-switch
                     v-model="OnlyNonDecidedGoldens"
 
-                    label="Only Non Decided Goldens"
+                    :label="$t('DATASET.ONLYNONDECIDEDGOLDENS')"
                     class="mt-0"></v-switch>
               </v-col>
             </v-row>
@@ -86,10 +87,11 @@
             <v-row class="mx-9">
               <v-col cols="12" class="position-relative">
                 <v-pagination
-
-                    :key="pagination.currentPage"
                     v-model="pagination.currentPage"
-                    :length="pagination.count"></v-pagination>
+                    :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 404) / 44 - 1"
+                    :length="pagination.count"
+
+                    class="mt-4 pb-2"></v-pagination>
               </v-col>
             </v-row>
           </v-card-text>
@@ -101,6 +103,8 @@
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_DATASET_ID } from "@/core/services/store/transactionsList.module";
 import DatasetDetails from "../transactions/DatasetDetails";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
+import {mapGetters} from "vuex";
 
 export default {
   data() {
@@ -112,11 +116,11 @@ export default {
       OnlyNonDecidedGoldens: false,
 
       listHeaders: [
-        { text: "Row", value: "ind" },
-        { text: "File", value: "file" },
-        { text: "Label", value: "labelName" },
-        { text: "Dataset", value: "datasetItem"},
-        { text: "Actions", value: "actions" },
+        { text: this.$t("GENERAL.ROW"), value: "ind" },
+        { text: this.$t("GENERAL.FILE"), value: "file" },
+        { text: this.$t("GENERAL.LABEL"), value: "labelName" },
+        { text: this.$t("DATASET.DATASET"), value: "datasetItem"},
+        { text: this.$t("GENERAL.ACTIONS"), value: "actions" },
       ],
       loading: false,
       pagination: {
@@ -131,6 +135,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
   },
   components: {
     DatasetDetails
@@ -183,9 +190,11 @@ export default {
       await this.getItems(this.pagination.currentPage);
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.$route.query.DatasetId);
+
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Datasets Items" },
+      { title: this.$t("DATASET.DATASETSITEMS")},
       //{ title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
       //{ title: `Items` },
     ]);

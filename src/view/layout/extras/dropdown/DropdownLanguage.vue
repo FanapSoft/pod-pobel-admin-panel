@@ -1,5 +1,5 @@
 <template>
-  <ul class="navi navi-hover py-4">
+  <ul class="navi navi-hover py-4 px-0">
     <template v-for="(item, i) in languages">
       <li
         class="navi-item"
@@ -9,13 +9,13 @@
         <a
           href="#"
           class="navi-link"
-          v-bind:data-lang="item.lang"
-          v-on:click="selectedLanguage"
+          :data-lang="item.lang"
+          @click="selectedLanguage"
         >
           <span class="symbol symbol-20 mr-3">
             <img :src="item.flag" alt="" />
           </span>
-          <span class="navi-text">{{ item.name }}</span>
+          <span class="navi-text">{{ $t(item.translationKey) }}</span>
         </a>
       </li>
     </template>
@@ -23,13 +23,12 @@
 </template>
 
 <script>
-import i18nService from "@/core/services/i18n.service.js";
 
 export default {
   name: "KTDropdownLanguage",
   data() {
     return {
-      languages: i18nService.languages
+      languages: this.$i18nService.languages
     };
   },
   methods: {
@@ -37,7 +36,7 @@ export default {
       const el = e.target.closest(".navi-link");
       const lang = el.getAttribute("data-lang");
 
-      i18nService.setActiveLanguage(lang);
+      this.$i18nService.setActiveLanguage(lang);
 
       this.$emit(
         "language-changed",
@@ -54,7 +53,7 @@ export default {
   },
   computed: {
     activeLanguage() {
-      return i18nService.getActiveLanguage();
+      return this.$i18nService.getActiveLanguage();
     }
   }
 };

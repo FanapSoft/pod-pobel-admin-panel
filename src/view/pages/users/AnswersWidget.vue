@@ -1,6 +1,6 @@
 <template>
   <v-card size="50" class="bg-gray-600 text-light px-5 py-3" style="font-size: 30px; line-height: 1">
-    <h6 class="mb-0" style="font-size: 13px">ANSWERS</h6>
+    <h6 class="mb-0 text-uppercase" style="font-size: 13px">{{ $t("BREADCRUMBS.ANSWERS") }}</h6>
     <v-divider></v-divider>
     <v-icon size="35" class="text-light">mdi-help-box</v-icon>
     {{ (answersCount ? answersCount.toLocaleString() : '000') }}

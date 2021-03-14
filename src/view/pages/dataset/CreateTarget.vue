@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Create New Target for Dataset <span style="margin-left:10px; color: #42A5F5">{{ $route.params.DatasetID }}</span>
+            {{ $t("TARGET.CREATENEWTARGETFORDATASET") }} <span style="margin-left:10px; color: #42A5F5">{{ $route.params.DatasetID }}</span>
 
             <v-spacer></v-spacer>
 
@@ -13,7 +13,7 @@
 
                     @click.prevent="saveItem"
 
-                    class="btn btn-primary">Create</v-btn>
+                    class="btn btn-primary text-dark text-hover-light">{{ $t("GENERAL.CREATE") }}</v-btn>
 
           </v-card-title>
         </v-card>
@@ -23,57 +23,88 @@
           ></v-skeleton-loader>
         </v-card>
         <v-card v-if="!loading && !targetObject">
-          Target Not Found
+          {{ $t("TARGET.TARGETNOTFOUND") }}
         </v-card>
         <v-row v-if="!loading && targetObject">
           <v-col
               cols="12"
               class="pb-0">
-            <v-card>
-              <v-card-title>Target {{targetObject.answerCount}}</v-card-title>
+            <v-card class="mb-4">
+              <v-card-title>{{ $t("TARGET.TARGET") }}: {{targetObject.answerCount}}</v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.t"
-                        label="T" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
 
-                        v-model="targetObject.uMax"
-                        label="uMax" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
+                        :hint="$t('TARGET.CONFIDENCELEVEL')"
 
-                        v-model="targetObject.answerCount"
-                        label="Answer Count" />
+                        label="T"
+                        dir="ltr" />
                   </v-col>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
-
-                        v-model="targetObject.bonusFalse"
-                        label="Bonus False" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.uMin"
-                        label="uMin" />
+                        label="uMin"
+
+                        :hint="$t('TARGET.UMIN')"
+                        dir="ltr"/>
                   </v-col>
                   <v-col cols="4">
                     <v-text-field
-                        filled dense rounded
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.uMax"
+                        :hint="$t('TARGET.UMAX')"
+
+                        label="uMax"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.answerCount"
+                        label="Answer Count"
+
+                        dir="ltr"
+                        :hint="$t('TARGET.ANSWERCOUNT')" />
+                  </v-col>
+
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.bonusFalse"
+                        label="Bonus False"
+
+                        :hint="$t('TARGET.DEDUCTIONCOEFFICIENT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.bonusTrue"
+                        label="Bonus True"
+
+                        :hint="$t('TARGET.ADDITIVECOEFFICIENT')"
+                        dir="ltr" />
+                  </v-col>
+
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
 
                         v-model="targetObject.goldenCount"
-                        label="Golden Answers Count" />
+                        label="Golden Answers Count "
+
+                        :hint="$t('TARGET.GOLDENANSWERSCOUNT')"
+                        dir="ltr"/>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -116,7 +147,7 @@ export default {
       try {
         const result = await this.$http.post(`/api/services/app/TargetDefinitions/Create`, data);
         if(result.status == 200) {
-          this.$bvToast.toast('Target successfully saved', {
+          this.$bvToast.toast(this.$t('TARGET.TARGETSUCCESSFULLYSAVED'), {
             title: `Done`,
             variant: 'success',
             solid: true
@@ -124,7 +155,7 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        this.$bvToast.toast('Target save failed. Check your console for more', {
+        this.$bvToast.toast(this.$t('TARGET.TARGETUPDATEFAILED'), {
           title: `Error`,
           variant: 'danger',
           solid: true
@@ -135,10 +166,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: `Targets`, route: `/dataset/${this.$route.params.DatasetId}/targets` },
-      { title: `Create Target` },
+      { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+      { title: `${this.$t("DATASET.DATASET")} ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+      { title: this.$t("TARGET.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },
+      { title: this.$t("TARGET.CREATETARGET") },
     ]);
 
   }

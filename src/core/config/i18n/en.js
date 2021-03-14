@@ -1,18 +1,160 @@
 // USA
 export const locale = {
-  TRANSLATOR: {
+  /*TRANSLATOR: {
     SELECT: "Select your language"
-  },
+  },*/
   MENU: {
-    NEW: "new",
-    ACTIONS: "Actions",
-    CREATE_POST: "Create New Post",
-    PAGES: "Pages",
-    FEATURES: "Features",
-    APPS: "Apps",
-    DASHBOARD: "Dashboard"
+    DATASET: "Dataset",
+    USERS: "Users",
+    DASHBOARD: "Dashboard",
+    TRANSACTIONS: "Transactions",
+    REPORTS: "Reports",
+    DATASETITEMS: "Dataset Items",
+    ANSWERS: "Answers"
   },
-  AUTH: {
+  QUICKUSER: {
+    HI: "Hi,"
+  },
+  BREADCRUMBS: {
+    ANSWERS: "Answers",
+    TRANSACTIONS: "Transactions",
+    REPORTS: "Reports",
+
+  },
+  ACTIONS: {
+    ACTIONS: "Actions",
+    QUICKACTIONS: "Quick Actions",
+  },
+  USER: {
+    USER: "User",
+    USERS: "Users",
+    PROFILE: "Profile",
+    SETTINGS: "Settings",
+    OVERVIEW: "Overview",
+    USEROVERVIEW: "User Overview",
+    CHOOSEAUSER: "Choose a user",
+
+    NAME: "Name",
+    USERNAME: "UserName",
+    EMAIL: "Email",
+    FULLNAME: "Full Name",
+    VIEWPROFILE: "View Profile",
+    SURNAME: "Surname",
+    JOINEDAT: "Joined At",
+    ROLES: "Roles",
+
+    USERSETTINGS: "User Settings",
+    MYPROFILE: "My Profile",
+    USERPROFILE: "User Profile"
+  },
+  DATASET: {
+    MANAGEDATASETS: "Manage Datasets",
+    DATASET: "Dataset",
+    DATASETS: "Datasets",
+    EDITDATASET: "Edit Dataset",
+    CREATEDATASET: "Create Dataset",
+    DELETEDATASET: "Delete Dataset",
+    SELECTADATASET: "Select a dataset",
+    DATASETSTATUS: "Dataset Status",
+    LABELINGSTATUS: "Labeling Status",
+
+    DATASETSITEMS: "Datasets Items",
+    DATASETITEM: "Dataset Item",
+    ITEMS: "Items",
+    VIEWDATASETITEMS: "View Dataset Items",
+    ITEMLABELNAME: "Label Name",
+
+    VIEWDATASETTARGETS: "View Dataset Targets",
+    VIEWDATASETANSWERS: "View Dataset Answers",
+    VIEWDATASETTRANSACTIONS: "View Dataset Transactions",
+
+    DATASETSACTIVITIES: "Datasets Activities",
+    CHOOSEADATASET: "Choose a dataset",
+
+    YOUAREDELETINGDATASET: "You are deleting dataset",
+    YOUCANNOTRESTOREYOURDATASET: "You can not restore your dataset after it's deleted.",
+
+    CREATENEWDATASET: "Create new dataset",
+
+    DATASETSUCCESSFULLYUPDATED: "Dataset successfully updated",
+    DATASETSUCCESSFULLYSAVED: "Dataset successfully saved",
+    ONLYNONDECIDEDGOLDENS: "Only Non Decided Goldens",
+    ONLYGOLDENS: "Only Goldens",
+    ANSWERBUDGETCOUNT: "Answer budget count per user",
+    ANSWERREPLICATIONCOUNT: "Required answers per each DatasetItem",
+
+    DATASETNOTFOUND: "Dataset Not Found",
+  },
+  TARGET: {
+    TARGET: "Target",
+    TARGETS: "Targets",
+    CREATETARGET: "Create Target",
+    EDITTARGET: "Edit Target",
+    DELETETARGET: "Delete Target",
+    SELECTATARGETTOMODIFY: "Select a target to modify",
+    TARGETSUCCESSFULLYUPDATED: "Target successfully updated",
+    TARGETUPDATEFAILED: "Target update failed. Check your console for more",
+    TARGETNOTFOUND: "Target Not Found",
+    CREATENEWTARGETFORDATASET: "Create New Target for Dataset",
+    TARGETSUCCESSFULLYSAVED: "Target successfully saved",
+
+    ANSWERCOUNT: "Answer Count",
+    GOLDENANSWERSCOUNT: "Golden Answers Count",
+    ADDITIVECOEFFICIENT: 'Additive Coefficient in terms of User\'s True answers',
+    DEDUCTIONCOEFFICIENT: 'Deduction Coefficient in terms of User\'s wrong answers',
+    UMIN: 'Minimum obtainable credit for each user after completing the corresponding Target',
+    UMAX: 'Maximum obtainable credit for each user after completing the corresponding Target',
+    CONFIDENCELEVEL: 'Confidence level'
+
+  },
+  GENERAL: {
+    ANSWERSCOUNTSTRENDFORUSER: "Answers counts trend for user",
+    ALL: "All",
+    SEARCH: "Search",
+    ROW: "Row",
+    ACTIONS: "Actions",
+    FILE: "File",
+    LABEL: "Label",
+    FROM: "From",
+    TO: "To",
+    ANSWER: "Answer",
+    DATE: "Date",
+    DATEANDTIME: "Date & Time",
+    NAME: "Name",
+    DESCRIPTION: "Description",
+
+    SAVE: "Save",
+    SAVECHANGES: "Save Changes",
+    OK: "OK",
+    CANCEL: "CANCEL",
+    CREATE: "Create",
+    DELETE: "Delete",
+    YES: "Yes",
+    NO: "No",
+    NOTICE: "Notice",
+
+    TYPE: "Type",
+    QUESTIONTYPE: "Question Type",
+
+
+    YESDELETE:"Yes, Delete",
+
+    CREDITAMOUNT: "Credit Amount",
+    SIGNOUT: "Sign out",
+    FANAP: 'Fanap',
+    HOME: 'Home',
+    ENGLISH: 'English',
+    PERSIAN: 'Farsi (Persian)'
+  },
+  REPORTS: {
+    CHOOSEAREPORTTYPE: "Choose a report type",
+
+    ANSWERSTREND: "Answers Trend",
+    USERSACTIVITYTRENDONDATASETS: "Users activity trend on datasets",
+
+    SCOREBOARD: "Scoreboard"
+  }
+  /*AUTH: {
     GENERAL: {
       OR: "Or",
       SUBMIT_BUTTON: "Submit",
@@ -57,8 +199,8 @@ export const locale = {
       MAX_LENGTH_FIELD: "Maximum field length:",
       INVALID_FIELD: "Field is not valid"
     }
-  },
-  ECOMMERCE: {
+  },*/
+  /*ECOMMERCE: {
     COMMON: {
       SELECTED_RECORDS_COUNT: "Selected records count: ",
       ALL: "All",
@@ -98,5 +240,5 @@ export const locale = {
         ADD_MESSAGE: "Customer has been created"
       }
     }
-  }
+  }*/
 };

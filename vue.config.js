@@ -33,8 +33,11 @@ module.exports = {
         }
       },
       scss: {
-        prependData: `@import "@/assets/sass/vendors/vue/vuetify/variables.scss";`
-      }
+        prependData: `
+        @import "@/assets/sass/vendors/vue/vuetify/variables.scss";
+        $env: "${process.env.NODE_ENV}";
+        `,
+      },
     }
   },
   transpileDependencies: ["vuetify"]

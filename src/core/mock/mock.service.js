@@ -167,7 +167,7 @@ const MockService = {
 
         return [200, {
           result: {
-            id: 111,
+            id: 0,
             name: 'مشاهیر ایران',
             description: 'مجموعه تصاویر از مشاهیر ایران',
           }

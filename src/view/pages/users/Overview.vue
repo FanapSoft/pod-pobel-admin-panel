@@ -6,7 +6,7 @@
               <v-chip
                   label
 
-                  color="gray">User Overview</v-chip>
+                  color="gray">{{ $t("USER.USEROVERVIEW")}}</v-chip>
             </v-card-title>
             <v-card-text>
               <v-simple-table v-if="user">
@@ -75,23 +75,23 @@ export default {
       await this.$store.dispatch(`profile/${LOAD_USER_OBJECT}`, this.$route.params.userId);
       this.userDetails = [
         {
-          title: 'Name',
+          title: this.$t("USER.NAME"),
           value: this.user?.name
         },
         {
-          title: 'Surname',
+          title: this.$t("USER.SURNAME"),
           value: this.user?.surname
         },
         {
-          title: 'Full Name',
+          title: this.$t("USER.FULLNAME"),
           value: this.user?.fullName
         },
         {
-          title: 'Joined At',
-          value: new Date(this.user?.creationTime).toLocaleDateString("en-US")
+          title: this.$t("USER.JOINEDAT"),
+          value: new Date(this.user?.creationTime).toLocaleDateString((this.$langIsFa ? "fa-IR" : "en-US"))
         },
         {
-          title: 'Email',
+          title: this.$t("USER.EMAIL"),
           value: this.user?.emailAddress
         },
         {
@@ -99,7 +99,7 @@ export default {
           value: this.user?.podContactId
         },
         {
-          title: 'Roles',
+          title: this.$t("USER.ROLES"),
           value: this.user?.roleNames?.join(', ')
         },
 
@@ -108,8 +108,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Users", route: `/users/list`},
-      { title: `User ${this.$route.params.userId} Profile`}
+      { title: this.$t("USER.USERS"), route: `/users/list`},
+      { title: this.user ? this.user.name : this.$route.params.userId },
+
     ]);
 
     this.setupThisUser();

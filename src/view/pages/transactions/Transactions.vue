@@ -3,22 +3,23 @@
       <div class="col-md-12">
         <v-card>
           <v-card-title>
-            Transactions
+            {{ $t("BREADCRUMBS.TRANSACTIONS") }}
             <v-spacer></v-spacer>
             <span>{{pagination.realCount}}</span>
           </v-card-title>
-          <v-row>
+          <v-row class="mb-0">
             <v-col cols="12" class="px-6">
               <v-chip
-                  close
+                  close label
 
                   @click="$router.push('/users/list?showTransactionsBtn=true')"
-                  @click:close="removeQueryItem('ownerId')">User: {{ownerId}}</v-chip>
+                  @click:close="removeQueryItem('ownerId')">{{ $t("USER.USER") }}: {{ownerId}}</v-chip>
               <v-chip
-                  close
+                  close label
 
                   @click="$router.push('/dataset/list')"
-                  @click:close="removeQueryItem('datasetId')">Dataset: {{datasetId}}</v-chip>
+                  @click:close="removeQueryItem('datasetId')"
+              class="mx-1">{{ $t("DATASET.DATASET") }}: {{datasetId && currentDataset ? currentDataset.name : ''}}</v-chip>
             </v-col>
           </v-row>
           <v-data-table
@@ -41,17 +42,20 @@
 
               item-key="id"
               class="elevation-1">
+            <template v-slot:header.creditAmount="{ header }">
+              <div class="text-center"> {{ header.text }}</div>
+            </template>
             <template v-slot:item.ind="{ item }">
               {{ (pagination.skip ? pagination.skip + transactions.indexOf(item) + 1 : transactions.indexOf(item) + 1) }}
             </template>
             <template v-slot:item.creditAmount="{ item }">
-              <div style="direction: ltr">
-                <span class="d-inline-block mr-3">تومان</span>
+              <div class="d-flex justify-center" style="direction: ltr">
+                <span class="d-inline-block mr-3">ریال</span>
                 <span class="d-inline-block">{{ (item.creditAmount).toFixed(3) }}</span>
               </div>
             </template>
             <template v-slot:item.dateTime="{ item }">
-              {{ new Date(item.creationTime).toLocaleDateString("en-US") }}
+              {{ new Date(item.creationTime).toLocaleDateString($langIsFa ? "fa-IR" : "en-US") }}
               <br>
               {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
             </template>
@@ -66,15 +70,13 @@
               </div>
             </template>
 
-
           </v-data-table>
-          <v-row class="mx-9">
-            <v-col>
-              <v-pagination
-                  v-model="pagination.currentPage"
-                  :length="pagination.count"></v-pagination>
-            </v-col>
-          </v-row>
+          <v-pagination
+              v-model="pagination.currentPage"
+              :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 404) / 44 - 1"
+              :length="pagination.count"
+
+              class="mt-4 pb-2"></v-pagination>
         </v-card>
       </div>
     </div>
@@ -85,16 +87,17 @@ import { SET_OWNER_ID, SET_DATASET_ID } from "@/core/services/store/transactions
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 
 import DatasetDetails from "./DatasetDetails";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
 
 export default {
   data() {
     return {
       transactions: null,
       listHeaders: [
-        { text: "Row", value: "ind" },
-        { text: "creditAmount", value: "creditAmount" },
-        { text: "Date & Time", value: "dateTime"},
-        { text: "Dataset", value: "referenceDataSetId"},
+        { text: this.$t("GENERAL.ROW"), value: "ind" },
+        { text: this.$t("GENERAL.CREDITAMOUNT"), value: "creditAmount" },
+        { text: this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
+        { text: this.$t("DATASET.DATASET"), value: "referenceDataSetId"},
 
       ],
       loading: false,
@@ -115,8 +118,12 @@ export default {
   computed:{
     ...mapGetters([
         "ownerId",
-        "datasetId"
-    ])
+        "datasetId",
+
+    ]),
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
   },
   methods:{
     async getItems(page) {
@@ -168,8 +175,8 @@ export default {
       this.refreshList()
     }
   },
-  mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Transactions"}]);
+  async mounted() {
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("BREADCRUMBS.TRANSACTIONS")}]);
 
     if(this.$route.query.OwnerId) {
       this.$store.commit(SET_OWNER_ID, this.$route.query.OwnerId);
@@ -178,6 +185,8 @@ export default {
     if(this.$route.query.DatasetId) {
       this.$store.commit(SET_DATASET_ID, this.$route.query.DatasetId);
     }
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.datasetId);
+
 
     this.refreshList()
   },

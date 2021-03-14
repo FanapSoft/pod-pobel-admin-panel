@@ -4,7 +4,8 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            Select a target to modify
+
+            {{ $t("TARGET.SELECTATARGETTOMODIFY") }}
             <v-spacer></v-spacer>
 
           </v-card-title>
@@ -28,7 +29,7 @@
               cols="4"
               class="pb-0">
             <v-card :to="`/dataset/${$route.params.DatasetId}/target/${item.id}/edit`">
-              <v-card-title>Edit target {{item.answerCount}}</v-card-title>
+              <v-card-title>{{ $t("TARGET.EDITTARGET") }} {{item.answerCount}}</v-card-title>
             </v-card>
           </v-col>
         </v-row>
@@ -40,6 +41,8 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import { SET_SUBHEADER_ACTION } from "@/core/services/store/subheaderActions.module";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DatasetTargets",
@@ -48,6 +51,11 @@ export default {
       targets: null,
       loading: false
     };
+  },
+  computed: {
+    ...mapGetters({
+      currentDataset: `datasets/currentDataset`
+    })
   },
   methods:{
     async getItems() {
@@ -63,19 +71,23 @@ export default {
       this.loading = false;
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.$route.params.DatasetId);
     const actions = [
       {
-        title: 'Create Target',
+        title: this.$t("TARGET.CREATETARGET"),
         link: `/dataset/${this.$route.params.DatasetId}/target/create`
       },
     ];
 
     this.$store.dispatch(SET_SUBHEADER_ACTION, actions);
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Manage Datasets", route: "/dataset/list" },
-      { title: `Dataset ${this.$route.params.DatasetId.substr(0, 10)}...`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
-      { title: `Targets` },
+      { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
+      {
+        title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
+        route: `/dataset/${this.$route.params.DatasetId}/singleDataset`
+      },
+      { title: this.$t("TARGET.TARGETS") },
     ]);
     //this.$store.dispatch(SET_BREADCRUMB, [{ title: `Dataset ${this.$route.params.DatasetId}`, route: `/dataset/${this.$route.params.DatasetId}/targets` }]);
     this.getItems();

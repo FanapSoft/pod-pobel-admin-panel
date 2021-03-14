@@ -70,7 +70,14 @@ router.beforeEach((to, from, next) => {
   }, 100);
 });
 
-Vue.prototype.$adminPrefix = (process.env.NODE_ENV === 'production'? '/admin' : '')
+Vue.prototype.$adminPrefix = (process.env.NODE_ENV === 'production'? '/admin' : '');
+
+import i18nService from "@/core/services/i18n.service.js";
+Vue.prototype.$i18nService = i18nService;
+Vue.prototype.$langIsFa = i18nService.getActiveLanguage() === 'fa';
+
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
+Vue.component('jalali-date-picker', VuePersianDatetimePicker);
 
 new Vue({
   router,
