@@ -25,10 +25,14 @@
 
 @font-face {
   font-family:Irsans;
+  $prefix: '';
+  @if $env == "production" {
+    $prefix: '/admin'
+  }
   src:
-      url(/assets/webfonts/irsans.eot?#) format("eot"),
-      url(/assets/webfonts/irsans.woff) format("woff"),
-      url(/assets/webfonts/irsans.ttf) format("truetype")
+      url($prefix + '/assets/webfonts/irsans.eot?#') format("eot"),
+      url($prefix + '/assets/webfonts/irsans.woff') format("woff"),
+      url($prefix + '/assets/webfonts/irsans.ttf') format("truetype")
 }
 
 .v-application {
