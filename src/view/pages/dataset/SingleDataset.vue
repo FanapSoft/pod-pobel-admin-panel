@@ -11,7 +11,7 @@
               <v-card-title>
                 {{$t("DATASET.ITEMS")}}
                 <v-spacer></v-spacer>
-                {{ datasetItemsCount }}
+                {{ datasetItemsCount.toLocaleString() }}
               </v-card-title>
               <v-card-subtitle>{{ $t("DATASET.VIEWDATASETITEMS")}}</v-card-subtitle>
             </v-card>
@@ -35,7 +35,7 @@
               <v-card-title>
                 {{ $t("BREADCRUMBS.ANSWERS")}}
                 <v-spacer></v-spacer>
-                {{ answersCount }}
+                {{ answersCount.toLocaleString() }}
               </v-card-title>
               <v-card-subtitle>{{ $t("DATASET.VIEWDATASETANSWERS") }}</v-card-subtitle>
             </v-card>

@@ -22,6 +22,34 @@
 // Check documentation for RTL css
 // Update HTML with RTL attribute at public/index.html
 /*@import "assets/css/style.vue.rtl";*/
+
+@font-face {
+  font-family:Irsans;
+  src:
+      url(/assets/webfonts/irsans.eot?#) format("eot"),
+      url(/assets/webfonts/irsans.woff) format("woff"),
+      url(/assets/webfonts/irsans.ttf) format("truetype")
+}
+
+.v-application {
+  font-family: Roboto, Irsans, "sans-serif" !important
+}
+
+.rtl .v-application {
+  font-family: Irsans, Roboto, "sans-serif" !important
+}
+
+.vpd-input-group input {
+  border: 1px solid #dadada !important;
+  border-right: 1px solid #dadada !important;
+  border-radius: 0;
+}
+
+.ltr-picker .vpd-input-group .vpd-clear-btn {
+  left: auto;
+  right: 0;
+}
+
 </style>
 
 <script>
@@ -38,33 +66,19 @@ export default {
     this.$store.dispatch(OVERRIDE_LAYOUT_CONFIG);
 
     if (this.$langIsFa) {
-      import("@/assets/css/style.vue.rtl.css");
-
-      let body = document.getElementsByTagName("body")[0];
+      let body = document.querySelector('body');
       body.setAttribute("direction", "rtl");
       body.setAttribute("dir", "rtl");
       body.style.direction = "rtl";
       body.classList.add("rtl");
 
+      import("@/assets/css/style.vue.rtl.css");
+
       this.$vuetify.rtl = true;
     } else {
       import("@/assets/css/style.vue.css")
-
       this.$vuetify.rtl = false;
     }
   }
 };
 </script>
-
-<style>
-.vpd-input-group input {
-  border: 1px solid #dadada !important;
-  border-right: 1px solid #dadada !important;
-  border-radius: 0;
-}
-
-.ltr-picker .vpd-input-group .vpd-clear-btn {
-  left: auto;
-  right: 0;
-}
-</style>
