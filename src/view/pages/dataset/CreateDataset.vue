@@ -34,7 +34,7 @@
                         filled dense rounded
 
                         v-model="datasetObject.name"
-                        style="direction: rtl"
+
                         :label="$t('USER.NAME')" />
                   </v-col>
                   <v-col cols="12">
@@ -42,7 +42,7 @@
                         filled dense rounded
 
                         v-model="datasetObject.description"
-                        style="direction: rtl"
+
                         :label="$t('GENERAL.DESCRIPTION')" />
                   </v-col>
                   <v-col cols="12" md="6">
