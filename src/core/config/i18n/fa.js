@@ -141,6 +141,8 @@ export const locale = {
         TYPE: "نوع",
         QUESTIONTYPE: "نوع سوال",
 
+        RIAL: 'ریال',
+
         YESDELETE:"بله، حذف شود",
 
         CREDITAMOUNT: "مبلغ برداشتی",

@@ -49,9 +49,10 @@
               {{ (pagination.skip ? pagination.skip + transactions.indexOf(item) + 1 : transactions.indexOf(item) + 1) }}
             </template>
             <template v-slot:item.creditAmount="{ item }">
-              <div class="d-flex justify-center" style="direction: ltr">
-                <span class="d-inline-block mr-3">ریال</span>
+              <div class="d-flex justify-center" >
                 <span class="d-inline-block">{{ (item.creditAmount).toFixed(3) }}</span>
+                <span class="d-inline-block mx-2">{{ $t("GENERAL.RIAL") }}</span>
+
               </div>
             </template>
             <template v-slot:item.dateTime="{ item }">

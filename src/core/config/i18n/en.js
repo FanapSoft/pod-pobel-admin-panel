@@ -135,10 +135,9 @@ export const locale = {
 
     TYPE: "Type",
     QUESTIONTYPE: "Question Type",
-
-
     YESDELETE:"Yes, Delete",
 
+    RIAL: 'IRR',
     CREDITAMOUNT: "Credit Amount",
     SIGNOUT: "Sign out",
     FANAP: 'Fanap',

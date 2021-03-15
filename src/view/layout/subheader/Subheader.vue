@@ -12,7 +12,7 @@
         <!--begin::Heading-->
         <div class="d-flex flex-column">
           <!--begin::Title-->
-          <h2 class="text-white font-weight-bold my-2 mr-5">
+          <h2 class="text-white font-weight-bold my-2 mx-0">
             {{ title }}
           </h2>
           <ul class="d-flex align-items-center font-weight-bold my-2 px-0">
