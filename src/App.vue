@@ -35,11 +35,19 @@
       url($prefix + '/assets/webfonts/irsans.ttf') format("truetype")
 }
 
-.v-application {
+.v-application,
+.apexcharts-text,
+.apexcharts-text tspan,
+.apexcharts-title-text,
+.apexcharts-legend-text {
   font-family: Roboto, Irsans, "sans-serif" !important
 }
 
-.rtl .v-application {
+.rtl .v-application,
+.rtl .apexcharts-text,
+.rtl .apexcharts-text tspan,
+.rtl .apexcharts-title-text,
+.rtl .apexcharts-legend-text {
   font-family: Irsans, Roboto, "sans-serif" !important
 }
 
