@@ -404,10 +404,6 @@ export default {
         })
       }
       this.generateDates();
-    },
-    user(){
-      this.generateInitDates();
-      this.refreshResults();
     }
   }
 }
