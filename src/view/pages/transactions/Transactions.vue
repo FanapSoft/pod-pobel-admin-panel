@@ -5,7 +5,7 @@
           <v-card-title>
             {{ $t("BREADCRUMBS.TRANSACTIONS") }}
             <v-spacer></v-spacer>
-            <span>{{pagination.realCount}}</span>
+            <span>{{ pagination.realCount.toLocaleString() }}</span>
           </v-card-title>
           <v-row class="mb-0">
             <v-col cols="12" class="px-6">

@@ -58,6 +58,9 @@ export const locale = {
     DATASETSTATUS: "Dataset Status",
     LABELINGSTATUS: "Labeling Status",
 
+    DATASETSTATUS2: "Dataset Status",
+    LABELINGSTATUS2: "Labeling Status",
+
     DATASETSITEMS: "Datasets Items",
     DATASETITEM: "Dataset Item",
     ITEMS: "Items",
@@ -143,7 +146,10 @@ export const locale = {
     FANAP: 'Fanap',
     HOME: 'Home',
     ENGLISH: 'English',
-    PERSIAN: 'Farsi (Persian)'
+    PERSIAN: 'Farsi (Persian)',
+
+    ACTIVE: 'Active',
+    INACTIVE: 'Inactive'
   },
   REPORTS: {
     CHOOSEAREPORTTYPE: "Choose a report type",

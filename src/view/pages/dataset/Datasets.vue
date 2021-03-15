@@ -30,24 +30,24 @@
                 <v-card-subtitle>{{item.description}}</v-card-subtitle>
                 <v-card-text>
                   <div>
-                    Dataset Status:
+                    {{ $t('DATASET.DATASETSTATUS2')}}:
                     <v-badge
                         dot
 
                         :color="item.isActive ? 'success': 'error'"
 
                         class="mr-3"></v-badge>
-                    {{ (item.isActive ? "Active" : "InActive") }}
+                    {{ (item.isActive ? $t("GENERAL.ACTIVE") : $t("GENERAL.INACTIVE")) }}
                   </div>
                   <div>
-                    Labeling Status:
+                    {{ $t('DATASET.LABELINGSTATUS2') }}:
                     <v-badge
                         dot
 
                         :color="item.labelingStatus ? 'success': 'error'"
 
                         class="mr-3"></v-badge>
-                    {{ (item.labelingStatus ? "Active" : "InActive") }}</div>
+                    {{ (item.labelingStatus ? $t("GENERAL.ACTIVE") : $t("GENERAL.INACTIVE")) }}</div>
                 </v-card-text>
               </v-card>
             </v-col>
