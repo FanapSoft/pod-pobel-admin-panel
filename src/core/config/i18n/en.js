@@ -101,7 +101,7 @@ export const locale = {
     ANSWERCOUNT: "Answer Count",
     GOLDENANSWERSCOUNT: "Golden Answers Count",
     ADDITIVECOEFFICIENT: 'Additive Coefficient in terms of User\'s True answers',
-    DEDUCTIONCOEFFICIENT: 'Deduction Coefficient in terms of User\'s wrong answers',
+    DEDUCTIONCOEFFICIENT: 'Deductive Coefficient in terms of User\'s wrong answers',
     UMIN: 'Minimum obtainable credit for each user after completing the corresponding Target',
     UMAX: 'Maximum obtainable credit for each user after completing the corresponding Target',
     CONFIDENCELEVEL: 'Confidence level'
