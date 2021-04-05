@@ -6,12 +6,12 @@
         <div
             v-on="on"
             v-bind="attrs"
-            @mouseover="()=>{if(!dataset) getItem()}">
+            @mouseover="()=>{loadDataset(item.referenceDataSetId)}">
           <router-link
 
               :to="`/dataset/${item.referenceDataSetId}/singleDataset`"
               >
-            {{ item.datasetName ? item.datasetName : item.referenceDataSetId }}
+            {{ dataset ? dataset.name : item.referenceDataSetId }}
           </router-link>
         </div>
       </template>
@@ -35,36 +35,33 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex";
+import {LOAD_DATASET} from "@/core/services/store/datasets.module";
+
 export default {
   name: "DatasetDetails",
   props: {
     item: null
   },
+  computed: {
+    ...mapGetters({
+      getDataset: `datasets/dataset`
+    }),
+    dataset() {
+      return this.getDataset(this.item.referenceDataSetId)
+    }
+  },
   data () {
     return{
-      dataset: null,
       tooltipText: 'No data to show',
       loading: false,
       show: true
     }
   },
   methods: {
-    async getItem () {
-      this.loading = true;
-      try {
-        const dataset = await this.$http.get(`/api/services/app/Datasets/Get?id=${this.item.referenceDataSetId}`);
-        if(dataset.data && dataset.data.result) {
-          this.dataset = dataset.data.result;
-          this.$emit('dataset-details', dataset.data.result.name)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-      this.loading = false;
-    }
-  },
-  mounted() {
-
+    ...mapActions({
+      loadDataset: `datasets/${LOAD_DATASET}`
+    }),
   },
 }
 </script>

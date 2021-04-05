@@ -17,6 +17,9 @@ const getters = {
     },
     currentDataset(state) {
         return state.currentDataset;
+    },
+    dataset: state => id => {
+        return state.datasets.filter(item => item.id === id)[0]
     }
 };
 

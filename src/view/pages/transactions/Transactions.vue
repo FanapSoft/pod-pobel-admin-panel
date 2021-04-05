@@ -64,13 +64,10 @@
               <div class="d-inline-block">
                 <DatasetDetails
                     :key="Math.random()"
-                    :item="item"
-                    @dataset-details="name => {item.datasetName = name}">
-
+                    :item="item">
                 </DatasetDetails>
               </div>
             </template>
-
           </v-data-table>
           <v-pagination
               v-model="pagination.currentPage"
@@ -187,7 +184,6 @@ export default {
       this.$store.commit(SET_DATASET_ID, this.$route.query.DatasetId);
     }
     await this.$store.dispatch(`datasets/${LOAD_DATASET}`, this.datasetId);
-
 
     this.refreshList()
   },

@@ -113,8 +113,7 @@
             <template v-slot:item.dataset="{ item }">
               <DatasetDetails
                   :key="item.dataSetId"
-                  :item="item"
-                  @dataset-details="name => {item.datasetName = name}">
+                  :item="item">
               </DatasetDetails>
             </template>
             <template v-slot:item.datasetItem="{ item }">
