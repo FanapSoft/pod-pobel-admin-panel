@@ -5,7 +5,7 @@
           <v-card-title>
             {{ $t("DATASET.DATASETSITEMS") }}
             <v-spacer></v-spacer>
-            <span class="d-inline-block mr-3">{{pagination.realCount}}</span>
+            <span class="d-inline-block mr-3">{{pagination.realCount.toLocaleString()}}</span>
             <v-text-field
                 single-line hide-details filled dense rounded
 
@@ -75,8 +75,7 @@
               <template v-slot:item.datasetItem="{ item }">
                 <DatasetDetails
                     :key="item.datasetID"
-                    :item="item"
-                    @dataset-details="name => {item.datasetName = name}">
+                    :item="item">
                 </DatasetDetails>
               </template>
 

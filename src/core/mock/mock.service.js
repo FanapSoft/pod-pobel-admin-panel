@@ -53,6 +53,7 @@ const MockService = {
     //   }
     //   return [401, { errors: ["Invalid authentication"] }];
     // });
+
     mock.onGet(/\/api\/services\/app\/User\/GetAll\/?/).reply(data => {
       const token = data.headers.Authorization.replace("Bearer ", "");
       if (token !== "undefined") {
@@ -90,7 +91,7 @@ const MockService = {
          items.push({
             id: i,
            creditAmount: Math.round(Math.random() * 10000),
-           referenceDataSetId: '111111111111111111',
+           referenceDataSetId: ((i % 3) === 0 ? '111' : '222'),
            creationTime: new Date(new Date().setDate(new Date().getDate() - i))
          })
         return [200, {
@@ -112,7 +113,7 @@ const MockService = {
             id: i,
             answer: i % 2,
             ignored: i % 3 ? true : false,
-            dataSetId: '1111111111111',
+            dataSetId: '222',
             creationTime: new Date(new Date().setDate(new Date().getDate() - i))
           })
         return [200, {
@@ -167,7 +168,7 @@ const MockService = {
 
         return [200, {
           result: {
-            id: 0,
+            id: '222',
             name: 'مشاهیر ایران',
             description: 'مجموعه تصاویر از مشاهیر ایران',
           }
@@ -208,7 +209,7 @@ const MockService = {
             label: {
               name: 'jjj'
             },
-            datasetID: '1111111111111'
+            datasetID: ((i % 3) === 0 ? '111' : '222'),
           })
         return [200, {
           result: {
@@ -219,7 +220,6 @@ const MockService = {
       }
       return [401, { errors: ["Invalid authentication"] }];
     });
-
   }
 };
 

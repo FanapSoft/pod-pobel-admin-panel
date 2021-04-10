@@ -72,6 +72,10 @@ export const locale = {
         DATASETSTATUS: "دیتاست قابل مشاهده باشد؟",
         LABELINGSTATUS: "امکان لیبل گذاری فعال باشد؟",
 
+        DATASETSTATUS2: "وضعیت دیتاست",
+        LABELINGSTATUS2: "وضعیت لیبل گذاری",
+
+
         VIEWDATASETTARGETS: "مشاهده تارگت های دیتاست",
         VIEWDATASETANSWERS: "مشاهده پاسخ های دیتاست",
         VIEWDATASETTRANSACTIONS: "مشاهده تراکنش های دیتاست",
@@ -150,7 +154,10 @@ export const locale = {
         FANAP: 'فناپ',
         HOME: 'خانه',
         ENGLISH: 'انگلیسی',
-        PERSIAN: 'فارسی '
+        PERSIAN: 'فارسی ',
+
+        ACTIVE: 'فعال',
+        INACTIVE: 'غیرفعال'
     },
     REPORTS: {
         ANSWERSTREND: "نمودار پاسخ دهی",

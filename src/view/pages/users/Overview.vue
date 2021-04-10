@@ -32,7 +32,7 @@
         </v-col>
         <v-col cols="12">
           <user-answers-trend
-              :key="$route.params.userId"
+              :key="childComponentsKey"
               :user="user"></user-answers-trend>
         </v-col>
       </v-row>
@@ -65,7 +65,7 @@ export default {
         {text: 'Answers', icon: 'mdi-star'},
       ],
       userDetails: [],
-
+      childComponentsKey: 0
     };
 
   },
@@ -114,6 +114,11 @@ export default {
     ]);
 
     this.setupThisUser();
+  },
+  watch: {
+    user() {
+      this.childComponentsKey++;
+    }
   }
 };
 </script>

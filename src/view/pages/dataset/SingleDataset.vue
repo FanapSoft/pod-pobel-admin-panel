@@ -68,10 +68,10 @@ export default {
   name: 'Datasets',
   data() {
     return {
-      datasetItemsCount: null,
-      targetsCount: null,
-      transactionsCount: null,
-      answersCount: null,
+      datasetItemsCount: 0,
+      targetsCount: 0,
+      transactionsCount: 0,
+      answersCount: 0,
       loading: false
     };
   },

@@ -19,8 +19,7 @@
             class="mx-1">{{ $t("DATASET.DATASET")}}: {{datasetId  && currentDataset ? currentDataset.name : ''}}</v-chip>
       </v-col>
     </v-row>
-    <div class="row">
-      <div class="col-12 ">
+    <v-container class="my-5 px-0" >
         <v-card style="background-color: #cfd8dc">
           <v-card-title>
             {{ $t("GENERAL.ANSWERSCOUNTSTRENDFORUSER") }} {{userId}}
@@ -142,7 +141,7 @@
           <v-card-text
               v-if="userId"
               class="px-0 py-0"
-              style="direction: ltr">
+              style="direction: ltr; ">
             <chart
                 v-if="dataCounts && !loading"
 
@@ -150,8 +149,7 @@
                 :categories="displayDates"></chart>
           </v-card-text>
         </v-card>
-      </div>
-    </div>
+    </v-container>
     <!--end::Dashboard-->
   </div>
 </template>

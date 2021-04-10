@@ -5,7 +5,7 @@
           <v-card-title>
             {{ $t("BREADCRUMBS.ANSWERS") }}
             <v-spacer></v-spacer>
-            <span>{{ pagination.realCount }}</span>
+            <span>{{ pagination.realCount.toLocaleString() }}</span>
           </v-card-title>
           <v-row class="mx-0 mb-0">
             <v-col cols="12" class="px-3">
@@ -113,8 +113,7 @@
             <template v-slot:item.dataset="{ item }">
               <DatasetDetails
                   :key="item.dataSetId"
-                  :item="item"
-                  @dataset-details="name => {item.datasetName = name}">
+                  :item="item">
               </DatasetDetails>
             </template>
             <template v-slot:item.datasetItem="{ item }">
@@ -132,10 +131,9 @@
           <v-pagination
               v-model="pagination.currentPage"
 
-              :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 504) / 44 - 1"
+              :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 404) / 44 - 1"
               :length="pagination.count"
 
-              length="700"
               class="mt-4 pb-2"></v-pagination>
         </v-card>
       </div>

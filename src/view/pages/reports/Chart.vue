@@ -3,9 +3,11 @@
       :options="chartOptions"
       :series="series"
 
+      style=""
+
       ref="asnwersCountTrend"
       type="area"
-      class="card-rounded-bottom"></apexchart>
+      class="card-rounded-bottom" ></apexchart>
 </template>
 
 <script>
@@ -24,8 +26,10 @@ export default {
         }
       ],
       chartOptions: {
+
         chart: {
           type: "area",
+          width: 200,
           height: 125,
           toolbar: {
             show: false
