@@ -21,7 +21,7 @@
                   @click="$router.push('/dataset/list')"
                   @click:close="removeQueryItem('datasetId')"
 
-              class="mx-1">{{ $t("DATASET.DATASET") }}: {{ datasetId && currentDataset ? currentDataset.name : '' }}
+              class="mx-1">{{ $t("DATASET.DATASET") }}: {{ datasetId && currentDataset ? currentDataset.Name : '' }}
               </v-chip>
             </v-col>
             <v-col
@@ -106,25 +106,25 @@
               {{ (pagination.skip ? pagination.skip + answers.indexOf(item) + 1 : answers.indexOf(item) + 1) }}
             </template>
             <template v-slot:item.dateTime="{ item }">
-              {{ new Date(item.creationTime).toLocaleDateString($langIsFa ? "fa-IR" : "en-US") }}
+              {{ new Date(item.CreatedAt).toLocaleDateString($langIsFa ? "fa-IR" : "en-US") }}
               <br>
-              {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
+              {{ new Date(item.CreatedAt).toLocaleTimeString().split(" ")[0] }}
             </template>
             <template v-slot:item.dataset="{ item }">
               <DatasetDetails
-                  :key="item.dataSetId"
+                  :key="item.DatasetId"
                   :item="item">
               </DatasetDetails>
             </template>
             <template v-slot:item.datasetItem="{ item }">
               <DatasetITem
-                  :key="item.id"
+                  :key="item.Id"
                   :answer="item">
               </DatasetITem>
             </template>
 
             <template v-slot:item.ignored="{ item }">
-              <v-chip x-small :class="{'success': item.ignored, 'error': !item.ignored}">{{item.ignored}}</v-chip>
+              <v-chip x-small :class="{'success': item.Ignored, 'error': !item.Ignored}">{{item.Ignored}}</v-chip>
             </template>
           </v-data-table>
 
@@ -203,23 +203,22 @@ export default {
         IncludeQuestion: true,
         UserId: this.userId,
         DatasetId: this.datasetId,
-        From: this.$store.state['answersList/dateFrom'],
-        To: this.$store.state['answersList/dateTo'],
+        From: this.$store.state['answersList/dateFrom'] ?  new Date(this.$store.state['answersList/dateFrom']).toISOString() : null,
+        To: this.$store.state['answersList/dateTo'] ? new Date(this.$store.state['answersList/dateTo']).toISOString() : null,
         //DatasetItemId: this.datasetId,
-        SkipCount: this.pagination.skip,
-        MaxResultCount: this.pagination.perPage
+        Skip: this.pagination.skip,
+        Limit: this.pagination.perPage
       };
 
       try {
-        const answers = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Answers/GetAll`, data));
-        if (answers.data && answers.data.result) {
-          this.answers = answers.data.result.items;
+        const answers = await this.$http.get(this.$utils.addParamsToUrl(`/api/Answers/GetAll`, data));
+        if (answers.status < 400) {
+          this.answers = answers.data.items;
           this.answers.forEach(item => {
-            item.referenceDataSetId = item.dataSetId;
-            item.datasetName = item.datasetName;
+            item.ReferenceDatasetId = item.DatasetId;
           })
-          this.pagination.count = answers.data.result.totalCount ? Math.ceil(answers.data.result.totalCount / this.pagination.limit) : 1;
-          this.pagination.realCount = answers.data.result.totalCount;
+          this.pagination.count = answers.data.totalCount ? Math.ceil(answers.data.totalCount / this.pagination.limit) : 1;
+          this.pagination.realCount = answers.data.totalCount;
         }
       } catch (error) {
         console.log(error);

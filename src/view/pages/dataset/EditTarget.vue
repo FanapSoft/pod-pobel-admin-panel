@@ -33,14 +33,14 @@
               cols="12"
               class="pb-0">
             <v-card>
-              <v-card-title>{{ $t("TARGET.TARGET") }}: {{targetObject.answerCount}}</v-card-title>
+              <v-card-title>{{ $t("TARGET.TARGET") }}: {{targetObject.AnswerCount}}</v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col cols="4">
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.t"
+                        v-model="targetObject.T"
 
                         :hint="$t('TARGET.CONFIDENCELEVEL')"
 
@@ -51,7 +51,7 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.uMin"
+                        v-model="targetObject.UMin"
                         label="uMin"
 
                         :hint="$t('TARGET.UMIN')"
@@ -61,7 +61,7 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.uMax"
+                        v-model="targetObject.UMax"
                         label="uMax"
 
                         :hint="$t('TARGET.UMAX')"
@@ -71,7 +71,7 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.answerCount"
+                        v-model="targetObject.AnswerCount"
                         label="Answer Count "
                         :hint="$t('TARGET.ANSWERCOUNT')"
                         dir="ltr" />
@@ -80,8 +80,18 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.bonusFalse"
-                        label="Bonus False"
+                        v-model="targetObject.GoldenCount"
+                        label="Golden Answers Count "
+
+                        :hint="$t('TARGET.GOLDENANSWERSCOUNT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.BonusFalsePositive"
+                        label="BonusFalsePositive"
 
                         :hint="$t('TARGET.DEDUCTIONCOEFFICIENT')"
                         dir="ltr" />
@@ -90,8 +100,8 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.bonusTrue"
-                        label="Bonus True"
+                        v-model="targetObject.BonusTruePositive"
+                        label="BonusTruePositive"
 
                         :hint="$t('TARGET.ADDITIVECOEFFICIENT')"
                         dir="ltr" />
@@ -100,12 +110,23 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.goldenCount"
-                        label="Golden Answers Count "
+                        v-model="targetObject.BonusFalseNegative"
+                        label="BonusFalseNegative"
 
-                        :hint="$t('TARGET.GOLDENANSWERSCOUNT')"
+                        :hint="$t('TARGET.DEDUCTIONCOEFFICIENT')"
                         dir="ltr" />
                   </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.BonusTrueNegative"
+                        label="BonusTrueNegative"
+
+                        :hint="$t('TARGET.ADDITIVECOEFFICIENT')"
+                        dir="ltr" />
+                  </v-col>
+
                 </v-row>
               </v-card-text>
             </v-card>
@@ -139,9 +160,9 @@ export default {
     async getItem() {
       this.loading = true;
       try {
-        const target = await this.$http.get(`/api/services/app/TargetDefinitions/Get?id=${this.$route.params.TargetId}`);
-        if(target.data && target.data.result) {
-          this.targetObject = target.data.result;
+        const target = await this.$http.get(`/api/TargetDefinitions/Get/${this.$route.params.TargetId}`);
+        if(target.status < 400 ) {
+          this.targetObject = target.data;
         }
       } catch (error) {
         console.log(error);
@@ -151,13 +172,10 @@ export default {
     async saveItem() {
       this.loading = true;
       const data = {
-        type: 0,
-        dataSetId: this.$route.params.DatasetId,
-        dataSet: null,
         ...this.targetObject
       }
       try {
-        const result = await this.$http.put(`/api/services/app/TargetDefinitions/Update`, data);
+        const result = await this.$http.put(`/api/TargetDefinitions/Update/${this.targetObject.Id}`, data);
         if(result.status == 200) {
           this.$bvToast.toast(this.$t('TARGET.TARGETSUCCESSFULLYUPDATED'), {
             title: `Done`,
@@ -179,7 +197,7 @@ export default {
       this.deleting = true;
 
       try {
-        const result = await this.$http.delete(`/api/services/app/TargetDefinitions/Delete?id=${this.targetObject.id}`);
+        const result = await this.$http.delete(`/api/TargetDefinitions/Delete/${this.targetObject.Id}`);
         if(result.status == 200) {
           this.$bvToast.toast('Target successfully deleted', {
             title: `Done`,
@@ -204,7 +222,7 @@ export default {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
       {
-        title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
+        title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.Name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
         route: `/dataset/${this.$route.params.DatasetId}/singleDataset`
       },
       { title: this.$t("TARGET.TARGETS") , route: `/dataset/${this.$route.params.DatasetId}/targets` },

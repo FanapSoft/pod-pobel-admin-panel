@@ -26,10 +26,10 @@ const actions = {
     };
     try {
 
-      const user = await ApiService.get(Vue.$utils.addParamsToUrl("/api/services/app/User/Get", data));
-      if(user.data && user.data.result) {
-        context.commit(SET_USER_OBJECT, user.data.result);
-        return user.data.result;
+      const user = await ApiService.get("/api/User/Get/" + userId);
+      if(user.status < 400) {
+        context.commit(SET_USER_OBJECT, user.data);
+        return user.data;
       }
     } catch (error) {
       throw new Error(error);

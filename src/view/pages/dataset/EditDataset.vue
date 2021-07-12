@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <v-card class="mb-2 mb-6">
           <v-card-title>
-            {{ $t("DATASET.EDITDATASET") }} <span class="mx-1" style="color: #42A5F5">{{ !loading && datasetObject ? datasetObject.name : $route.params.DatasetId }}</span>
+            {{ $t("DATASET.EDITDATASET") }} <span class="mx-1" style="color: #42A5F5">{{ !loading && datasetObject ? datasetObject.Name : $route.params.DatasetId }}</span>
 
             <v-spacer></v-spacer>
             <v-btn
@@ -41,7 +41,7 @@
                     <v-text-field
                         filled dense rounded
 
-                        v-model="datasetObject.name"
+                        v-model="datasetObject.Name"
                         style=""
                         :label="$t('USER.NAME')" />
                   </v-col>
@@ -49,7 +49,7 @@
                     <v-text-field
                         filled dense rounded
 
-                        v-model="datasetObject.description"
+                        v-model="datasetObject.Description"
                         style=""
                         :label="$t('GENERAL.DESCRIPTION')" />
                   </v-col>
@@ -58,21 +58,22 @@
                     <v-switch
                         filled dense rounded
 
-                        v-model="datasetObject.isActive"
+                        v-model="datasetObject.IsActive"
                         :label="$t('DATASET.DATASETSTATUS')" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-switch
-                        filled dense rounded
-
-                        v-model="datasetObject.labelingStatus"
-                        :label="$t('DATASET.LABELINGSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="datasetObject.answerBudgetCountPerUser"
+                        v-model="datasetObject.LabelingStatus"
+                        :label="$t('DATASET.LABELINGSTATUS')"
+                        dir="ltr"/>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="datasetObject.AnswerBudgetCountPerUser"
                         label="Answer Budget Count"
 
                         :hint="$t('DATASET.ANSWERBUDGETCOUNT')"
@@ -82,7 +83,7 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="datasetObject.type"
+                        v-model="datasetObject.Type"
 
                         label="Type"
                         :hint="$t('GENERAL.TYPE')"
@@ -93,7 +94,7 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="datasetObject.questionType"
+                        v-model="datasetObject.QuestionType"
 
 
 
@@ -107,7 +108,7 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="datasetObject.answerReplicationCount"
+                        v-model="datasetObject.AnswerReplicationCount"
 
 
                         :hint="$t('DATASET.ANSWERREPLICATIONCOUNT')"
@@ -132,7 +133,7 @@
           <v-card-title class="headline">{{ $t("GENERAL.DELETE") }}</v-card-title>
 
           <v-card-text>
-            {{ $t("DATASET.YOUAREDELETINGDATASET") }}: {{datasetObject.name}}
+            {{ $t("DATASET.YOUAREDELETINGDATASET") }}: {{datasetObject.Name}}
             <br>
             {{ $t("GENERAL.NOTICE") }}: {{ $t("DATASET.YOUCANNOTRESTOREYOURDATASET") }}
             <br>
@@ -175,10 +176,15 @@ export default {
   data() {
     return {
       datasetObject: {
-        questionType: 0,
-        answerBudgetCountPerUser: 100,
-        isActive: false,
-        labelingStatus: false
+        Name: '',
+        Description: '',
+        QuestionType: 0,
+        AnswerType: 0,
+        AnswerBudgetCountPerUser: 100,
+        AnswerReplicationCount: 0,
+        LabelingStatus: 1,
+        IsActive: true,
+        Type: 0
       },
       deleteDialog: false,
       loading: false,
@@ -189,12 +195,12 @@ export default {
     async getItem() {
       this.loading = true;
       try {
-        const dataset = await this.$http.get(`/api/services/app/Datasets/Get?id=${this.$route.params.DatasetId}`);
-        if(dataset.data && dataset.data.result) {
+        const dataset = await this.$http.get(`/api/Datasets/Get/${this.$route.params.DatasetId}`);
+        if(dataset.data) {
 
           this.$set(this, "datasetObject", {
             ...this.datasetObject,
-            ...dataset.data.result
+            ...dataset.data
           });
 
         }
@@ -206,14 +212,11 @@ export default {
     async saveItem() {
       this.loading = true;
       const data = {
-        type: 0,
-        dataSetId: this.$route.params.DatasetId,
-        dataSet: null,
         ...this.datasetObject
       }
 
       try {
-        const result = await this.$http.put(`/api/services/app/DataSets/Update`, data);
+        const result = await this.$http.put(`/api/Datasets/Update/${this.$route.params.DatasetId}`, data);
         if(result.status == 200) {
           this.$bvToast.toast(this.$t("DATASET.DATASETSUCCESSFULLYUPDATED"), {
             title: `Done`,
@@ -235,7 +238,7 @@ export default {
       this.deleting = true;
 
       try {
-        const result = await this.$http.delete(`/api/services/app/DataSets/Delete?id=${this.datasetObject.id}`);
+        const result = await this.$http.delete(`/api/Datasets/Delete/${this.datasetObject.Id}`);
         if(result.status == 200) {
           this.$bvToast.toast('Dataset successfully deleted', {
             title: `Done`,
@@ -258,7 +261,7 @@ export default {
     setBreadcrumbs() {
       this.$store.dispatch(SET_BREADCRUMB, [
         { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
-        { title: `${this.$t("DATASET.DATASET")} ${this.datasetObject && this.datasetObject.name ? this.datasetObject.name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
+        { title: `${this.$t("DATASET.DATASET")} ${this.datasetObject && this.datasetObject.Name ? this.datasetObject.Name : this.$route.params.DatasetId.substr(0, 10) + "..."}`, route: `/dataset/${this.$route.params.DatasetId}/singleDataset` },
         { title: this.$t("DATASET.EDITDATASET")},
       ]);
     }

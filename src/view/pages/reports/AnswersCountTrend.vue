@@ -9,14 +9,12 @@
             @click="$router.push('/users/list?showAnswerCountTrend=true')"
             @click:close="removeQueryItem('userId')">{{ $t("USER.USER")}}: {{userId ? userId : $t("USER.CHOOSEAUSER")}}</v-chip>
         <v-chip
-            v-if="userId"
-
             close label
 
             @click="$router.push('/dataset/list')"
             @click:close="removeQueryItem('datasetId')"
 
-            class="mx-1">{{ $t("DATASET.DATASET")}}: {{datasetId  && currentDataset ? currentDataset.name : ''}}</v-chip>
+            class="mx-1">{{ $t("DATASET.DATASET")}}: {{datasetId  && currentDataset ? currentDataset.Name : ''}}</v-chip>
       </v-col>
     </v-row>
     <v-container class="my-5 px-0" >
@@ -25,7 +23,7 @@
             {{ $t("GENERAL.ANSWERSCOUNTSTRENDFORUSER") }} {{userId}}
             <v-spacer></v-spacer>
             <v-chip
-                v-if="userId"
+
 
                 label
 
@@ -33,7 +31,7 @@
 
                 class="mr-2">{{ $t("GENERAL.FROM") }}: {{ displayResultsFrom }}</v-chip>
             <jalali-date-picker
-                v-if="userId"
+
 
                 clearable
 
@@ -61,7 +59,7 @@
             </jalali-date-picker>
 
             <v-chip
-                v-if="userId"
+
 
                 label
 
@@ -69,7 +67,7 @@
 
                 class="mr-2">{{ $t("GENERAL.TO") }}: {{ displayResultsTo }}</v-chip>
             <jalali-date-picker
-                v-if="userId"
+
 
                 clearable
 
@@ -139,7 +137,7 @@
 
           </v-card-title>
           <v-card-text
-              v-if="userId"
+
               class="px-0 py-0"
               style="direction: ltr; ">
             <chart
@@ -240,24 +238,38 @@ export default {
     },
     async getData() {
       this.loading = true;
-      if(!this.userId)
-        return;
+      // if(!this.userId)
+      //   return;
       const today = new Date();
       const priorDay = new Date(new Date().setDate(today.getMonth()-12));
 
       const data = {
         UserId: this.userId,
-        From: priorDay.toLocaleDateString("en-US"),
-        To: today.toLocaleDateString("en-US"),
-        DataSetId: this.datasetId,
+        From: priorDay.toISOString(),
+        To: today.toISOString(),
+        DatasetId: this.datasetId,
       };
 
       try {
-        const res = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/AnswersCountsTrend`, data));
-        if(res.data.result && res.data.result.length) {
+        const res = await this.$http.get(this.$utils.addParamsToUrl(`/api/Reports/AnswersCountsTrend`, data));
+        if(res.status < 400 && res.data.length) {
           this.$nextTick(() => {
-            this.extractApiData(res.data.result);
+            this.extractApiData(res.data);
           })
+        } else {
+          if(res.data.errors) {
+            for (const err of res.data.errors) {
+              this.$bvToast.toast(err.message, {
+                title: `Error`,
+                variant: 'danger',
+                solid: true
+              });
+            }
+            // let th = this;
+            // res.data.errors.forEach({
+            //
+            // })
+          }
         }
       } catch (error) {
         console.log(error);
@@ -266,11 +278,20 @@ export default {
       }
     },
     removeQueryItem(item) {
-      if (item == 'userId')
+      if (item == 'userId'){
         this.$store.commit(`answerCountTrend/${SET_USER_ID}`, null);
-      if (item == 'datasetId')
-        this.$store.commit(`answerCountTrend/${SET_DATASET_ID}`, null);
+        let query = Object.assign({}, this.$route.query);
+        delete query.UserId;
+        this.$router.replace({ query });
+      }
 
+      if (item == 'datasetId'){
+        this.$store.commit(`answerCountTrend/${SET_DATASET_ID}`, null);
+        let query = Object.assign({}, this.$route.query);
+        delete query.DatasetId;
+        this.$router.replace({ query });
+      }
+      this.refreshResults()
     },
     generateDates() {
       this.dates = [];
@@ -320,7 +341,7 @@ export default {
       this.dates.forEach((item, index) => {
         let hasAdi = false
         apiData.forEach(adi => {
-          if(new Date(adi.date).toLocaleDateString('en-US') == item) {
+          if(new Date(adi.day).toLocaleDateString('en-US') == item) {
             this.dataCounts.push(adi.count);
             hasAdi = true;
           }

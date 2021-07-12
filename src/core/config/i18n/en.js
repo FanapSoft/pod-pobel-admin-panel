@@ -42,6 +42,7 @@ export const locale = {
     SURNAME: "Surname",
     JOINEDAT: "Joined At",
     ROLES: "Roles",
+    ROLE: "Role",
 
     USERSETTINGS: "User Settings",
     MYPROFILE: "My Profile",
@@ -141,6 +142,8 @@ export const locale = {
     YESDELETE:"Yes, Delete",
 
     RIAL: 'IRR',
+    TOMAN: 'IRT',
+
     CREDITAMOUNT: "Credit Amount",
     SIGNOUT: "Sign out",
     FANAP: 'Fanap',

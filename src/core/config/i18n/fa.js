@@ -48,6 +48,7 @@ export const locale = {
         SURNAME: "نام خانوادگی",
         JOINEDAT: "تاریخ عضویت",
         ROLES: "سطوح کاربری",
+        ROLE: "نقش کاربری",
 
         USERSETTINGS: "تنظیمات کاربر",
         MYPROFILE: "پروفایل من",
@@ -70,7 +71,7 @@ export const locale = {
         VIEWDATASETITEMS: "مشاهده آیتم های دیتاست",
         ITEMLABELNAME: "لیبل آیتم",
         DATASETSTATUS: "دیتاست قابل مشاهده باشد؟",
-        LABELINGSTATUS: "امکان لیبل گذاری فعال باشد؟",
+        LABELINGSTATUS: "وضعیت لیبل گذاری",
 
         DATASETSTATUS2: "وضعیت دیتاست",
         LABELINGSTATUS2: "وضعیت لیبل گذاری",
@@ -92,7 +93,7 @@ export const locale = {
         ONLYNONDECIDEDGOLDENS: "فقط گلدن های نهایی نشده",
         ONLYGOLDENS: "فقط گلدن ها",
         ANSWERBUDGETCOUNT: "تعداد پاسخ مجاز هر کاربر",
-        ANSWERREPLICATIONCOUNT: "تعداد پاسخ مورد لازم به ازای هر دیتاست آیتم",
+        ANSWERREPLICATIONCOUNT: "تعداد پاسخ لازم به ازای هر دیتاست آیتم",
 
         DATASETNOTFOUND: "دیتاست یافت نشد",
     },
@@ -146,6 +147,7 @@ export const locale = {
         QUESTIONTYPE: "نوع سوال",
 
         RIAL: 'ریال',
+        TOMAN: 'تومان',
 
         YESDELETE:"بله، حذف شود",
 

@@ -39,39 +39,63 @@
             <template v-slot:item.ind="{ item }">
               {{ (pagination.skip ? pagination.skip + users.indexOf(item) + 1 : users.indexOf(item) + 1) }}
             </template>
-            <template v-slot:item.actions="{ item }">
-              <v-tooltip left>
-                <template v-slot:activator="{on, attrs}">
-                  <v-btn
-                      icon
+            <template v-slot:item.fullName="{ item }">
+              {{ item.Name + ' ' + item.Surname }}
+            </template>
 
-                      v-on="on"
+            <template v-slot:item.actions="{ item }">
+              <v-menu
+                  bottom
+                  left
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      light
+                      icon
                       v-bind="attrs"
-                      :to="`${item.id}/profile/overview`"
-                      class="mr-2">
-                    <v-icon>mdi-file-account</v-icon>
+                      v-on="on"
+                  >
+                    <v-icon>mdi-dots-horizontal</v-icon>
                   </v-btn>
                 </template>
-                <span>{{ $t("USER.VIEWPROFILE")}}</span>
-              </v-tooltip>
-              <v-btn
-                  v-if="$route.query.showTransactionsBtn"
 
-                  small
+                <v-list>
+                      <v-list-item
+                          :key="0"
+                          :to="`${item.Id}/profile/overview`"
+                      >
+                        <v-list-item-title>View Profile</v-list-item-title>
+                      </v-list-item>
 
-                  :to="`/transaction/list?OwnerId=${item.id}`">Transactions</v-btn>
-              <v-btn
-                  v-if="$route.query.showAnswerCountTrend"
+                  <v-list-item
 
-                  small
 
-                  :to="`/reports/AnswerCountTrend?UserId=${item.id}`">AnswerCountTrend</v-btn>
-              <v-btn
-                  v-if="$route.query.showAnswersBtn"
+                      :to="`/transaction/list?OwnerId=${item.Id}`"
+                      :key="0"
+                  >
+                    <v-list-item-title>Transactions</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item
 
-                  small
 
-                  :to="`/answers?UserId=${item.id}`">View Answers</v-btn>
+                      :to="`/answers?UserId=${item.Id}`"
+                      :key="0"
+                  >
+                    <v-list-item-title>User Answers</v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item
+
+
+                      :to="`/reports/AnswerCountTrend?UserId=${item.Id}`"
+                      :key="0"
+                  >
+                    <v-list-item-title>Answers Counts Trend</v-list-item-title>
+                  </v-list-item>
+
+
+                </v-list>
+              </v-menu>
             </template>
           </v-data-table>
           <v-pagination
@@ -95,14 +119,14 @@ export default {
       search: null,
       listHeaders: [
         { text: this.$t("GENERAL.ROW"), value: "ind" },
-        { text: this.$t("USER.USERNAME"), value: "userName" },
+        { text: this.$t("USER.USERNAME"), value: "UserName" },
         {
           text: this.$t("USER.FULLNAME"),
           /*align: "left",*/
           sortable: false,
           value: "fullName"
         },
-        { text: this.$t("USER.EMAIL"), value: "emailAddress" },
+        { text: this.$t("USER.EMAIL"), value: "Email" },
         { text: this.$t("GENERAL.ACTIONS"), value: "actions" },
       ],
       loading: false,
@@ -126,16 +150,16 @@ export default {
       const data = {
         Keyword: this.search,
         IsActive: this.isActive,
-        SkipCount: this.pagination.skip,
-        MaxResultCount: this.pagination.perPage
+        Skip: this.pagination.skip,
+        Limit: this.pagination.perPage
       };
 
       try {
-        const users = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/User/GetAll`, data));
-        if(users.data && users.data.result) {
-          this.users = users.data.result.items;
-          this.pagination.count = users.data.result.totalCount ? Math.ceil(users.data.result.totalCount / this.pagination.limit) : 1;
-          this.pagination.realCount = users.data.result.totalCount;
+        const users = await this.$http.get(this.$utils.addParamsToUrl(`/api/User/GetAll`, data));
+        if(users.data) {
+          this.users = users.data.items;
+          this.pagination.count = users.data.totalCount ? Math.ceil(users.data.totalCount / this.pagination.limit) : 1;
+          this.pagination.realCount = users.data.totalCount;
         }
       } catch (error) {
         console.log(error);

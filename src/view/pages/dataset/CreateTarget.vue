@@ -30,14 +30,14 @@
               cols="12"
               class="pb-0">
             <v-card class="mb-4">
-              <v-card-title>{{ $t("TARGET.TARGET") }}: {{targetObject.answerCount}}</v-card-title>
+              <v-card-title>{{ $t("TARGET.TARGET") }}: {{targetObject.AnswerCount}}</v-card-title>
               <v-card-text>
                 <v-row>
                   <v-col cols="4">
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.t"
+                        v-model="targetObject.T"
 
                         :hint="$t('TARGET.CONFIDENCELEVEL')"
 
@@ -48,8 +48,8 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.uMin"
-                        label="uMin"
+                        v-model="targetObject.UMin"
+                        label="UMin"
 
                         :hint="$t('TARGET.UMIN')"
                         dir="ltr"/>
@@ -58,29 +58,39 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.uMax"
+                        v-model="targetObject.UMax"
                         :hint="$t('TARGET.UMAX')"
 
-                        label="uMax"
+                        label="UMax"
                         dir="ltr" />
                   </v-col>
                   <v-col cols="4">
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.answerCount"
+                        v-model="targetObject.AnswerCount"
                         label="Answer Count"
 
                         dir="ltr"
                         :hint="$t('TARGET.ANSWERCOUNT')" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.GoldenCount"
+                        label="Golden Answers Count"
+
+                        :hint="$t('TARGET.GOLDENANSWERSCOUNT')"
+                        dir="ltr"/>
                   </v-col>
 
                   <v-col cols="4">
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.bonusFalse"
-                        label="Bonus False"
+                        v-model="targetObject.BonusFalsePositive"
+                        label="BonusFalsePositive"
 
                         :hint="$t('TARGET.DEDUCTIONCOEFFICIENT')"
                         dir="ltr" />
@@ -89,22 +99,31 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.bonusTrue"
-                        label="Bonus True"
+                        v-model="targetObject.BonusTruePositive"
+                        label="BonusTruePositive"
 
                         :hint="$t('TARGET.ADDITIVECOEFFICIENT')"
                         dir="ltr" />
                   </v-col>
-
                   <v-col cols="4">
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="targetObject.goldenCount"
-                        label="Golden Answers Count "
+                        v-model="targetObject.BonusFalseNegative"
+                        label="BonusFalseNegative"
 
-                        :hint="$t('TARGET.GOLDENANSWERSCOUNT')"
-                        dir="ltr"/>
+                        :hint="$t('TARGET.DEDUCTIONCOEFFICIENT')"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="targetObject.BonusTrueNegative"
+                        label="BonusTrueNegative"
+
+                        :hint="$t('TARGET.ADDITIVECOEFFICIENT')"
+                        dir="ltr" />
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -124,13 +143,15 @@ export default {
   data() {
     return {
       targetObject: {
-        t: 0,
-        uMin: 0,
-        uMax: 0,
-        answerCount: 1000,
-        bonusFalse: 0,
-        goldenCount: 0,
-        bonusTrue: 0,
+        T: 0,
+        UMin: 0,
+        UMax: 0,
+        AnswerCount: 1000,
+        GoldenCount: 0,
+        BonusTruePositive: 0,
+        BonusFalsePositive: 0,
+        BonusTrueNegative: 0,
+        BonusFalseNegative: 0,
       },
       loading: false,
     };
@@ -139,13 +160,12 @@ export default {
     async saveItem() {
       this.loading = true;
       const data = {
-        type: 0,
-        datasetId: this.$route.params.DatasetId,
-        dataSet: null,
+        Type: 0,
+        DatasetId: this.$route.params.DatasetId,
         ...this.targetObject
       }
       try {
-        const result = await this.$http.post(`/api/services/app/TargetDefinitions/Create`, data);
+        const result = await this.$http.post(`/api/TargetDefinitions/Create`, data);
         if(result.status == 200) {
           this.$bvToast.toast(this.$t('TARGET.TARGETSUCCESSFULLYSAVED'), {
             title: `Done`,

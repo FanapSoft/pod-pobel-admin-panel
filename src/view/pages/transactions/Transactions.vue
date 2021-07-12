@@ -19,7 +19,7 @@
 
                   @click="$router.push('/dataset/list')"
                   @click:close="removeQueryItem('datasetId')"
-              class="mx-1">{{ $t("DATASET.DATASET") }}: {{datasetId && currentDataset ? currentDataset.name : ''}}</v-chip>
+              class="mx-1">{{ $t("DATASET.DATASET") }}: {{datasetId && currentDataset ? currentDataset.Name : ''}}</v-chip>
             </v-col>
           </v-row>
           <v-data-table
@@ -42,25 +42,25 @@
 
               item-key="id"
               class="elevation-1">
-            <template v-slot:header.creditAmount="{ header }">
-              <div class="text-center"> {{ header.text }}</div>
+            <template v-slot:header.amount="{ header }">
+              <div class="text-center"> قابل برداشت | برداشت شده</div>
             </template>
             <template v-slot:item.ind="{ item }">
               {{ (pagination.skip ? pagination.skip + transactions.indexOf(item) + 1 : transactions.indexOf(item) + 1) }}
             </template>
-            <template v-slot:item.creditAmount="{ item }">
-              <div class="d-flex justify-center" >
-                <span class="d-inline-block">{{ (item.creditAmount).toFixed(3) }}</span>
-                <span class="d-inline-block mx-2">{{ $t("GENERAL.RIAL") }}</span>
-
+            <template v-slot:item.amount="{ item }">
+              <div class="d-block text-center" >
+                <span class="d-inline-block"> {{ (item.CreditAmount).toFixed(3) }} | {{ (item.DebitAmount).toFixed(3) }}</span>
+                <br>
+                <span class="d-inline-block mx-2">{{ $t("GENERAL.TOMAN") }}</span>
               </div>
             </template>
             <template v-slot:item.dateTime="{ item }">
-              {{ new Date(item.creationTime).toLocaleDateString($langIsFa ? "fa-IR" : "en-US") }}
+              {{ new Date(item.CreatedAt).toLocaleDateString($langIsFa ? "fa-IR" : "en-US") }}
               <br>
-              {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
+              {{ new Date(item.CreatedAt).toLocaleTimeString().split(" ")[0] }}
             </template>
-            <template v-slot:item.referenceDataSetId="{ item }">
+            <template v-slot:item.referenceDatasetId="{ item }">
               <div class="d-inline-block">
                 <DatasetDetails
                     :key="Math.random()"
@@ -93,9 +93,9 @@ export default {
       transactions: null,
       listHeaders: [
         { text: this.$t("GENERAL.ROW"), value: "ind" },
-        { text: this.$t("GENERAL.CREDITAMOUNT"), value: "creditAmount" },
+        { text: this.$t("GENERAL.CREDITAMOUNT"), value: "amount" },
         { text: this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
-        { text: this.$t("DATASET.DATASET"), value: "referenceDataSetId"},
+        { text: this.$t("DATASET.DATASET"), value: "referenceDatasetId"},
 
       ],
       loading: false,
@@ -130,17 +130,17 @@ export default {
       const data = {
         OwnerId: this.ownerId,
         DatasetId: this.datasetId,
-        SkipCount: this.pagination.skip,
-        MaxResultCount: this.pagination.perPage
+        Skip: this.pagination.skip,
+        Limit: this.pagination.perPage
       };
 
       try {
-        const transactions = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Transactions/GetAll`, data));
-        if(transactions.data && transactions.data.result) {
+        const transactions = await this.$http.get(this.$utils.addParamsToUrl(`/api/Transactions/GetAll`, data));
+        if(transactions.data) {
 
-          this.transactions = transactions.data.result.items;
-          this.pagination.count = transactions.data.result.totalCount ? Math.ceil(transactions.data.result.totalCount / this.pagination.limit) : 1;
-          this.pagination.realCount = transactions.data.result.totalCount;
+          this.transactions = transactions.data.items;
+          this.pagination.count = transactions.data.totalCount ? Math.ceil(transactions.data.totalCount / this.pagination.limit) : 1;
+          this.pagination.realCount = transactions.data.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -165,10 +165,18 @@ export default {
       await this.getItems(this.pagination.currentPage);
     },
     removeQueryItem(item){
-      if (item == 'ownerId')
+      if (item == 'ownerId'){
         this.$store.commit(SET_OWNER_ID, null);
-      if (item == 'datasetId')
+        let query = Object.assign({}, this.$route.query);
+        delete query.OwnerId;
+        this.$router.replace({ query });
+      }
+      if (item == 'datasetId'){
         this.$store.commit(SET_DATASET_ID, null);
+        let query = Object.assign({}, this.$route.query);
+        delete query.DatasetId;
+        this.$router.replace({ query });
+      }
 
       this.refreshList()
     }

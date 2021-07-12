@@ -24,7 +24,7 @@
                     close label
 
                     @click="$router.push('/dataset/list')"
-                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">{{ $t("DATASET.DATASET")}}: {{$route.query.DatasetId && currentDataset ? currentDataset.name : ''}}</v-chip>
+                    @click:close="()=>{$router.push('/datasetItems'); refreshList()}">{{ $t("DATASET.DATASET")}}: {{$route.query.DatasetId && currentDataset ? currentDataset.Name : ''}}</v-chip>
               </v-col>
               <v-col cols="3">
                 <v-switch
@@ -66,15 +66,15 @@
               </template>
               <template v-slot:item.file="{ item }">
                 <v-avatar class="my-2" rounded>
-                  <img :src="`${axios.defaults.baseURL}/file/dataset/item/${item.id}`">
+                  <img :src="`${axios.defaults.baseURL}/api/File/Dataset/Item/${item.Id}`">
                 </v-avatar>
               </template>
               <template v-slot:item.labelName="{ item }">
-                {{ (item.label ? item.label.name : 'No label')}}
+                {{ (item.Name ? item.Name : 'No label')}}
               </template>
               <template v-slot:item.datasetItem="{ item }">
                 <DatasetDetails
-                    :key="item.datasetID"
+                    :key="item.DatasetId"
                     :item="item">
                 </DatasetDetails>
               </template>
@@ -110,7 +110,7 @@ export default {
     return {
       datasetItems: null,
       LabelName: null,
-      DataSetId: null,
+      DatasetId: null,
       IsGoldenData: false,
       OnlyNonDecidedGoldens: false,
 
@@ -147,24 +147,24 @@ export default {
       this.loading = true;
       const data = {
         LabelName: this.LabelName,
-        DataSetId: this.$route.query.DatasetId ? this.$route.query.DatasetId : null,
+        DatasetId: this.$route.query.DatasetId ? this.$route.query.DatasetId : null,
         IsGoldenData: this.IsGoldenData,
         OnlyNonDecidedGoldens: this.OnlyNonDecidedGoldens,
 
-        SkipCount: this.pagination.skip,
-        MaxResultCount: this.pagination.perPage
+        Skip: this.pagination.skip,
+        Limit: this.pagination.perPage
       };
 
       try {
-        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/DataSetItems/GetAll`, data));
-        if(items.data && items.data.result && items.data.result.items) {
-          this.datasetItems = items.data.result.items;
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/DatasetItems/GetAll`, data));
+        if(items.status < 400 && items.data.items) {
+          this.datasetItems = items.data.items;
           this.datasetItems.forEach(item => {
-            item.referenceDataSetId = item.datasetID;
-            item.datasetName = item.datasetName;
-          })
-          this.pagination.count = items.data.result.totalCount ? Math.ceil(items.data.result.totalCount / this.pagination.limit) : 1;
-          this.pagination.realCount = items.data.result.totalCount;
+            item.ReferenceDatasetId = item.DatasetId;
+            //item.datasetName = item.datasetName;
+          });
+          this.pagination.count = items.data.totalCount ? Math.ceil(items.data.totalCount / this.pagination.limit) : 1;
+          this.pagination.realCount = items.data.totalCount;
         }
       } catch (error) {
         console.log(error);

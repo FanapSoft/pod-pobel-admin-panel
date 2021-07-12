@@ -84,15 +84,15 @@ export default {
     async getDatasetItemsCount() {
       this.loading = true;
       const data = {
-        DataSetId: this.$route.params.DatasetId,
-        SkipCount: 0,
-        MaxResultCount: 1
+        DatasetId: this.$route.params.DatasetId,
+        Skip: 0,
+        Limit: 1
       };
 
       try {
-        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/DataSetItems/GetAll`, data));
-        if(items.data && items.data.result && items.data.result.items) {
-          this.datasetItemsCount = items.data.result.totalCount;
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/DatasetItems/GetAll`, data));
+        if(items.data && items.data.items) {
+          this.datasetItemsCount = items.data.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -103,14 +103,14 @@ export default {
       this.loading = true;
       const data = {
         DatasetId: this.$route.params.DatasetId,
-        SkipCount: 0,
-        MaxResultCount: 1
+        Skip: 0,
+        Limit: 1
       };
 
       try {
-        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/TargetDefinitions/GetAll`, data));
-        if(items.data && items.data.result && items.data.result.items) {
-          this.targetsCount = items.data.result.totalCount;
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/TargetDefinitions/GetAll`, data));
+        if(items.data && items.data.items) {
+          this.targetsCount = items.data.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -121,14 +121,14 @@ export default {
       this.loading = true;
       const data = {
         DatasetId: this.$route.params.DatasetId,
-        SkipCount: 0,
-        MaxResultCount: 1
+        Skip: 0,
+        Limit: 1
       };
 
       try {
-        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Transactions/GetAll`, data));
-        if(items.data && items.data.result && items.data.result.items) {
-          this.transactionsCount = items.data.result.totalCount;
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/Transactions/GetAll`, data));
+        if(items.data && items.data.items) {
+          this.transactionsCount = items.data.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -139,14 +139,14 @@ export default {
       this.loading = true;
       const data = {
         DatasetId: this.$route.params.DatasetId,
-        SkipCount: 0,
-        MaxResultCount: 1
+        Skip: 0,
+        Limit: 1
       };
 
       try {
-        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Answers/GetAll`, data));
-        if(items.data && items.data.result && items.data.result.items) {
-          this.answersCount = items.data.result.totalCount;
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/Answers/GetAll`, data));
+        if(items.data && items.data.items) {
+          this.answersCount = items.data.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -157,7 +157,7 @@ export default {
       this.$store.dispatch(SET_BREADCRUMB, [
         { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
         {
-          title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
+          title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.Name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
           route: `/dataset/${this.$route.params.DatasetId}/singleDataset`
         },
       ]);

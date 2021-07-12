@@ -28,8 +28,8 @@
 
               cols="4"
               class="pb-0">
-            <v-card :to="`/dataset/${$route.params.DatasetId}/target/${item.id}/edit`">
-              <v-card-title>{{ $t("TARGET.EDITTARGET") }} {{item.answerCount}}</v-card-title>
+            <v-card :to="`/dataset/${$route.params.DatasetId}/target/${item.Id}/edit`">
+              <v-card-title>{{ $t("TARGET.EDITTARGET") }} {{item.AnswerCount}}</v-card-title>
             </v-card>
           </v-col>
         </v-row>
@@ -61,9 +61,9 @@ export default {
     async getItems() {
       this.loading = true;
       try {
-        const targets = await this.$http.get(`/api/services/app/TargetDefinitions/GetAll?DatasetId=${this.$route.params.DatasetId}`);
-        if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
-          this.targets = targets.data.result.items
+        const targets = await this.$http.get(`/api/TargetDefinitions/GetAll?DatasetId=${this.$route.params.DatasetId}`);
+        if(targets.data && targets.data.items && targets.data.items.length) {
+          this.targets = targets.data.items
         }
       } catch (error) {
         console.log(error);
@@ -84,7 +84,7 @@ export default {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
       {
-        title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
+        title: `${this.$t("DATASET.DATASET")} ${ this.currentDataset ? this.currentDataset.Name : this.$route.params.DatasetId.substr(0, 10) + '...'}`,
         route: `/dataset/${this.$route.params.DatasetId}/singleDataset`
       },
       { title: this.$t("TARGET.TARGETS") },

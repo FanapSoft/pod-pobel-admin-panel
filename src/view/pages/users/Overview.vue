@@ -76,11 +76,11 @@ export default {
       this.userDetails = [
         {
           title: this.$t("USER.NAME"),
-          value: this.user?.name
+          value: this.user?.Name
         },
         {
           title: this.$t("USER.SURNAME"),
-          value: this.user?.surname
+          value: this.user?.Surname
         },
         {
           title: this.$t("USER.FULLNAME"),
@@ -88,19 +88,19 @@ export default {
         },
         {
           title: this.$t("USER.JOINEDAT"),
-          value: new Date(this.user?.creationTime).toLocaleDateString((this.$langIsFa ? "fa-IR" : "en-US"))
+          value: new Date(this.user?.CreatedAt).toLocaleDateString((this.$langIsFa ? "fa-IR" : "en-US"))
         },
         {
           title: this.$t("USER.EMAIL"),
-          value: this.user?.emailAddress
+          value: this.user?.Email
         },
         {
           title: 'POD Contact ID',
-          value: this.user?.podContactId
+          value: this.user?.PodContactId
         },
         {
-          title: this.$t("USER.ROLES"),
-          value: this.user?.roleNames?.join(', ')
+          title: this.$t("USER.ROLE"),
+          value: this.user?.Role
         },
 
       ]
@@ -109,7 +109,7 @@ export default {
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("USER.USERS"), route: `/users/list`},
-      { title: this.user ? this.user.name : this.$route.params.userId },
+      { title: this.user ? this.user.Name : this.$route.params.userId },
 
     ]);
 

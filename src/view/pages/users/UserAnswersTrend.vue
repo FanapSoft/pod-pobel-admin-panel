@@ -270,42 +270,47 @@ export default {
   },
   methods: {
     async refreshResults() {
-      this.loading = true;
-
-      try {
         await this.getData();
-
-      } catch (error) {
-        console.log("error:", error)
-      }
-      setTimeout(()=>{
-        this.loading = false;
-      }, 100);
     },
     async getData() {
       this.loading = true;
-      if (!this.user)
-        return;
 
-      let startDate = new Date(this.resultsFrom).toLocaleDateString('en-Us');
-      let endDate = new Date(this.resultsTo).toLocaleDateString('en-Us');
+      let startDate = new Date(this.resultsFrom).toISOString();
+      let endDate = new Date(this.resultsTo).toISOString();
 
       const data = {
-        UserId: this.user.id,
-        DataSetId: (this.dataset ? this.dataset.id : null),
+        UserId: this.user.Id,
+        DatasetId: (this.dataset ? this.dataset.Id : null),
         From: startDate,
         To: endDate,
       };
 
       try {
-        const res = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/AnswersCountsTrend`, data));
-        if (res.data.result ) {
+        const res = await this.$http.get(this.$utils.addParamsToUrl(`/api/Reports/AnswersCountsTrend`, data));
+        if (res.status < 400 ) {
           this.$nextTick(() => {
-            this.extractApiData(res.data.result);
+            this.extractApiData(res.data);
           })
+        } else {
+          if(res.data.code === 3002) {
+              this.$bvToast.toast(res.data.message, {
+                title: `Error`,
+                variant: 'danger',
+                solid: true
+              });
+          }
         }
       } catch (error) {
+        if(error.data.code === 3002) {
+          this.$bvToast.toast(error.data.message, {
+            title: `Error`,
+            variant: 'danger',
+            solid: true
+          });
+        }
         console.log(error);
+      } finally {
+        this.loading = false
       }
     },
     generateDates() {
@@ -350,7 +355,7 @@ export default {
         let hasAdi = false;
 
         apiData.forEach(adi => {
-          if (new Date(adi.date).toLocaleDateString('en-US') == item) {
+          if (new Date(adi.day).toLocaleDateString('en-US') == item) {
             this.dataCounts.push(adi.count);
             hasAdi = true;
           }
@@ -401,7 +406,7 @@ export default {
           title: `Error`,
           variant: 'danger',
           solid: true
-        })
+        });
       }
       this.generateDates();
     }

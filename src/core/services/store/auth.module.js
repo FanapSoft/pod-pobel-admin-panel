@@ -82,19 +82,21 @@ const actions = {
   }*/
   [SET_AUTH]({ state }, user) {
     state.isAuthenticated = true;
+
     //First save the user
     state.user = user;
     JwtService.saveToken(state.user.token);
     //Then use token for the request to get the user
     ApiService.setHeader();
     return new Promise((resolve, reject) => {
+
       ApiService
-          .get(`/api/services/app/User/Get?id=${user.uid}`) //${user.uid} --- 18
+          .get(`/api/User/Get/${user.uid}`) //${user.uid} --- 18
           .then(response => {
             state.user = {
               ...user,
               ...state.user,
-              ...response.data.result
+              ...response.data
             };
             UserService.saveUser(state.user);
             state.errors = {};

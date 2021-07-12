@@ -60,7 +60,7 @@ export default {
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("USER.USERS"), route: `/users/list`},
-      { title: this.user ? this.user.name : this.$route.params.userId, route: `/users/${this.user?.id}/profile/overview` },
+      { title: this.user ? this.user.Name : this.$route.params.userId, route: `/users/${this.user?.Id}/profile/overview` },
       { title: this.$t("USER.SETTINGS") }
     ]);
 

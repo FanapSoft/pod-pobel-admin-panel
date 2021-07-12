@@ -19,13 +19,13 @@ const getters = {
         return state.currentDataset;
     },
     dataset: state => id => {
-        return state.datasets.filter(item => item.id === id)[0]
+        return state.datasets.filter(item => item.Id === id)[0]
     }
 };
 
 const actions = {
     async [LOAD_DATASET](context, id) {
-        let ds = context.state.datasets.filter(item => item.id == id);
+        let ds = context.state.datasets.filter(item => item.Id == id);
         ds = ds && ds.length ? ds[0] : await context.dispatch(FETCH_DATASET, id);
         context.commit(SET_CURRENT_DATASET, ds);
     },
@@ -35,10 +35,10 @@ const actions = {
         };
 
         try {
-            const ds = await this._vm.$http.get(this._vm.$utils.addParamsToUrl(`/api/services/app/Datasets/Get`, data));
-            if(ds.data && ds.data.result) {
-                context.commit(CACHE_DATASET, ds.data.result);
-                return ds.data.result;
+            const ds = await this._vm.$http.get(`/api/Datasets/Get/` + id);
+            if(ds.data) {
+                context.commit(CACHE_DATASET, ds.data);
+                return ds.data;
             }
         } catch (error) {
             console.log(error);

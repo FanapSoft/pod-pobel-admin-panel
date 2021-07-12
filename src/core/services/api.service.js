@@ -9,16 +9,16 @@ import JwtService from "@/core/services/jwt.service";
  */
 const ApiService = {
   //loginUrl: `http://10.56.16.50:8888/pod/authentication${(process.env.NODE_ENV !== 'production'? "/true" : '')}`,
-  loginUrl: `http://10.56.16.50:8888/pod/authentication?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://10.56.16.50/admin') : encodeURI('http://localhost:8080'))}`,
+  loginUrl: `http://localhost:8080/auth?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://localhost:8080/admin') : encodeURI('http://localhost:8080'))}`,
   init() {
     Vue.use(VueAxios, axios);
-    Vue.axios.defaults.baseURL = "http://10.56.16.50:8888";
+    Vue.axios.defaults.baseURL = "http://localhost:8080";
     Vue.axios.defaults.validateStatus = () => {//status
       return true;
     };
 
     Vue.axios.interceptors.request.use(req => {
-      req.headers.Authorization = `Bearer ${JwtService.getToken()}`;
+      req.headers.Token = `${JwtService.getToken()}`;
       return req;
     });
 
@@ -53,7 +53,7 @@ const ApiService = {
    * Set the default HTTP request headers
    */
   setHeader() {
-    Vue.axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
+    Vue.axios.defaults.headers.common["Token"] = `${JwtService.getToken()}`;
   },
 
   query(resource, params) {
@@ -69,10 +69,12 @@ const ApiService = {
    * @param slug
    * @returns {*}
    */
-  get(resource) {
-    return Vue.axios.get(`${resource}`).catch(error => {
+  async get(url, params) {
+    return  await Vue.axios.get(url, {
+      params: params
+    }).catch(error => {
       // console.log(error);
-      throw new Error(`[KT] ApiService ${error}`);
+      throw new Error(`ApiService ${error}`);
     });
   },
 

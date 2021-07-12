@@ -6,12 +6,12 @@
         <div
             v-on="on"
             v-bind="attrs"
-            @mouseover="()=>{loadDataset(item.referenceDataSetId)}">
+            @mouseover="()=>{loadDataset(item.ReferenceDatasetId)}">
           <router-link
 
-              :to="`/dataset/${item.referenceDataSetId}/singleDataset`"
+              :to="`/dataset/${item.ReferenceDatasetId}/singleDataset`"
               >
-            {{ dataset ? dataset.name : item.referenceDataSetId }}
+            {{ dataset ? dataset.Name : item.ReferenceDatasetId }}
           </router-link>
         </div>
       </template>
@@ -27,9 +27,9 @@
       </span>
       <div
           v-if="dataset">
-        <span>{{dataset.name}}</span>
+        <span>{{dataset.Name}}</span>
         <br>
-        <span>{{dataset.description}}</span>
+        <span>{{dataset.Description}}</span>
       </div>
     </v-tooltip>
 </template>
@@ -48,7 +48,7 @@ export default {
       getDataset: `datasets/dataset`
     }),
     dataset() {
-      return this.getDataset(this.item.referenceDataSetId)
+      return this.getDataset(this.item.ReferenceDatasetId)
     }
   },
   data () {

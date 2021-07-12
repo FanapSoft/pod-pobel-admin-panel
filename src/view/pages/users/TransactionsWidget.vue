@@ -25,15 +25,15 @@ export default {
     async getTransactionsCount() {
       this.loading = true;
       const data = {
-        OwnerId: this.user.id,
-        SkipCount: 0,
-        MaxResultCount: 1
+        OwnerId: this.user.Id,
+        Skip: 0,
+        Limit: 1
       };
 
       try {
-        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Transactions/GetAll`, data));
-        if(items.data && items.data.result && items.data.result.items) {
-          this.transactionsCount = items.data.result.totalCount;
+        const items = await this.$http.get(this.$utils.addParamsToUrl(`/api/Transactions/GetAll`, data));
+        if(items.data && items.data.items) {
+          this.transactionsCount = items.data.totalCount;
         }
       } catch (error) {
         console.log(error);

@@ -85,11 +85,11 @@ export default {
       this.userDetails = [
         {
           title: 'Name',
-          value: this.user?.name
+          value: this.user?.Name
         },
         {
           title: 'Surname',
-          value: this.user?.surname
+          value: this.user?.Surname
         },
         {
           title: 'Full Name',
@@ -97,7 +97,7 @@ export default {
         },
         {
           title: 'Joined At',
-          value: new Date(this.user?.creationTime).toLocaleDateString("fa-IR")
+          value: new Date(this.user?.CreatedAt).toLocaleDateString("fa-IR")
         },
         {
           title: 'Email',
@@ -116,8 +116,8 @@ export default {
     },
     setupAsideLinks() {
       this.asideItems = [
-        {text: this.$t('BREADCRUMBS.TRANSACTIONS'), icon: 'mdi-cash-multiple', link: `/transaction/list?OwnerId=${this.user?.id}`},
-        {text: 'Answers Trend', icon: 'mdi-chart-timeline-variant', link: `/reports/AnswerCountTrend?UserId=${this.user?.id}`},
+        {text: this.$t('BREADCRUMBS.TRANSACTIONS'), icon: 'mdi-cash-multiple', link: `/transaction/list?OwnerId=${this.user?.Id}`},
+        {text: 'Answers Trend', icon: 'mdi-chart-timeline-variant', link: `/reports/AnswerCountTrend?UserId=${this.user?.Id}`},
         {text: this.$t('DATASET.DATASETS'), icon: 'mdi-database', link: `datasets`},
         {text: this.$t('USER.SETTINGS'), icon: 'mdi-cogs', link: `settings`},
       ]
@@ -125,7 +125,7 @@ export default {
     setBreadcrumbs() {
       this.$store.dispatch(SET_BREADCRUMB, [
         { title: this.$t("USER.USERS"), route: `/users/list`},
-        { title: this.user ? this.user.name : this.$route.params.userId }
+        { title: this.user ? this.user.Name : this.$route.params.userId }
       ]);
     }
   },

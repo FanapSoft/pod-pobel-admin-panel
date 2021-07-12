@@ -148,7 +148,7 @@ export default {
     },
     setImage(e) {
       const file = e.target.files[0];
-      this.fileExtension = file.name.split(".").pop();
+      this.fileExtension = file.Name.split(".").pop();
       if (file.type.indexOf("image/") === -1) {
         alert("Please select an image file");
         return;

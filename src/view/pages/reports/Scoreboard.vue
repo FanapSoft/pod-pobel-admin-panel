@@ -85,12 +85,12 @@
             {{ (scoreboardItems.indexOf(item) + 1) }}
           </template>
           <template v-slot:item.dateTime="{ item }">
-            {{ new Date(item.creationTime).toLocaleDateString("fa-IR") }}
+            {{ new Date(item.from).toLocaleDateString("fa-IR") }}
             <br>
-            {{ new Date(item.creationTime).toLocaleTimeString().split(" ")[0] }}
+            {{ new Date(item.from).toLocaleTimeString().split(" ")[0] }}
           </template>
-          <template v-slot:item.name="{ item }">
-            {{ item.name }} - {{ item.surname }}
+          <template v-slot:item.Name="{ item }">
+            {{ item.Name }} - {{ item.Surname }}
           </template>
           <template v-slot:item.count="{ item }">
             {{ (item.count? item.count.toLocaleString("fa-IR") : ':/') }}
@@ -134,8 +134,8 @@ export default {
       listHeaders: [
         {text: this.$t("GENERAL.ROW"), value: "ind"},
         //{ text: "creditAmount", value: "creditAmount" },
-        {text: this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
-        {text: this.$t("USER.USER"), value: "name"},
+        {text: this.$t("GENERAL.FROM") + ' ' + this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
+        {text: this.$t("USER.USER"), value: "Name"},
         {text: this.$t("BREADCRUMBS.ANSWERS"), value: "count"},
 
       ],
@@ -167,17 +167,17 @@ export default {
         DatasetId: this.datasetId,
         From: this.$store.state['scoreboard/dateFrom'],
         //DatasetItemId: this.datasetId,
-        SkipCount: this.pagination.skip,
-        MaxResultCount: this.pagination.perPage
+        Skip: this.pagination.skip,
+        Limit: this.pagination.perPage
       };
 
       try {
-        const scoreboardItems = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/Scoreboard`, data));
-        if (scoreboardItems.data && scoreboardItems.data.result) {
+        const scoreboardItems = await this.$http.get(this.$utils.addParamsToUrl(`/api/Reports/Scoreboard`, data));
+        if (scoreboardItems.data) {
           this.scoreboardItems = this.scoreboardItems ? [
               ...this.scoreboardItems,
-            scoreboardItems.data.result
-          ] : scoreboardItems.data.result;
+            scoreboardItems.data
+          ] : scoreboardItems.data;
 
 
 

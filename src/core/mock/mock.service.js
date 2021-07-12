@@ -91,7 +91,7 @@ const MockService = {
          items.push({
             id: i,
            creditAmount: Math.round(Math.random() * 10000),
-           referenceDataSetId: ((i % 3) === 0 ? '111' : '222'),
+           referenceDatasetId: ((i % 3) === 0 ? '111' : '222'),
            creationTime: new Date(new Date().setDate(new Date().getDate() - i))
          })
         return [200, {
@@ -142,7 +142,7 @@ const MockService = {
       }
       return [401, { errors: ["Invalid authentication"] }];
     });
-    mock.onGet(/\/api\/services\/app\/DataSets\/GetAll\/?/).reply(data => {
+    mock.onGet(/\/api\/services\/app\/Datasets\/GetAll\/?/).reply(data => {
       const token = data.headers.Authorization.replace("Bearer ", "");
       if (token !== "undefined") {
         let items = [];
@@ -199,7 +199,7 @@ const MockService = {
       }
       return [401, { errors: ["Invalid authentication"] }];
     });
-    mock.onGet(/\/api\/services\/app\/DataSetItems\/GetAll\/?/).reply(data => {
+    mock.onGet(/\/api\/services\/app\/DatasetItems\/GetAll\/?/).reply(data => {
       const token = data.headers.Authorization.replace("Bearer ", "");
       if (token !== "undefined") {
         let items = [];

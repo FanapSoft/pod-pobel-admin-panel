@@ -283,7 +283,7 @@ var KTCard = function(elementId, options) {
             //KTUtil.triggerCustomEvent(name);
             for (var i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
-                if (event.name == name) {
+                if (event.Name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
                             the.events[i].fired = true;

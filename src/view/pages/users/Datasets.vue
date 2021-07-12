@@ -16,7 +16,7 @@
 
             :label="$t('DATASET.CHOOSEADATASET')">
           <template v-slot:selection="{ item }" >
-            {{ (item? item.name : $t('DATASET.CHOOSEADATASET')) }}
+            {{ (item? item.Name : $t('DATASET.CHOOSEADATASET')) }}
           </template>
           <template v-slot:item="{ active, item, attrs, on }">
             <v-list-item
@@ -32,13 +32,13 @@
                         :class="{'success': item.answersCount, 'error': !item.answersCount}"
 
                         class="mb-2"
-                    >{{ item.name }}</v-chip>
+                    >{{ item.Name }}</v-chip>
                     <v-spacer></v-spacer>
                     {{ $t("BREADCRUMBS.ANSWERS") }}: {{ (item.answersCount ? item.answersCount : '0') }}
                   </v-row>
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ item.description }}
+                  {{ item.Description }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -59,7 +59,7 @@
                 :class="{'success': selectedItem.answersCount, 'error': !selectedItem.answersCount}"
 
                 class="mb-2"
-            >{{ selectedItem.name }}</v-chip>
+            >{{ selectedItem.Name }}</v-chip>
             <v-spacer></v-spacer>
             <v-chip
                 label small
@@ -75,7 +75,7 @@
         <user-answers-trend
             v-if="selectedItem"
 
-            :key="selectedItem.id"
+            :key="selectedItem.Id"
             :user="user"
             :dataset="selectedItem"
         ></user-answers-trend>
@@ -107,9 +107,9 @@ export default {
     async getItems() {
       this.loading = true;
       try {
-        const datasets = await this.$http.get('/api/services/app/DataSets/GetAll');
-        if(datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
-          this.datasets = datasets.data.result.items;
+        const datasets = await this.$http.get('/api/Datasets/GetAll?Limit=100');
+        if(datasets.data && datasets.data.items && datasets.data.items.length) {
+          this.datasets = datasets.data.items;
           await this.getanswersCountPerDataset();
         }
       } catch (error) {
@@ -122,15 +122,15 @@ export default {
         this.loading = true;
         const data = {
           UserId: this.$route.params.userId,
-          DatasetId: ds.id,
-          MaxResultCount: 1
+          DatasetId: ds.Id,
+          Limit: 1
         };
 
         try {
-          const answers = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Answers/GetAll`, data));
-          if (answers.data && answers.data.result) {
-            this.$set(ds, 'answersCount', answers.data.result.totalCount)
-            //ds.answersCount = answers.data.result.totalCount
+          const answers = await this.$http.get(this.$utils.addParamsToUrl(`/api/Answers/GetAll`, data));
+          if (answers.data) {
+            this.$set(ds, 'answersCount', answers.data.totalCount)
+            //ds.answersCount = answers.data.totalCount
           }
         } catch (error) {
           console.log(error);
@@ -141,13 +141,13 @@ export default {
       this.loading = true;
       const data = {
         OwnerId: this.$route.params.userId,
-        DatasetId: this.selectedItem.id,
-        MaxResultCount: 1
+        DatasetId: this.selectedItem.Id,
+        Limit: 1
       };
       try {
-        const transactions = await this.$http.get(this.$utils.addParamsToUrl('/api/services/app/Transactions/GetAll', data));
-        if(transactions.data && transactions.data.result && transactions.data.result.items && transactions.data.result.items.length) {
-          this.$set(this.selectedItem, 'transactionsCount', transactions.data.result.totalCount)
+        const transactions = await this.$http.get(this.$utils.addParamsToUrl('/api/Transactions/GetAll', data));
+        if(transactions.data && transactions.data.items && transactions.data.items.length) {
+          this.$set(this.selectedItem, 'transactionsCount', transactions.data.totalCount)
         }
       } catch (error) {
         console.log(error)
@@ -158,7 +158,7 @@ export default {
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("USER.USERS"), route: `/users/list`},
-      { title: this.user ? this.user.name : this.$route.params.userId, route: `/users/${this.user?.id}/profile/overview` },
+      { title: this.user ? this.user.Name : this.$route.params.userId, route: `/users/${this.user?.Id}/profile/overview` },
       { title: this.$t("DATASET.DATASETS")}
     ]);
 

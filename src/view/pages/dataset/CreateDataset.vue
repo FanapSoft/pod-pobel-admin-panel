@@ -26,14 +26,14 @@
               cols="12"
               class="pb-0">
             <v-card class="mb-4">
-<!--              <v-card-title>Target {{datasetObject.name}}</v-card-title>-->
+<!--              <v-card-title>Target {{datasetObject.Name}}</v-card-title>-->
               <v-card-text>
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
                         filled dense rounded
 
-                        v-model="datasetObject.name"
+                        v-model="datasetObject.Name"
 
                         :label="$t('USER.NAME')" />
                   </v-col>
@@ -41,7 +41,7 @@
                     <v-text-field
                         filled dense rounded
 
-                        v-model="datasetObject.description"
+                        v-model="datasetObject.Description"
 
                         :label="$t('GENERAL.DESCRIPTION')" />
                   </v-col>
@@ -49,21 +49,22 @@
                     <v-switch
                         filled dense rounded
 
-                        v-model="datasetObject.isActive"
+                        v-model="datasetObject.IsActive"
                         :label="$t('DATASET.DATASETSTATUS')" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-switch
-                        filled dense rounded
-
-                        v-model="datasetObject.labelingStatus"
-                        :label="$t('DATASET.LABELINGSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="datasetObject.answerBudgetCountPerUser"
+                        v-model="datasetObject.LabelingStatus"
+                        :label="$t('DATASET.LABELINGSTATUS')"
+                        dir="ltr"/>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="datasetObject.AnswerBudgetCountPerUser"
                         label="Answer Budget Count"
                         :hint="$t('DATASET.ANSWERBUDGETCOUNT')"
                         dir="ltr"/>
@@ -72,7 +73,7 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="datasetObject.type"
+                        v-model="datasetObject.Type"
 
                         :hint="$t('GENERAL.TYPE')"
 
@@ -83,7 +84,18 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="datasetObject.questionType"
+                        v-model="datasetObject.AnswerType"
+
+                        hint="Answer Type"
+
+                        label="Answer Type"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                        filled dense rounded persistent-hint
+
+                        v-model="datasetObject.QuestionType"
 
                         :hint="$t('GENERAL.QUESTIONTYPE')"
 
@@ -95,7 +107,7 @@
                     <v-text-field
                         filled dense rounded persistent-hint
 
-                        v-model="datasetObject.answerReplicationCount"
+                        v-model="datasetObject.AnswerReplicationCount"
 
                         :label="$t('DATASET.ANSWERREPLICATIONCOUNT')"
 
@@ -120,11 +132,15 @@ export default {
   data() {
     return {
       datasetObject: {
-        name: '',
-        description: '',
-        questionType: 0,
-        answerBudgetCountPerUser: 100,
-        type: 0
+        Name: '',
+        Description: '',
+        QuestionType: 0,
+        AnswerType: 0,
+        AnswerBudgetCountPerUser: 100,
+        AnswerReplicationCount: 0,
+        LabelingStatus: 1,
+        IsActive: true,
+        Type: 0
       },
       loading: false,
     };
@@ -133,15 +149,12 @@ export default {
     async saveItem() {
       this.loading = true;
       const data = {
-        type: 0,
-        dataSetId: this.$route.params.DatasetId,
-        dataSet: null,
         ...this.datasetObject
-      }
+      };
 
       try {
-        const result = await this.$http.post(`/api/services/app/DataSets/Create`, data);
-        if(result.status == 200) {
+        const result = await this.$http.post(`/api/Datasets/Create`, data);
+        if(result.status < 400) {
           this.$bvToast.toast(this.$t("DATASET.DATASETSUCCESSFULLYSAVED"), {
             title: `Done`,
             variant: 'success',

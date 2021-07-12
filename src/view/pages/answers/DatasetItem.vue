@@ -8,7 +8,7 @@
             v-bind="attrs"
             v-on="on"
             class="my-2">
-          <img :src="`${axios.defaults.baseURL}/file/dataset/item/${answer.dataSetItemId}`">
+          <img :src="`${axios.defaults.baseURL}/api/File/Dataset/Item/${answer.DatasetItemId}`">
         </v-avatar>
       </template>
       <span>{{ datasetItemName }}</span>
@@ -30,8 +30,8 @@ export default {
   },
   computed: {
     datasetItemName(){
-      if(this.answer && this.answer.questionObject) {
-        return JSON.parse(this.answer.questionObject).Title
+      if(this.answer && this.answer.QuestionObject) {
+        return JSON.parse(this.answer.QuestionObject).Title
       }
       else if(this.loading) {
         return 'Loading...'
@@ -47,10 +47,10 @@ export default {
 
       this.loading = true;
       try {
-        const dataset = await this.$http.get(`/api/services/app/DataSetItems/Get?id=${this.itemId}`);
-        if(dataset.data && dataset.data.result) {
-          this.datasetItem = dataset.data.result;
-          this.$emit('dataset-item-details', dataset.data.result.name)
+        const dataset = await this.$http.get(`/api/DatasetItems/Get/${this.itemId}`);
+        if(dataset.data ) {
+          this.datasetItem = dataset.data;
+          this.$emit('dataset-item-details', dataset.data.Name)
         }
       } catch (error) {
         console.log(error)

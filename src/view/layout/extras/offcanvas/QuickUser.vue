@@ -12,13 +12,13 @@
       <span
         class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline current-user-name mr-4"
       >
-        {{currentUser.userName}}
+        {{currentUser.UserName}}
       </span>
       <span class="symbol symbol-35">
         <span
           class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"
         >
-          {{currentUser.userName | firstChar}}
+          {{currentUser.UserName | firstChar}}
         </span>
       </span>
     </div>
@@ -65,7 +65,7 @@
               href="#"
               class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
             >
-              {{currentUser.userName}}
+              {{currentUser.UserName}}
             </a>
 <!--            <div class="text-muted mt-1">Application Developer</div>-->
             <div class="navi mt-2">
@@ -81,7 +81,7 @@
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    {{ currentUser.emailAddress }}
+                    {{ currentUser.Email }}
                   </span>
                 </span>
               </a>
@@ -97,7 +97,7 @@
         <div class="navi navi-spacer-x-0 p-0">
           <!--begin::Item-->
           <router-link
-            :to="`/users/${currentUser.id}/profile/overview`"
+            :to="`/users/${currentUser.Id}/profile/overview`"
             @click.native="closeOffcanvas"
             href="#"
             class="navi-item"
