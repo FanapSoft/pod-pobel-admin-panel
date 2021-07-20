@@ -53,12 +53,11 @@
                         :label="$t('DATASET.DATASETSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
-                    <v-text-field
+                    <v-select
                         filled dense rounded persistent-hint
 
                         v-model="datasetObject.LabelingStatus"
-                        :label="$t('DATASET.LABELINGSTATUS')"
-                        dir="ltr"/>
+                        :items="labelingStatusItems"></v-select>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
@@ -142,6 +141,28 @@ export default {
         IsActive: true,
         Type: 0
       },
+      labelingStatusItems: [
+        {
+          value: 1,
+          text: this.$t('DATASET.LABELING_ALLOWED')
+        },
+        {
+          value: 2,
+          text: this.$t('DATASET.NO_ITEMS')
+        },
+        {
+          value: 3,
+          text: this.$t('DATASET.ITEMS_COMPLETED')
+        },
+        {
+          value: 4,
+          text: this.$t('DATASET.LABELING_PAUSED')
+        },
+        {
+          value: 4,
+          text: this.$t('DATASET.LABELING_ENDED')
+        }
+      ],
       loading: false,
     };
   },

@@ -83,8 +83,8 @@ export default {
           value: this.user?.Surname
         },
         {
-          title: this.$t("USER.FULLNAME"),
-          value: this.user?.fullName
+          title: this.$t("USER.ACCOUNT_STATE"),
+          value: (this.user.IsActive ? this.$t("GENERAL.ACTIVE") : this.$t("GENERAL.INACTIVE"))
         },
         {
           title: this.$t("USER.JOINEDAT"),

@@ -8,23 +8,16 @@
         <v-navigation-drawer width="100%" permanent>
           <v-system-bar></v-system-bar>
           <v-list>
-            <v-list-item>
+            <v-list-item link to="overview">
               <v-list-item-avatar>
                 <inline-svg class="symbol-label" :src="$adminPrefix +'/media/svg/icons/General/User.svg'" />
               </v-list-item-avatar>
-            </v-list-item>
-
-            <v-list-item link to="overview">
               <v-list-item-content>
                 <v-list-item-title class="title">
-                  {{user.fullName}}
+                  {{user.Name + ' ' + user.Surname}}
                 </v-list-item-title>
-                <v-list-item-subtitle>{{ user.emailAddress }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ user.Email }}</v-list-item-subtitle>
               </v-list-item-content>
-
-<!--              <v-list-item-action>
-                <v-icon>mdi-menu-down</v-icon>
-              </v-list-item-action>-->
             </v-list-item>
           </v-list>
           <v-divider></v-divider>

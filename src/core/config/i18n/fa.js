@@ -54,6 +54,7 @@ export const locale = {
         MYPROFILE: "پروفایل من",
         USERPROFILE: "پروفایل کاربر",
 
+        ACCOUNT_STATE: 'وضعیت اکانت'
     },
     DATASET: {
         MANAGEDATASETS: "مدیریت دیتاست ها",
@@ -96,6 +97,15 @@ export const locale = {
         ANSWERREPLICATIONCOUNT: "تعداد پاسخ لازم به ازای هر دیتاست آیتم",
 
         DATASETNOTFOUND: "دیتاست یافت نشد",
+        DATASETLANGSLIST: "لیست عنوان سوالات به زبان های مختلف",
+        DATASETLANGSLISTDESC: "زبان هایی که می خواهید عنوان سوالات را به آنها ترجمه کتید، انتخاب نمایید",
+
+        LABELING_ALLOWED: "لیبل گذاری مجاز",
+        NO_ITEMS: "آیتمی نیست",
+        ITEMS_COMPLETED: "آیتم ها تمام شده",
+        LABELING_PAUSED: "توقف موقت لیبل گذاری",
+        LABELING_ENDED: "پایان لیبل گذاری",
+
     },
     TARGET: {
         TARGET: "تارگت",
@@ -159,7 +169,10 @@ export const locale = {
         PERSIAN: 'فارسی ',
 
         ACTIVE: 'فعال',
-        INACTIVE: 'غیرفعال'
+        INACTIVE: 'غیرفعال',
+
+        UPDATE_SUCCEED: 'آپدیت با موفقیت انجام شد',
+        UPDATE_FAILED: 'آپدیت با خطا مواجه شد',
     },
     REPORTS: {
         ANSWERSTREND: "نمودار پاسخ دهی",

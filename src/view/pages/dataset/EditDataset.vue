@@ -62,12 +62,11 @@
                         :label="$t('DATASET.DATASETSTATUS')" />
                   </v-col>
                   <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded persistent-hint
+                    <v-select
+                        filled  rounded persistent-hint
 
                         v-model="datasetObject.LabelingStatus"
-                        :label="$t('DATASET.LABELINGSTATUS')"
-                        dir="ltr"/>
+                        :items="labelingStatusItems"></v-select>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
@@ -95,9 +94,6 @@
                         filled dense rounded persistent-hint
 
                         v-model="datasetObject.QuestionType"
-
-
-
                         :hint="$t('GENERAL.QUESTIONTYPE')"
 
                         label="Question Type"
@@ -116,6 +112,43 @@
                         label="Answer Replication Count"
                         dir="ltr" />
                   </v-col>
+
+                  <v-col cols="12" md="12">
+                    <v-select
+                        filled dense rounded persistent-hint multiple
+
+                        v-model="activeLanguageItems"
+                        :items="possibleQuestionLabels"
+                        :hint="$t('DATASET.DATASETLANGSLISTDESC')"
+
+                        :label="$t('DATASET.DATASETLANGSLIST')"></v-select>
+                    <v-text-field
+                        v-for="(item, index) of activeLanguageItems"
+
+                        filled dense hide-details rounded
+
+                        v-model="activeLanguageTitles[item]"
+                        :key="index"
+                        :label="possibleQuestionLabels.filter(it => it.value === item)[0].text"
+                        :dir="possibleQuestionLabels.filter(it => it.value === item)[0].dir"
+
+                        class="pb-2">
+                      <template v-slot:append>
+                        <v-btn
+                            depressed
+
+                            @click="() => {$set(activeLanguageTitles, item, (activeLanguageTitles[item] ? activeLanguageTitles[item] + '{{label.title}}' : '{{label.title}}'))}">
+                          {{"label.title"}}
+                        </v-btn>
+                        <v-btn
+                            depressed
+
+                            @click="() => {$set(activeLanguageTitles, item, (activeLanguageTitles[item] ? activeLanguageTitles[item] + '{{item.job}}' : '{{item.job}}'))}">
+                          {{"item.job"}}
+                        </v-btn>
+                      </template>
+                    </v-text-field>
+                  </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
@@ -123,12 +156,10 @@
         </v-row>
       </div>
     </div>
-
     <div data-app>
       <v-dialog
           v-model="deleteDialog"
-          max-width="290"
-      >
+          max-width="290">
         <v-card>
           <v-card-title class="headline">{{ $t("GENERAL.DELETE") }}</v-card-title>
 
@@ -186,12 +217,54 @@ export default {
         IsActive: true,
         Type: 0
       },
+      labelingStatusItems: [
+        {
+          value: 1,
+          text: this.$t('DATASET.LABELING_ALLOWED')
+        },
+        {
+          value: 2,
+          text: this.$t('DATASET.NO_ITEMS')
+        },
+        {
+          value: 3,
+          text: this.$t('DATASET.ITEMS_COMPLETED')
+        },
+        {
+          value: 4,
+          text: this.$t('DATASET.LABELING_PAUSED')
+        },
+        {
+          value: 4,
+          text: this.$t('DATASET.LABELING_ENDED')
+        }
+      ],
+      questionLabels: [],
+      possibleQuestionLabels: [
+        {
+          value: 'fa',
+          text: this.$t('GENERAL.PERSIAN'),
+          dir: 'rtl'
+        },
+        {
+          value: 'en',
+          text: this.$t('GENERAL.ENGLISH'),
+          dir: 'ltr'
+        }
+      ],
+      activeLanguageItems: [],
+      activeLanguageTitles: {},
+
       deleteDialog: false,
       loading: false,
       deleting: false
     };
   },
   methods:{
+    appendInItem(item, text) {
+      this.$set(this.activeLanguageTitles, item, this.activeLanguageTitles[item] + text)
+      //this.activeLanguageTitles[item] += text;
+    },
     async getItem() {
       this.loading = true;
       try {

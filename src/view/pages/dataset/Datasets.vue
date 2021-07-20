@@ -47,7 +47,7 @@
                         :color="item.LabelingStatus ? 'success': 'error'"
 
                         class="mr-3"></v-badge>
-                    {{ (item.LabelingStatus ? $t("GENERAL.ACTIVE") : $t("GENERAL.INACTIVE")) }}</div>
+                    {{ (item.LabelingStatus === 1 ? $t("GENERAL.ACTIVE") : $t("GENERAL.INACTIVE")) }}</div>
                 </v-card-text>
               </v-card>
             </v-col>

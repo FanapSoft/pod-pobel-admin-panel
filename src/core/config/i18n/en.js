@@ -46,7 +46,9 @@ export const locale = {
 
     USERSETTINGS: "User Settings",
     MYPROFILE: "My Profile",
-    USERPROFILE: "User Profile"
+    USERPROFILE: "User Profile",
+
+    ACCOUNT_STATE: 'Account status'
   },
   DATASET: {
     MANAGEDATASETS: "Manage Datasets",
@@ -88,6 +90,14 @@ export const locale = {
     ANSWERREPLICATIONCOUNT: "Required answers per each DatasetItem",
 
     DATASETNOTFOUND: "Dataset Not Found",
+    DATASETLANGSLIST: "Question titles list",
+    DATASETLANGSLISTDESC: "Activate languages that you want to translate the question title",
+
+    LABELING_ALLOWED: "Labeling allowed",
+    NO_ITEMS: "No items available",
+    ITEMS_COMPLETED: "All items have been labeled",
+    LABELING_PAUSED: "Labeling temporarily paused",
+    LABELING_ENDED: "Labeling ended",
   },
   TARGET: {
     TARGET: "Target",
@@ -152,7 +162,10 @@ export const locale = {
     PERSIAN: 'Farsi (Persian)',
 
     ACTIVE: 'Active',
-    INACTIVE: 'Inactive'
+    INACTIVE: 'Inactive',
+
+    UPDATE_SUCCEED: 'Update was successful',
+    UPDATE_FAILED: 'Update failed',
   },
   REPORTS: {
     CHOOSEAREPORTTYPE: "Choose a report type",
