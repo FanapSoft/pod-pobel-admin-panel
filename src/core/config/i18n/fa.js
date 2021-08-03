@@ -91,7 +91,6 @@ export const locale = {
 
         DATASETSUCCESSFULLYUPDATED: "دیتاست آپدیت شد",
         DATASETSUCCESSFULLYSAVED: "دیتاست با موفقیت ذخیره شذ",
-        ONLYNONDECIDEDGOLDENS: "فقط گلدن های نهایی نشده",
         ONLYGOLDENS: "فقط گلدن ها",
         ANSWERBUDGETCOUNT: "تعداد پاسخ مجاز هر کاربر",
         ANSWERREPLICATIONCOUNT: "تعداد پاسخ لازم به ازای هر دیتاست آیتم",

@@ -33,13 +33,6 @@
                     :label="$t('DATASET.ONLYGOLDENS')"
                     class="mt-0"></v-switch>
               </v-col>
-              <v-col cols="4">
-                <v-switch
-                    v-model="OnlyNonDecidedGoldens"
-
-                    :label="$t('DATASET.ONLYNONDECIDEDGOLDENS')"
-                    class="mt-0"></v-switch>
-              </v-col>
             </v-row>
             <v-data-table
                 v-if="datasetItems"
@@ -149,7 +142,6 @@ export default {
         LabelName: this.LabelName,
         DatasetId: this.$route.query.DatasetId ? this.$route.query.DatasetId : null,
         IsGoldenData: this.IsGoldenData,
-        OnlyNonDecidedGoldens: this.OnlyNonDecidedGoldens,
 
         Skip: this.pagination.skip,
         Limit: this.pagination.perPage

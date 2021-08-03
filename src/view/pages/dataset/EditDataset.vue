@@ -113,7 +113,7 @@
                         dir="ltr" />
                   </v-col>
 
-                  <v-col cols="12" md="12">
+<!--                  <v-col cols="12" md="12">
                     <v-select
                         filled dense rounded persistent-hint multiple
 
@@ -148,7 +148,7 @@
                         </v-btn>
                       </template>
                     </v-text-field>
-                  </v-col>
+                  </v-col>-->
                 </v-row>
               </v-card-text>
             </v-card>

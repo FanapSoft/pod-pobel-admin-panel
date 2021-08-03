@@ -4,15 +4,19 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import JwtService from "@/core/services/jwt.service";
 
+const config = {
+  HOST_ADDRESS: (process.env.NODE_ENV === 'production' ? process.env.VUE_APP_API_URL_PROD : process.env.VUE_APP_API_URL_LOCAL),
+  APP_URL: (process.env.NODE_ENV === 'production' ? encodeURI(process.env.VUE_APP_URL_PROD) : encodeURI(process.env.VUE_APP_URL_LOCAL)),
+}
 /**
  * Service to call HTTP request via Axios
  */
 const ApiService = {
   //loginUrl: `http://10.56.16.50:8888/pod/authentication${(process.env.NODE_ENV !== 'production'? "/true" : '')}`,
-  loginUrl: `http://localhost:8080/auth?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://localhost:8080/admin') : encodeURI('http://localhost:8080'))}`,
+  loginUrl: `${config.HOST_ADDRESS}/auth?host=${config.APP_URL}`,
   init() {
     Vue.use(VueAxios, axios);
-    Vue.axios.defaults.baseURL = "http://localhost:8080";
+    Vue.axios.defaults.baseURL = config.HOST_ADDRESS;
     Vue.axios.defaults.validateStatus = () => {//status
       return true;
     };

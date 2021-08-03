@@ -84,7 +84,6 @@ export const locale = {
 
     DATASETSUCCESSFULLYUPDATED: "Dataset successfully updated",
     DATASETSUCCESSFULLYSAVED: "Dataset successfully saved",
-    ONLYNONDECIDEDGOLDENS: "Only Non Decided Goldens",
     ONLYGOLDENS: "Only Goldens",
     ANSWERBUDGETCOUNT: "Answer budget count per user",
     ANSWERREPLICATIONCOUNT: "Required answers per each DatasetItem",
