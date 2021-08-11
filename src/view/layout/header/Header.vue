@@ -13,7 +13,20 @@
       <div class="d-flex align-items-stretch mr-3">
         <div class="header-logo">
           <router-link to="/">
-            <img
+            <inline-svg
+                :src="$adminPrefix + layoutConfig('self.logo.default')"
+
+                alt="Logo"
+                key="1"
+                class="logo-default max-h-40px w-95px" />
+            <inline-svg
+                :src="$adminPrefix + layoutConfig('self.logo.sticky')"
+
+                key="2"
+                alt="Logo"
+                class="logo-sticky max-h-40px w-95px" />
+
+<!--            <img
               alt="Logo"
               :src="$adminPrefix + layoutConfig('self.logo.default')"
               class="logo-default max-h-40px"
@@ -22,7 +35,7 @@
               alt="Logo"
               :src="$adminPrefix + layoutConfig('self.logo.sticky')"
               class="logo-sticky max-h-40px"
-            />
+            />-->
           </router-link>
         </div>
         <!-- begin:: Header Menu -->
