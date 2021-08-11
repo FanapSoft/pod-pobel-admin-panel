@@ -1,40 +1,59 @@
 <template>
   <div>
     <!--begin::Dashboard-->
-    <div class="row">
-      <div class="col-xxl-4">
-        <MixedWidget1></MixedWidget1>
-      </div>
-      <div class="col-xxl-8">
-        <ListWidget9></ListWidget9>
-      </div>
+    <v-row>
+      <v-col cols="4">
+        <b-card  :img-height="75" img-left :img-src="$adminPrefix + '/media/svg/avatars/001-boy.svg'">
+          <div class="d-flex">
 
-      <div class="col-xxl-4">
-        <ListWidget1></ListWidget1>
-      </div>
-      <div class="col-xxl-8">
-        <AdvancedTableWidget2></AdvancedTableWidget2>
-      </div>
+            کل کاربران
+            <v-spacer></v-spacer>
+            {{ systemStats.users }}
+          </div>
+        </b-card>
+      </v-col>
+      <v-col cols="4">
+        <b-card  :img-height="75" img-left :img-src="$adminPrefix + '/media/svg/icons/General/Attachment1.svg'">
+          <div class="d-flex">
 
-      <div class="col-xl-4">
-        <ListWidget11></ListWidget11>
-      </div>
-      <div class="col-xl-4">
-        <ListWidget12></ListWidget12>
-      </div>
-      <div class="col-xl-4">
-        <ListWidget13></ListWidget13>
-      </div>
-    </div>
+            کل پاسخ های کاربران
+            <v-spacer></v-spacer>
+            {{ systemStats.answers }}
+          </div>
+        </b-card>
+      </v-col>
+      <v-col cols="4">
+        <b-card  :img-height="75" img-left :img-src="$adminPrefix + '/media/svg/icons/Files/File.svg'">
+          <div class="d-flex">
 
-    <div class="row">
-      <div class="col-xxl-6 order-1 order-xxl-2">
-        <ListWidget14></ListWidget14>
-      </div>
-      <div class="col-xxl-6 order-1 order-xxl-2">
-        <ListWidget15></ListWidget15>
-      </div>
-    </div>
+            کل آیتم های موجود
+            <v-spacer></v-spacer>
+            {{ systemStats.datasetitems }}
+          </div>
+        </b-card>
+      </v-col>
+      <v-col cols="4">
+        <b-card  :img-height="75" img-left :img-src="$adminPrefix + '/media/svg/icons/Files/File-done.svg'">
+          <div class="d-flex">
+
+            کل  پاسخ های صحیح به گلدن ها
+            <v-spacer></v-spacer>
+            {{ systemStats.correctgoldenanswers }}
+          </div>
+        </b-card>
+      </v-col>
+      <v-col cols="4">
+        <b-card  :img-height="75" img-left :img-src="$adminPrefix + '/media/svg/icons/General/Clip.svg'">
+          <div class="d-flex">
+
+            کل دیتاست ها
+            <v-spacer></v-spacer>
+            {{ systemStats.datasets }}
+          </div>
+        </b-card>
+      </v-col>
+
+    </v-row>
     <!--end::Dashboard-->
   </div>
 </template>
@@ -57,45 +76,28 @@ import ApiService from "@/core/services/api.service";
 export default {
   name: "dashboard",
   components: {
-    AdvancedTableWidget2,
-    MixedWidget1,
-    ListWidget1,
-    ListWidget9,
-    ListWidget11,
-    ListWidget12,
-    ListWidget13,
-    ListWidget14,
-    ListWidget15
+
+  },
+  data: ()=>({
+    systemStats: null
+  }),
+  methods: {
+    async getSystemStat() {
+       try {
+        const stats = await this.$http.get(`/api/Reports/Dashboard`);
+        if (stats.status < 400) {
+          this.systemStats = stats.data
+          console.log(this.systemStats)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
-  },
-  methods: {
-    setActiveTab1(event) {
-      this.tabIndex = this.setActiveTab(event);
-    },
-    setActiveTab2(event) {
-      this.tabIndex2 = this.setActiveTab(event);
-    },
-    /**
-     * Set current active on click
-     * @param event
-     */
-    setActiveTab(event) {
-      // get all tab links
-      const tab = event.target.closest('[role="tablist"]');
-      const links = tab.querySelectorAll(".nav-link");
-      // remove active tab links
-      for (let i = 0; i < links.length; i++) {
-        links[i].classList.remove("active");
-      }
-
-      // set current active tab
-      event.target.classList.add("active");
-
-      // set clicked tab index to bootstrap tab
-      return parseInt(event.target.getAttribute("data-tab"));
-    }
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("MENU.DASHBOARD") }]);
+    this.getSystemStat()
   }
+
 };
 </script>
