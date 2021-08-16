@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--begin::Dashboard-->
-    <v-row>
+    <v-row v-if="systemStats">
       <v-col cols="4">
         <b-card  :img-height="75" img-left :img-src="$adminPrefix + '/media/svg/avatars/001-boy.svg'">
           <div class="d-flex">
@@ -86,8 +86,7 @@ export default {
        try {
         const stats = await this.$http.get(`/api/Reports/Dashboard`);
         if (stats.status < 400) {
-          this.systemStats = stats.data
-          console.log(this.systemStats)
+          this.systemStats = stats.data;
         }
       } catch (error) {
         console.log(error);
