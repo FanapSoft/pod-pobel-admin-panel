@@ -79,27 +79,19 @@
                         dir="ltr"/>
                   </v-col>
                   <v-col cols="12" md="6">
-                    <v-text-field
+                    <v-select
                         filled dense rounded persistent-hint
 
                         v-model="datasetObject.Type"
 
-                        label="Type"
+                        :items="dataTypesList"
                         :hint="$t('GENERAL.TYPE')"
 
+                        item-text="title"
+                        item-value="code"
+                        label="Data Type"
                         dir="ltr"/>
                   </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded persistent-hint
-
-                        v-model="datasetObject.QuestionType"
-                        :hint="$t('GENERAL.QUESTIONTYPE')"
-
-                        label="Question Type"
-                        dir="ltr"/>
-                  </v-col>
-
                   <v-col cols="12" md="6">
                     <v-text-field
                         filled dense rounded persistent-hint
@@ -112,43 +104,22 @@
                         label="Answer Replication Count"
                         dir="ltr" />
                   </v-col>
-
-<!--                  <v-col cols="12" md="12">
+                  <v-col cols="12" md="6">
                     <v-select
-                        filled dense rounded persistent-hint multiple
+                        v-if="answerPacks"
 
-                        v-model="activeLanguageItems"
-                        :items="possibleQuestionLabels"
-                        :hint="$t('DATASET.DATASETLANGSLISTDESC')"
+                        filled dense rounded persistent-hint
 
-                        :label="$t('DATASET.DATASETLANGSLIST')"></v-select>
-                    <v-text-field
-                        v-for="(item, index) of activeLanguageItems"
+                        v-model="datasetObject.AnswerPackId"
 
-                        filled dense hide-details rounded
+                        :label="$t('DATASET.ANSWEROPTIONSPACK')"
+                        :items="answerPacks"
+                        item-text="Title"
+                        item-value="Id"
 
-                        v-model="activeLanguageTitles[item]"
-                        :key="index"
-                        :label="possibleQuestionLabels.filter(it => it.value === item)[0].text"
-                        :dir="possibleQuestionLabels.filter(it => it.value === item)[0].dir"
-
-                        class="pb-2">
-                      <template v-slot:append>
-                        <v-btn
-                            depressed
-
-                            @click="() => {$set(activeLanguageTitles, item, (activeLanguageTitles[item] ? activeLanguageTitles[item] + '{{label.title}}' : '{{label.title}}'))}">
-                          {{"label.title"}}
-                        </v-btn>
-                        <v-btn
-                            depressed
-
-                            @click="() => {$set(activeLanguageTitles, item, (activeLanguageTitles[item] ? activeLanguageTitles[item] + '{{item.job}}' : '{{item.job}}'))}">
-                          {{"item.job"}}
-                        </v-btn>
-                      </template>
-                    </v-text-field>
-                  </v-col>-->
+                        hint="Answer Options Pack"
+                        dir="ltr" />
+                  </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
@@ -201,9 +172,11 @@
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+import datasetCommonFields from "@/mixins/datasetCommonFields";
 
 export default {
   name: "DatasetTargets",
+  mixins: [datasetCommonFields],
   data() {
     return {
       datasetObject: {
@@ -215,45 +188,10 @@ export default {
         AnswerReplicationCount: 0,
         LabelingStatus: 1,
         IsActive: true,
-        Type: 0
+        Type: 0,
+        AnswerPackId: null
       },
-      labelingStatusItems: [
-        {
-          value: 1,
-          text: this.$t('DATASET.LABELING_ALLOWED')
-        },
-        {
-          value: 2,
-          text: this.$t('DATASET.NO_ITEMS')
-        },
-        {
-          value: 3,
-          text: this.$t('DATASET.ITEMS_COMPLETED')
-        },
-        {
-          value: 4,
-          text: this.$t('DATASET.LABELING_PAUSED')
-        },
-        {
-          value: 4,
-          text: this.$t('DATASET.LABELING_ENDED')
-        }
-      ],
       questionLabels: [],
-      possibleQuestionLabels: [
-        {
-          value: 'fa',
-          text: this.$t('GENERAL.PERSIAN'),
-          dir: 'rtl'
-        },
-        {
-          value: 'en',
-          text: this.$t('GENERAL.ENGLISH'),
-          dir: 'ltr'
-        }
-      ],
-      activeLanguageItems: [],
-      activeLanguageTitles: {},
 
       deleteDialog: false,
       loading: false,
@@ -261,20 +199,19 @@ export default {
     };
   },
   methods:{
-    appendInItem(item, text) {
-      this.$set(this.activeLanguageTitles, item, this.activeLanguageTitles[item] + text)
-      //this.activeLanguageTitles[item] += text;
-    },
+
     async getItem() {
       this.loading = true;
       try {
         const dataset = await this.$http.get(`/api/Datasets/Get/${this.$route.params.DatasetId}`);
         if(dataset.data) {
+          this.$nextTick(()=> {
+            this.$set(this, "datasetObject", {
+              ...this.datasetObject,
+              ...dataset.data
+            });
+          })
 
-          this.$set(this, "datasetObject", {
-            ...this.datasetObject,
-            ...dataset.data
-          });
 
         }
       } catch (error) {
@@ -339,9 +276,11 @@ export default {
       ]);
     }
   },
-  mounted() {
+  async mounted() {
     this.setBreadcrumbs();
-    this.getItem();
+    await this.getAnswerPacks();
+    await this.getItem();
+
   },
   watch: {
     datasetObject() {

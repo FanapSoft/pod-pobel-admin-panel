@@ -69,37 +69,18 @@
                         dir="ltr"/>
                   </v-col>
                   <v-col cols="12" md="6">
-                    <v-text-field
+                    <v-select
                         filled dense rounded persistent-hint
 
                         v-model="datasetObject.Type"
 
+                        :items="dataTypesList"
                         :hint="$t('GENERAL.TYPE')"
 
-                        label="Type"
-                        dir="ltr" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded persistent-hint
-
-                        v-model="datasetObject.AnswerType"
-
-                        hint="Answer Type"
-
-                        label="Answer Type"
-                        dir="ltr" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded persistent-hint
-
-                        v-model="datasetObject.QuestionType"
-
-                        :hint="$t('GENERAL.QUESTIONTYPE')"
-
-                        label="Question Type"
-                        dir="ltr" />
+                        item-text="title"
+                        item-value="code"
+                        label="Data Type"
+                        dir="ltr"/>
                   </v-col>
 
                   <v-col cols="12" md="6">
@@ -111,6 +92,22 @@
                         :label="$t('DATASET.ANSWERREPLICATIONCOUNT')"
 
                         hint="Answer Replication Count"
+                        dir="ltr" />
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-select
+                        v-if="answerPacks"
+
+                        filled dense rounded persistent-hint
+
+                        v-model="datasetObject.AnswerPackId"
+
+                        :label="$t('DATASET.ANSWEROPTIONSPACK')"
+                        :items="answerPacks"
+                        item-text="Title"
+                        item-value="Id"
+
+                        hint="Answer Options Pack"
                         dir="ltr" />
                   </v-col>
 
@@ -125,44 +122,25 @@
 
 <script>
 import { SET_BREADCRUMB, ADD_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+import datasetCommonFields from "@/mixins/datasetCommonFields";
 
 export default {
   name: "DatasetTargets",
+  mixins: [datasetCommonFields],
   data() {
     return {
       datasetObject: {
         Name: '',
         Description: '',
-        QuestionType: 0,
-        AnswerType: 0,
         AnswerBudgetCountPerUser: 100,
         AnswerReplicationCount: 0,
         LabelingStatus: 1,
         IsActive: true,
-        Type: 0
+        Type: 0,
+        AnswerPackId: null
       },
-      labelingStatusItems: [
-        {
-          value: 1,
-          text: this.$t('DATASET.LABELING_ALLOWED')
-        },
-        {
-          value: 2,
-          text: this.$t('DATASET.NO_ITEMS')
-        },
-        {
-          value: 3,
-          text: this.$t('DATASET.ITEMS_COMPLETED')
-        },
-        {
-          value: 4,
-          text: this.$t('DATASET.LABELING_PAUSED')
-        },
-        {
-          value: 4,
-          text: this.$t('DATASET.LABELING_ENDED')
-        }
-      ],
+
+
       loading: false,
     };
   },
@@ -191,7 +169,7 @@ export default {
         });
       }
       this.loading = false;
-    }
+    },
   },
   mounted() {
     //this.$store.dispatch(ADD_BREADCRUMB, [{ title: `Create Dataset`, route: `/dataset/create` }]);
@@ -199,6 +177,8 @@ export default {
       { title: this.$t("DATASET.MANAGEDATASETS"), route: "/dataset/list" },
       { title: this.$t("DATASET.CREATEDATASET") },
     ]);
+
+    this.getAnswerPacks();
   }
 }
 </script>
