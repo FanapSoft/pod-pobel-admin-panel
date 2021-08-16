@@ -105,6 +105,12 @@ export const locale = {
         LABELING_PAUSED: "توقف موقت لیبل گذاری",
         LABELING_ENDED: "پایان لیبل گذاری",
 
+        ANSWEROPTIONSPACK: 'پک پاسخ های ممکن',
+
+        ANSWERSCOUNT: 'تعداد پاسخ ها',
+        ISGOLDEN: 'گلدن',
+
+        ITEMTYPE: 'نوع آیتم'
     },
     TARGET: {
         TARGET: "تارگت",
@@ -172,6 +178,8 @@ export const locale = {
 
         UPDATE_SUCCEED: 'آپدیت با موفقیت انجام شد',
         UPDATE_FAILED: 'آپدیت با خطا مواجه شد',
+
+        CONTENT: 'محتوا'
     },
     REPORTS: {
         ANSWERSTREND: "نمودار پاسخ دهی",

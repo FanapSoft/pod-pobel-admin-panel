@@ -97,6 +97,13 @@ export const locale = {
     ITEMS_COMPLETED: "All items have been labeled",
     LABELING_PAUSED: "Labeling temporarily paused",
     LABELING_ENDED: "Labeling ended",
+
+    ANSWEROPTIONSPACK: 'Possible answers pack',
+
+    ANSWERSCOUNT: 'Answers Count',
+    ISGOLDEN: 'Golden',
+
+    ITEMTYPE: 'Item Type'
   },
   TARGET: {
     TARGET: "Target",
@@ -165,6 +172,8 @@ export const locale = {
 
     UPDATE_SUCCEED: 'Update was successful',
     UPDATE_FAILED: 'Update failed',
+
+    CONTENT: 'Content'
   },
   REPORTS: {
     CHOOSEAREPORTTYPE: "Choose a report type",
