@@ -122,9 +122,8 @@
                   :answer="item">
               </DatasetITem>
             </template>
-
-            <template v-slot:item.ignored="{ item }">
-              <v-chip x-small :class="{'success': item.Ignored, 'error': !item.Ignored}">{{item.Ignored}}</v-chip>
+            <template v-slot:item.AnswerType="{ item }">
+              <span>{{ getItemTypeString(item) }}</span>
             </template>
           </v-data-table>
 
@@ -164,10 +163,10 @@ export default {
         {text: this.$t("GENERAL.ROW"), value: "ind"},
         //{ text: "creditAmount", value: "creditAmount" },
         {text: this.$t("GENERAL.DATEANDTIME"), value: "dateTime"},
-        {text: this.$t("GENERAL.ANSWER"), value: "answer"},
-        {text: "Is Ignored", value: "ignored"},
+        {text: this.$t("GENERAL.ANSWER"), value: "Answer"},
         {text: this.$t("DATASET.DATASET"), value: "dataset"},
         {text: this.$t("DATASET.DATASETITEM"), value: "datasetItem"},
+        {text: this.$t("DATASET.ITEMTYPE"), value: "AnswerType"},
 
       ],
       loading: false,
@@ -225,6 +224,28 @@ export default {
       }
       this.loading = false;
 
+    },
+    getItemTypeString(item){
+      switch (item.AnswerType) {
+        case 0:
+          return 'Golden - ' + this.getGoldenType(item);
+        case 1:
+          return 'Normal';
+        case 2:
+          return 'Skip';
+        case 3:
+          return 'Report';
+      }
+    },
+    getGoldenType(item){
+      switch (item.GoldenType){
+        case 0:
+          return 'Not Golden';
+        case 1:
+          return 'Positive';
+        case 2:
+          return 'Negative';
+      }
     },
     calcCurrentPage(page) {
       if (!page || page == 1) {

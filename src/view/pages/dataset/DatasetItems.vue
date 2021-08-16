@@ -57,10 +57,12 @@
               <template v-slot:item.ind="{ item }">
                 {{ (pagination.skip ? pagination.skip + datasetItems.indexOf(item) + 1 : datasetItems.indexOf(item) + 1) }}
               </template>
-              <template v-slot:item.file="{ item }">
-                <v-avatar class="my-2" rounded>
+              <template v-slot:item.content="{ item }">
+                <v-avatar v-if="item.Type === 0" class="my-2" rounded>
                   <img :src="`${axios.defaults.baseURL}/api/File/Dataset/Item/${item.Id}`">
                 </v-avatar>
+                <span
+                    v-else-if="item.Type === 1" style="max-width: 300px; display: inline-block;">{{ item.Content }}</span>
               </template>
               <template v-slot:item.labelName="{ item }">
                 {{ (item.Name ? item.Name : 'No label')}}
@@ -109,9 +111,11 @@ export default {
 
       listHeaders: [
         { text: this.$t("GENERAL.ROW"), value: "ind" },
-        { text: this.$t("GENERAL.FILE"), value: "file" },
+        { text: this.$t("GENERAL.CONTENT"), value: "content" },
         { text: this.$t("GENERAL.LABEL"), value: "labelName" },
-        { text: this.$t("DATASET.DATASET"), value: "datasetItem"},
+        { text: this.$t("DATASET.ANSWERSCOUNT"), value: "AnswersCount" },
+        { text: this.$t("DATASET.ISGOLDEN"), value: "IsGoldenData" },
+        { text: this.$t("DATASET.DATASET"), value: "datasetItem" },
         { text: this.$t("GENERAL.ACTIONS"), value: "actions" },
       ],
       loading: false,
