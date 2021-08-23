@@ -53,13 +53,18 @@
           <v-list>
             <v-list-item
                 :key="0"
-                :to="`${item.Id}/profile/overview`"
+                :to="`${item.Id}/profile/datasets`"
+
+                target="_blank"
             >
               <v-list-item-title>View Profile</v-list-item-title>
             </v-list-item>
-
-
-
+            <v-list-item
+                :key="1"
+                @click="openDeleteAnswersModal(item)"
+            >
+              <v-list-item-title>Delete answers</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
       </template>
@@ -70,13 +75,21 @@
         :length="pagination.count"
 
         class="mt-4 pb-2"></v-pagination>
+
+    <DeleteAnswersModal
+        v-model="deleteAnswersModalVisibility"
+
+        :user="itemToDeleteAnswers"
+        :key="deleteAnswersModalKey" />
   </div>
 </template>
 
 <script>
+import DeleteAnswersModal from "@/view/pages/users/DeleteAnswersModal";
 export default {
   name: "ListAdvanced",
   props: ['refreshKey', 'search'],
+  components: {DeleteAnswersModal},
   data() {
     return {
       users: null,
@@ -103,6 +116,9 @@ export default {
         {text: 'همه پاسخ ها | گلدنهای صحیح | گلدن های غلط', value: "answers"},
         {text: this.$t("GENERAL.ACTIONS"), value: "actions"},
       ],
+      deleteAnswersModalVisibility: false,
+      deleteAnswersModalKey: 0,
+      itemToDeleteAnswers: null,
     }
   },
   methods: {
@@ -123,13 +139,17 @@ export default {
           this.pagination.count = users.data.totalCount ? Math.ceil(users.data.totalCount / this.pagination.limit) : 1;
           this.pagination.realCount = users.data.totalCount;
           this.$emit('totalItems', users.data.totalCount.toLocaleString());
-
         }
       } catch (error) {
         console.log(error);
       }
       this.loading = false;
 
+    },
+    openDeleteAnswersModal(item){
+      this.deleteAnswersModalVisibility = true;
+      this.deleteAnswersModalKey++;
+      this.$set(this, 'itemToDeleteAnswers', item);
     },
     calcCurrentPage(page) {
       if (!page || page == 1) {
