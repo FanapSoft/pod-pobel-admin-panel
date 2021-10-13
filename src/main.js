@@ -51,7 +51,6 @@ router.beforeEach((to, from, next) => {
   // Ensure we checked auth before each page load.
   if(to.name == 'loggedIn') {
     if(to.query && to.query.token) {
-      console.log('here');
       store
           .dispatch(SET_AUTH, {token: to.query.token, uid: to.params.userId})
           .then(() => {

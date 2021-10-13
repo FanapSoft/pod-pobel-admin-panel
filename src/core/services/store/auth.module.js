@@ -80,7 +80,7 @@ const actions = {
       return data;
     });
   }*/
-  [SET_AUTH]({ state }, user) {
+  [SET_AUTH]({ state, dispatch }, user) {
     state.isAuthenticated = true;
 
     //First save the user
@@ -93,6 +93,9 @@ const actions = {
       ApiService
           .get(`/api/User/Get/${user.uid}`) //${user.uid} --- 18
           .then(response => {
+            if(response.data.Role !== 'admin') {
+              dispatch(LOGOUT).then(() => this.$router.push({ name: "login" }));
+            }
             state.user = {
               ...user,
               ...state.user,

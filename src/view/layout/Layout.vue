@@ -76,7 +76,7 @@ import {
   REMOVE_BODY_CLASSNAME
 } from "@/core/services/store/htmlclass.module.js";
 import JwtService from "@/core/services/jwt.service";
-import { SET_AUTH } from "@/core/services/store/auth.module";
+import {LOGOUT, SET_AUTH} from "@/core/services/store/auth.module";
 import ApiService from "@/core/services/api.service";
 import UserService from "@/core/services/user.service";
 
@@ -104,10 +104,16 @@ export default {
     // check if current user is authenticated
     if (!this.isAuthenticated) {
       if(JwtService.getToken() && UserService.getUser()) {
-        this.$store
-            .dispatch(SET_AUTH, {token: JwtService.getToken(), uid: UserService.getUser().uid})
-            // .then(res => {})
-            .catch(error => console.log(error));
+        console.log(UserService.getUser())
+        if(UserService.getUser().Role !== 'admin') {
+          this.$store.dispatch(LOGOUT).then(() => this.$router.push({ name: "login" }));
+          window.location = ApiService.loginUrl;
+        } else {
+          this.$store
+              .dispatch(SET_AUTH, {token: JwtService.getToken(), uid: UserService.getUser().uid})
+              // .then(res => {})
+              .catch(error => console.log(error));
+        }
       } else {
         window.location = ApiService.loginUrl;
       }

@@ -34,11 +34,11 @@ export default {
   actions: {
     /**
      * Set the breadcrumbs list
-     * @param state
+     * @param context
      * @param payload
      */
-    [SET_BREADCRUMB](state, payload) {
-      state.commit(SET_BREADCRUMB, payload);
+    [SET_BREADCRUMB](context, payload) {
+      context.commit(SET_BREADCRUMB, payload);
     },
 
     /**
@@ -46,11 +46,11 @@ export default {
      * @param state
      * @param payload
      */
-    [ADD_BREADCRUMB](state, payload) {
+    [ADD_BREADCRUMB](context, payload) {
       if (typeof payload === "object") {
-        payload.forEach(item => state.commit(APPEND_BREADCRUM, item));
+        payload.forEach(item => context.commit(APPEND_BREADCRUM, item));
       } else {
-        state.commit(APPEND_BREADCRUM, payload);
+        context.commit(APPEND_BREADCRUM, payload);
       }
     }
   },
