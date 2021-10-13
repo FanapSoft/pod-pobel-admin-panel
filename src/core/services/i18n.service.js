@@ -1,7 +1,7 @@
 import i18n from "@/core/plugins/vue-i18n";
 
 const i18nService = {
-  defaultLanguage: "en",
+  defaultLanguage: "fa",
 
   languages: [
     {
