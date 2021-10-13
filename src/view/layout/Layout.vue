@@ -99,8 +99,6 @@ export default {
     this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
   },
   mounted() {
-
-
     // check if current user is authenticated
     if (!this.isAuthenticated) {
       if(JwtService.getToken() && UserService.getUser()) {
