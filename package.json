@@ -1,6 +1,6 @@
 {
     "name": "pobel-admin-panel-metronic-vue",
-    "version": "7.1.7",
+    "version": "1.0.0",
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve --port=8787",

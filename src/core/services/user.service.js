@@ -1,4 +1,4 @@
-const UserFieldKey = "userObject";
+const UserFieldKey = "userObjectAdmin";
 
 export const getUser = () => {
     return (window.localStorage.getItem(UserFieldKey) ?  JSON.parse(window.localStorage.getItem(UserFieldKey)) : false);
