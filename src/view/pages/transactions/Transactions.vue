@@ -129,7 +129,7 @@ export default {
       this.loading = true;
       const data = {
         OwnerId: this.ownerId,
-        DatasetId: this.datasetId,
+        ReferenceDatasetId: this.datasetId,
         Skip: this.pagination.skip,
         Limit: this.pagination.perPage
       };
