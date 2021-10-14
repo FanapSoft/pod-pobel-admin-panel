@@ -78,25 +78,28 @@ export default {
       datasets: null,
       loading: false,
       pagination: {
-        limit: 10,
+        limit: 12,
         count: 0,
         realCount: 0,
         skip: 0,
         currentPage: 1,
-        perPage: 10
+        perPage: 12
       },
     };
   },
   methods:{
     async getItems() {
       this.loading = true;
+      this.calcCurrentPage(this.pagination.currentPage);
+      this.datasets = null;
       try {
-        const datasets = await ApiService.get('/api/Datasets/GetAll', {Limit: 12});
+        const datasets = await ApiService.get('/api/Datasets/GetAll', {Limit: this.pagination.perPage, Skip: this.pagination.skip});
         if(datasets.status < 400 && datasets.data.items.length) {
           this.datasets = datasets.data.items;
 
           this.pagination.count = datasets.data.totalCount ? Math.ceil(datasets.data.totalCount / this.pagination.limit) : 1;
           this.pagination.realCount = datasets.data.totalCount;
+
         }
       } catch (error) {
         console.log(error)
@@ -113,7 +116,7 @@ export default {
       }
     },
     async refreshList() {
-      await this.getItems(this.pagination.currentPage);
+      await this.getItems();
     }
   },
   mounted() {
