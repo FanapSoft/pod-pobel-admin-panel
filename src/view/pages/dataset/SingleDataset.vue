@@ -179,6 +179,10 @@ export default {
         title: this.$t("REPORTS.SCOREBOARD"),
         link: `/reports/Scoreboard?DatasetId=${this.$route.params.DatasetId}`
       },
+      {
+        title: this.$t("REPORTS.RESULTS"),
+        link: `/reports/DatasetItems?DatasetId=${this.$route.params.DatasetId}`
+      },
 
     ]);
 

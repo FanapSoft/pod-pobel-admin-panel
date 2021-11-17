@@ -9,16 +9,22 @@
           </v-card-title>
         </v-card>
         <v-row>
-            <v-col cols="4" class="pb-0">
-              <v-card to="AnswerCountTrend">
-                <v-card-title>{{ $t("REPORTS.ANSWERSTREND") }}</v-card-title>
-                <v-card-subtitle>{{ $t("REPORTS.USERSACTIVITYTRENDONDATASETS") }}</v-card-subtitle>
-              </v-card>
-            </v-col>
+          <v-col cols="4" class="pb-0">
+            <v-card to="AnswerCountTrend">
+              <v-card-title>{{ $t("REPORTS.ANSWERSTREND") }}</v-card-title>
+              <v-card-subtitle>{{ $t("REPORTS.USERSACTIVITYTRENDONDATASETS") }}</v-card-subtitle>
+            </v-card>
+          </v-col>
           <v-col cols="4" class="pb-0">
             <v-card :to="`/reports/scoreboard`">
               <v-card-title>{{ $t("REPORTS.SCOREBOARD") }}</v-card-title>
               <v-card-subtitle>{{ $t("REPORTS.SCOREBOARD") }}</v-card-subtitle>
+            </v-card>
+          </v-col>
+          <v-col cols="4" class="pb-0">
+            <v-card :to="`/reports/datasetItems`">
+              <v-card-title>{{ $t("REPORTS.DATASETITEMS") }}</v-card-title>
+              <v-card-subtitle>{{ $t("REPORTS.DATASETITEMS") }}</v-card-subtitle>
             </v-card>
           </v-col>
         </v-row>

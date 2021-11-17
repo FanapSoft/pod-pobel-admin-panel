@@ -177,11 +177,12 @@ export const locale = {
   },
   REPORTS: {
     CHOOSEAREPORTTYPE: "Choose a report type",
-
     ANSWERSTREND: "Answers Trend",
     USERSACTIVITYTRENDONDATASETS: "Users activity trend on datasets",
+    SCOREBOARD: "Scoreboard",
+    DATASETITEMS: 'DatasetItems',
+    RESULTS: 'Answering results'
 
-    SCOREBOARD: "Scoreboard"
   }
   /*AUTH: {
     GENERAL: {

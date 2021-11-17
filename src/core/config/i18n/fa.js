@@ -185,6 +185,8 @@ export const locale = {
         ANSWERSTREND: "نمودار پاسخ دهی",
         CHOOSEAREPORTTYPE: "یک نوع گزارش انتخاب نمایید",
         USERSACTIVITYTRENDONDATASETS: "نمودار پاسخ های کاربران روی دیتاست ها",
-        SCOREBOARD: "جدول رده بندی"
+        SCOREBOARD: "جدول رده بندی",
+        DATASETITEMS: "آیتم های دیتاست ها",
+        RESULTS: 'نتایج پاسخ دهی'
     }
 };

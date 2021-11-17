@@ -76,6 +76,11 @@ export default new Router({
               name: "scoreboard",
               component: () => import("@/view/pages/reports/Scoreboard.vue")
             },
+            {
+              path: "DatasetItems",
+              name: "DatasetItems",
+              component: () => import("@/view/pages/reports/DatasetItems.vue")
+            },
 
           ]
         },
