@@ -30,13 +30,15 @@
           <list-normal
               v-if="selectedListingType == 'normal'"
 
+              :key="refreshKey"
               :refreshKey="refreshKey"
               :search="search"
               @totalItems="total => totalItems = total"
           ></list-normal>
           <list-advanced
-              v-if="selectedListingType == 'advanced'"
+              v-else
 
+              :key="refreshKey"
               :refreshKey="refreshKey"
               :search="search"
               @totalItems="total => totalItems = total"
@@ -67,6 +69,7 @@ export default {
   components: {
     ListNormal, ListAdvanced
   },
+  methods: {},
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("USER.USERS")}]);
   }

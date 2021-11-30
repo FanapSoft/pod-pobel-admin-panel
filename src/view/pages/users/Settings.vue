@@ -28,6 +28,19 @@
                       {{ (user.IsActive ? $t("GENERAL.ACTIVE") : $t("GENERAL.INACTIVE")) }}
                     </td>
                   </tr>
+
+                  <tr>
+                    <th class="pa-3">{{$t('USER.ROLE')}}</th>
+                    <td class="pa-3">
+                      <v-select
+
+                          v-model="user.Role"
+                          :items="[{text: 'ادمین', value: 'admin'},{text: 'کاربر', value: 'user'}]">
+
+                      </v-select>
+                    </td>
+                  </tr>
+
                 </template>
               </v-simple-table>
             </v-card-text>
@@ -71,8 +84,13 @@ export default {
     async saveChanges() {
       this.isSaving = true;
 
+      let data = {
+        IsActive: this.user.IsActive,
+        Role: this.user.Role
+      };
+
       try {
-        const result = await this.$http.put(`/api/User/Update/${this.user.Id}`, {IsActive: this.user.IsActive});
+        const result = await this.$http.put(`/api/User/Update/${this.user.Id}`, data);
         if(result.status < 400) {
           this.$bvToast.toast(this.$t('GENERAL.UPDATE_SUCCEED'),{
             title: `Success`,
