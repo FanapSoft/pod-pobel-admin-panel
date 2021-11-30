@@ -10,8 +10,7 @@
         <v-switch
             v-model="limitedPeriod"
 
-            label="Only delete limited amount of answers" />
-
+            label="Only in this period" />
         <template v-if="limitedPeriod">
           <jalali-date-picker
               clearable
@@ -60,13 +59,12 @@
               format="YYYY/MM/DD"
           ></jalali-date-picker>
         </template>
-
         <v-switch
             v-model="limitToDataset"
+
             :loading="isLoadingDatasets"
 
-            label="Only answers in selected dataset" />
-
+            label="Only in selected dataset" />
         <template v-if="limitToDataset && datasets">
           <v-select
               v-model="selectedDatasetId"

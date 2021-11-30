@@ -72,6 +72,11 @@ export default {
   methods: {},
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("USER.USERS")}]);
+
+    if(this.$route.query.userName) {
+      this.search = this.$route.query.userName;
+      this.refreshKey++;
+    }
   }
 };
 </script>

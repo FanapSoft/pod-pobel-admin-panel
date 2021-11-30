@@ -110,6 +110,9 @@
               <br>
               {{ new Date(item.CreatedAt).toLocaleTimeString().split(" ")[0] }}
             </template>
+            <template v-slot:item.Answer="{ item }">
+              {{ item.Dataset.AnswerPack.AnswerOptions.filter(it => it.Index === item.Answer)[0].Title}}
+            </template>
             <template v-slot:item.dataset="{ item }">
               <DatasetDetails
                   :key="item.DatasetId"
@@ -118,12 +121,19 @@
             </template>
             <template v-slot:item.datasetItem="{ item }">
               <DatasetITem
+                  v-if="item.Dataset.Type === 1"
                   :key="item.Id"
                   :answer="item">
               </DatasetITem>
+              <div v-if="item.Dataset && item.Dataset.Type === 2">
+                {{ item.DatasetItem.Content ? item.DatasetItem.Content.substr(0, 20) : '' }}...
+              </div>
             </template>
             <template v-slot:item.AnswerType="{ item }">
               <span>{{ getItemTypeString(item) }}</span>
+            </template>
+            <template v-slot:item.User="{ item }">
+              <router-link :to="'users/list?userName=' + item.User.UserName">{{ item.User.UserName }}</router-link>
             </template>
           </v-data-table>
 
@@ -167,7 +177,7 @@ export default {
         {text: this.$t("DATASET.DATASET"), value: "dataset"},
         {text: this.$t("DATASET.DATASETITEM"), value: "datasetItem"},
         {text: this.$t("DATASET.ITEMTYPE"), value: "AnswerType"},
-
+        {text: this.$t("USER.USERNAME"), value: "User"},
       ],
       loading: false,
       pagination: {
@@ -199,7 +209,9 @@ export default {
       this.calcCurrentPage(page)
       this.loading = true;
       const data = {
-        IncludeQuestion: true,
+        IncludeUser: true,
+        IncludeDataset: true,
+        IncludeDatasetItem: true,
         UserId: this.userId,
         DatasetId: this.datasetId,
         From: this.$store.state['answersList/dateFrom'] ?  new Date(this.$store.state['answersList/dateFrom']).toISOString() : null,
