@@ -1,121 +1,136 @@
 <template>
     <div class="row">
       <div class="col-md-12">
-        <v-card class="mb-2 mb-6">
-          <v-card-title>
-            {{ $t("DATASET.CREATENEWDATASET") }}
-            <v-spacer></v-spacer>
-                <v-btn
-                    depressed
+        <v-form ref="form"
+                @submit.prevent="saveItem">
+          <v-card class="mb-2 mb-6">
+            <v-card-title>
+              {{ $t("DATASET.CREATENEWDATASET") }}
+              <v-spacer></v-spacer>
+                  <v-btn
+                      depressed
 
-                    @click.prevent="saveItem"
+                      type="submit"
 
-                    class="btn btn-primary text-dark text-hover-light">{{ $t("GENERAL.CREATE") }}</v-btn>
-          </v-card-title>
-        </v-card>
-        <v-card v-if="loading">
-          <v-skeleton-loader
-              type="card-avatar, article, actions"
-          ></v-skeleton-loader>
-        </v-card>
-        <v-card v-if="!loading && !datasetObject">
-          {{ $t('DATASET.DATASETNOTFOUND') }}
-        </v-card>
-        <v-row v-if="!loading && datasetObject">
-          <v-col
-              cols="12"
-              class="pb-0">
-            <v-card class="mb-4">
-<!--              <v-card-title>Target {{datasetObject.Name}}</v-card-title>-->
-              <v-card-text>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                        filled dense rounded
+                      class="btn btn-primary text-dark text-hover-light">{{ $t("GENERAL.CREATE") }}</v-btn>
+            </v-card-title>
+          </v-card>
+          <v-card v-if="loading">
+            <v-skeleton-loader
+                type="card-avatar, article, actions"
+            ></v-skeleton-loader>
+          </v-card>
+          <v-card v-if="!loading && !datasetObject">
+            {{ $t('DATASET.DATASETNOTFOUND') }}
+          </v-card>
+          <v-row v-if="!loading && datasetObject">
+            <v-col
+                cols="12"
+                class="pb-0">
+              <v-card class="mb-4">
+  <!--              <v-card-title>Target {{datasetObject.Name}}</v-card-title>-->
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                          filled dense rounded
 
-                        v-model="datasetObject.Name"
+                          v-model="datasetObject.Name"
 
-                        :label="$t('USER.NAME')" />
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                        filled dense rounded
+                          :rules="[
+                            val => (val || '').length > 0 || 'This field is required'
+                          ]"
+                          :label="$t('USER.NAME')" />
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                          filled dense rounded
 
-                        v-model="datasetObject.Description"
+                          v-model="datasetObject.Description"
 
-                        :label="$t('GENERAL.DESCRIPTION')" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-switch
-                        filled dense rounded
+                          :rules="[
+                            val => (val || '').length > 0 || 'This field is required'
+                          ]"
+                          :label="$t('GENERAL.DESCRIPTION')" />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-switch
+                          filled dense rounded
 
-                        v-model="datasetObject.IsActive"
-                        :label="$t('DATASET.DATASETSTATUS')" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-select
-                        filled dense rounded persistent-hint
+                          v-model="datasetObject.IsActive"
+                          :label="$t('DATASET.DATASETSTATUS')" />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-select
+                          filled dense rounded persistent-hint
 
-                        v-model="datasetObject.LabelingStatus"
-                        :items="labelingStatusItems"></v-select>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded persistent-hint
+                          v-model="datasetObject.LabelingStatus"
+                          :items="labelingStatusItems"></v-select>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                          filled dense rounded persistent-hint
 
-                        v-model="datasetObject.AnswerBudgetCountPerUser"
-                        label="Answer Budget Count"
-                        :hint="$t('DATASET.ANSWERBUDGETCOUNT')"
-                        dir="ltr"/>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-select
-                        filled dense rounded persistent-hint
+                          v-model="datasetObject.AnswerBudgetCountPerUser"
+                          label="Answer Budget Count"
+                          :hint="$t('DATASET.ANSWERBUDGETCOUNT')"
+                          dir="ltr"/>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-select
+                          filled dense rounded persistent-hint
 
-                        v-model="datasetObject.Type"
+                          v-model="datasetObject.Type"
 
-                        :items="dataTypesList"
-                        :hint="$t('GENERAL.TYPE')"
+                          :items="dataTypesList"
+                          :hint="$t('GENERAL.TYPE')"
 
-                        item-text="title"
-                        item-value="code"
-                        label="Data Type"
-                        dir="ltr"/>
-                  </v-col>
+                          item-text="title"
+                          item-value="code"
+                          label="Data Type"
+                          dir="ltr"/>
+                    </v-col>
 
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                        filled dense rounded persistent-hint
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                          filled dense rounded persistent-hint
 
-                        v-model="datasetObject.AnswerReplicationCount"
+                          v-model="datasetObject.AnswerReplicationCount"
 
-                        :label="$t('DATASET.ANSWERREPLICATIONCOUNT')"
+                          :label="$t('DATASET.ANSWERREPLICATIONCOUNT')"
+                          :rules="[
+                              val => (val || '').length > 0 || 'This field is required',
+                          ]"
 
-                        hint="Answer Replication Count"
-                        dir="ltr" />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-select
-                        v-if="answerPacks"
+                          hint="Answer Replication Count"
+                          dir="ltr" />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-select
+                          v-if="answerPacks"
 
-                        filled dense rounded persistent-hint
+                          filled dense rounded persistent-hint
 
-                        v-model="datasetObject.AnswerPackId"
+                          v-model="datasetObject.AnswerPackId"
 
-                        :label="$t('DATASET.ANSWEROPTIONSPACK')"
-                        :items="answerPacks"
-                        item-text="Title"
-                        item-value="Id"
+                          :label="$t('DATASET.ANSWEROPTIONSPACK')"
+                          :items="answerPacks"
+                          :rules="[
+                            val => (val || '').length > 0 || 'This field is required'
+                          ]"
 
-                        hint="Answer Options Pack"
-                        dir="ltr" />
-                  </v-col>
+                          item-text="Title"
+                          item-value="Id"
+                          hint="Answer Options Pack"
+                          dir="ltr" />
+                    </v-col>
 
-                </v-row>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-form>
       </div>
     </div>
 </template>
@@ -140,12 +155,17 @@ export default {
         AnswerPackId: null
       },
 
-
       loading: false,
     };
   },
   methods:{
-    async saveItem() {
+    async saveItem(e) {
+      e.preventDefault();
+
+      if(!this.$refs.form.validate()) {
+        return
+      }
+
       this.loading = true;
       const data = {
         ...this.datasetObject

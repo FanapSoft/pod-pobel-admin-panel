@@ -2,6 +2,8 @@
   <v-app>
     <div class="row">
       <div class="col-md-12">
+        <v-form ref="form"
+                @submit.prevent="saveItem">
         <v-card class="mb-2 mb-6">
           <v-card-title>
             {{ $t("DATASET.EDITDATASET") }} <span class="mx-1" style="color: #42A5F5">{{ !loading && datasetObject ? datasetObject.Name : $route.params.DatasetId }}</span>
@@ -43,6 +45,9 @@
 
                         v-model="datasetObject.Name"
                         style=""
+                        :rules="[
+                              val => (val || '').length > 0 || 'This field is required',
+                          ]"
                         :label="$t('USER.NAME')" />
                   </v-col>
                   <v-col cols="12">
@@ -51,6 +56,9 @@
 
                         v-model="datasetObject.Description"
                         style=""
+                        :rules="[
+                              val => (val || '').length > 0 || 'This field is required',
+                          ]"
                         :label="$t('GENERAL.DESCRIPTION')" />
                   </v-col>
 
@@ -98,7 +106,9 @@
 
                         v-model="datasetObject.AnswerReplicationCount"
 
-
+                        :rules="[
+                              val => (val || '').length > 0 || 'This field is required',
+                          ]"
                         :hint="$t('DATASET.ANSWERREPLICATIONCOUNT')"
 
                         label="Answer Replication Count"
@@ -125,6 +135,7 @@
             </v-card>
           </v-col>
         </v-row>
+        </v-form>
       </div>
     </div>
     <div data-app>
@@ -175,7 +186,7 @@ import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 import datasetCommonFields from "@/mixins/datasetCommonFields";
 
 export default {
-  name: "DatasetTargets",
+  name: "EditDataset",
   mixins: [datasetCommonFields],
   data() {
     return {
@@ -201,6 +212,7 @@ export default {
   methods:{
 
     async getItem() {
+
       this.loading = true;
       try {
         const dataset = await this.$http.get(`/api/Datasets/Get/${this.$route.params.DatasetId}`);
@@ -220,6 +232,9 @@ export default {
       this.loading = false;
     },
     async saveItem() {
+      if(!this.$refs.form.validate()) {
+        return
+      }
       this.loading = true;
       const data = {
         ...this.datasetObject
